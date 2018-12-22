@@ -18,6 +18,7 @@ namespace Cohee.Editor
     {
 
         private StreamWriter logfileWriter;
+        private TextWriterLogOutput logfileOutput;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -83,57 +84,57 @@ namespace Cohee.Editor
             }
             catch (Exception e)
             {
-                //Logs.Core.WriteWarning("Unable to archive old logfile: {0}", LogFormat.Exception(e));
+                Logs.Core.WriteWarning("Unable to archive old logfile: {0}", LogFormat.Exception(e));
             }
         }
         private void CreateLogfile()
         {
-            //if (logfileOutput != null || logfileWriter != null)
-            //    CloseLogfile();
+            if (logfileOutput != null || logfileWriter != null)
+                CloseLogfile();
 
-            //try
-            //{
-            //    logfileWriter = new StreamWriter(CoheeEditorApp.EditorLogfilePath);
-            //    logfileWriter.AutoFlush = true;
-            //    logfileOutput = new TextWriterLogOutput(logfileWriter);
-            //    Logs.AddGlobalOutput(logfileOutput);
-            //}
-            //catch (Exception e)
-            //{
-            //    Logs.Core.WriteWarning("Unable to create logfile: {0}", LogFormat.Exception(e));
-            //}
+            try
+            {
+                logfileWriter = new StreamWriter(CoheeEditorApp.EditorLogfilePath);
+                logfileWriter.AutoFlush = true;
+                logfileOutput = new TextWriterLogOutput(logfileWriter);
+                Logs.AddGlobalOutput(logfileOutput);
+            }
+            catch (Exception e)
+            {
+                Logs.Core.WriteWarning("Unable to create logfile: {0}", LogFormat.Exception(e));
+            }
         }
         private void CloseLogfile()
         {
-            //if (logfileOutput != null)
-            //{
-            //    Logs.RemoveGlobalOutput(logfileOutput);
-            //    logfileOutput = null;
-            //}
-            //if (logfileWriter != null)
-            //{
-            //    logfileWriter.Flush();
-            //    logfileWriter.Close();
-            //    logfileWriter = null;
-            //}
+            if (logfileOutput != null)
+            {
+                Logs.RemoveGlobalOutput(logfileOutput);
+                logfileOutput = null;
+            }
+            if (logfileWriter != null)
+            {
+                logfileWriter.Flush();
+                logfileWriter.Close();
+                logfileWriter = null;
+            }
         }
 
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            //try
-            //{
-            //    Logs.Editor.WriteError(LogFormat.Exception(e.Exception));
-            //}
-            //catch (Exception) { /* Ensure we're not causing any further exception by logging... */ }
+            try
+            {
+                Logs.Editor.WriteError(LogFormat.Exception(e.Exception));
+            }
+            catch (Exception) { /* Ensure we're not causing any further exception by logging... */ }
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            //try
-            //{
-            //    Logs.Editor.WriteError(LogFormat.Exception(e.ExceptionObject as Exception));
-            //}
-            //catch (Exception) { /* Ensure we're not causing any further exception by logging... */ }
+            try
+            {
+                Logs.Editor.WriteError(LogFormat.Exception(e.ExceptionObject as Exception));
+            }
+            catch (Exception) { /* Ensure we're not causing any further exception by logging... */ }
         }
     }
 }

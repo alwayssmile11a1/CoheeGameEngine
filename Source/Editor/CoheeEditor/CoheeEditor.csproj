@@ -89,7 +89,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Cohee\Cohee.csproj">
+      <Project>{4701e301-619c-47f4-80a4-5ee34eeb3461}</Project>
+      <Name>Cohee</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="UIs\SplashScreen.xaml">
       <SubType>Designer</SubType>
