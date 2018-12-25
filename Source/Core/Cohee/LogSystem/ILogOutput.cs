@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cohee
+﻿namespace Cohee
 {
     /// <summary>
 	/// Represents a single <see cref="Log"/> output and provides actual writing functionality for 
