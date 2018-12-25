@@ -43,6 +43,7 @@
     <Compile Include="Component.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="IContentRef.cs" />
+    <Compile Include="IO\PathOp.cs" />
     <Compile Include="LogSystem\CustomLogInfo.cs" />
     <Compile Include="LogSystem\ILogOutput.cs" />
     <Compile Include="LogSystem\Log.cs" />
@@ -62,6 +63,13 @@
     <Compile Include="Time.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsIEnumerable.cs" />
     <Compile Include="Utility\ReflectionHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoheePrimitives\CoheePrimitives.csproj">
+      <Project>{3e3247ba-c000-40b5-837a-607f3a2491e0}</Project>
+      <Name>CoheePrimitives</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
