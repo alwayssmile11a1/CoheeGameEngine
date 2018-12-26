@@ -1,9 +1,12 @@
-﻿<Window x:Class="Cohee.Editor.UIs.SplashScreen"
+﻿<Window x:Class="Cohee.Editor.UIs.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cohee.Editor.UIs"
         mc:Ignorable="d"
-        Height="350" Width="750" WindowStyle="None" Background="#FF818181" Loaded="Window_Loaded"
-/>
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        
+    </Grid>
+</Window>
