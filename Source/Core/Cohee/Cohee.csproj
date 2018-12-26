@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoheeApp.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="IContentRef.cs" />
@@ -71,7 +72,6 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*" "$(SolutionDir)Build\Output\" /S /Y</PostBuildEvent>
