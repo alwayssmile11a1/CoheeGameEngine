@@ -40,7 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend\AssemblyLoader\AssemblyLoadedEventArgs.cs" />
+    <Compile Include="Backend\AssemblyLoader\AssemblyResolveEventArgs.cs" />
+    <Compile Include="Backend\AssemblyLoader\IAssemblyLoader.cs" />
     <Compile Include="CoheeApp.cs" />
+    <Compile Include="PluginManager\CoheePlugin.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="IContentRef.cs" />
@@ -53,6 +57,7 @@
     <Compile Include="LogSystem\LogMessageType.cs" />
     <Compile Include="LogSystem\Logs.cs" />
     <Compile Include="LogSystem\TextWriterLogOutput.cs" />
+    <Compile Include="PluginManager\PluginManager.cs" />
     <Compile Include="ProfileSystem\Profile.cs" />
     <Compile Include="ProfileSystem\ProfileCounter.cs" />
     <Compile Include="ProfileSystem\ProfileReportCounterData.cs" />
@@ -62,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Time.cs" />
+    <Compile Include="Utility\EventArgs\CoheePluginEvenArg.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsIEnumerable.cs" />
     <Compile Include="Utility\ReflectionHelper.cs" />
   </ItemGroup>
@@ -72,6 +78,7 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*" "$(SolutionDir)Build\Output\" /S /Y</PostBuildEvent>

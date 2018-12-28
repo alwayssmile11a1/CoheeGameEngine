@@ -65,10 +65,10 @@ namespace Cohee.Editor
 
             // Initialize Duality
             EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
-            DualityApp.PluginManager.PluginsReady += DualityApp_PluginsReady;
-            DualityApp.Init(
-                DualityApp.ExecutionEnvironment.Editor,
-                DualityApp.ExecutionContext.Editor,
+            CoheeApp.PluginManager.PluginsReady += DualityApp_PluginsReady;
+            CoheeApp.Init(
+                CoheeApp.ExecutionEnvironment.Editor,
+                CoheeApp.ExecutionContext.Editor,
                 new DefaultAssemblyLoader(),
                 null);
 
@@ -87,6 +87,22 @@ namespace Cohee.Editor
 
             // Allow the engine to run
             appSuspended = false;
+        }
+
+        public static void Terminate(bool byUser)
+        {
+
+        }
+
+
+        private static void InitMainGraphicsContext()
+        {
+
+        }
+
+        private static void LoadUserData()
+        {
+
         }
 
     }

@@ -23,6 +23,16 @@ namespace Cohee
         }
 
         /// <summary>
+        /// Returns the short version of an Assembly name.
+        /// </summary>
+        /// <param name="assemblyName"></param>
+        /// <returns></returns>
+        public static string GetShortAssemblyName(string assemblyName)
+        {
+            return assemblyName.Split(',')[0];
+        }
+
+        /// <summary>
 		/// Returns a string describing a certain Type.
 		/// </summary>
 		/// <param name="type">The Type to describe</param>
