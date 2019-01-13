@@ -28,5 +28,19 @@ namespace Cohee
             }
             return sb.ToString(0, Math.Max(0, sb.Length - separator.Length));  // Remove at the end is faster
         }
+
+
+        /// <summary>
+        /// Enumerates objects that aren't null.
+        /// </summary>
+        /// <typeparam name="T">The type of the incoming objects.</typeparam>
+        /// <param name="collection">A set of objects.</param>
+        /// <returns></returns>
+        public static IEnumerable<T> NotNull<T>(this IEnumerable<T> collection) where T : class
+        {
+            return collection.Where(i => i != null);
+        }
+
+
     }
 }

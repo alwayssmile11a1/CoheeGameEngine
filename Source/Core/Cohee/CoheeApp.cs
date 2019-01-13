@@ -57,6 +57,20 @@ namespace Cohee
         public const string CmdArgProfiling = "profile";
 
 
+        private static CorePluginManager corePluginManager = new CorePluginManager();
+
+
+
+        /// <summary>
+        /// [GET] The plugin manager that is used by Duality. Don't use this unless you know exactly what you're doing.
+        /// If you want to load a plugin, use the <see cref="CorePluginManager"/> from this property.
+        /// If you want to load a non-plugin Assembly, use the <see cref="AssemblyLoader"/>.
+        /// </summary>
+        public static CorePluginManager PluginManager
+        {
+            get { return corePluginManager; }
+        }
+
         /// <summary>
 		/// Initializes this DualityApp. Should be called before performing any operations within Duality.
 		/// </summary>

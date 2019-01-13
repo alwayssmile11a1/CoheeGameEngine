@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Cohee
 { 
     /// <summary>
-	/// Provides event arguments related to <see cref="Duality.CorePlugin"/> instances.
+	/// Provides event arguments related to <see cref="Cohee.CorePlugin"/> instances.
 	/// </summary>
 	public class CoheePluginEventArgs : EventArgs
     {

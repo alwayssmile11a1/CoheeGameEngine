@@ -37,7 +37,7 @@ namespace Cohee
         /// </summary>
         public event EventHandler<CoheePluginEventArgs> PluginsRemoved = null;
         /// <summary>
-        /// Fired whenever a Duality plugin has been initialized. This is the case after loading or reloading one.
+        /// Fired whenever a Cohee plugin has been initialized. This is the case after loading or reloading one.
         /// </summary>
         public event EventHandler<CoheePluginEventArgs> PluginsReady = null;
 
@@ -114,7 +114,7 @@ namespace Cohee
         }
         /// <summary>
         /// Requests the disposal of all content / data that is dependent on any of the currently active
-        /// plugins. This functioanlity is invoked automatically as part of reloading or removing plugins.
+        /// plugins. This functionality is invoked automatically as part of reloading or removing plugins.
         /// </summary>
         public void DiscardPluginData()
         {
@@ -135,7 +135,7 @@ namespace Cohee
         /// to the specified Type. 
         /// </summary>
         /// <param name="baseType">The base type to use for matching the result types.</param>
-        /// <returns>An enumeration of all Duality types deriving from the specified type.</returns>
+        /// <returns>An enumeration of all Cohee types deriving from the specified type.</returns>
         public IEnumerable<TypeInfo> GetTypes(Type baseType)
         {
             List<TypeInfo> availTypes;
@@ -200,13 +200,13 @@ namespace Cohee
         }
 
         /// <summary>
-        /// Adds an already loaded plugin Assembly to the internal Duality T registry.
-        /// You shouldn't need to call this method in general, since Duality manages its plugins
+        /// Adds an already loaded plugin Assembly to the internal Cohee T registry.
+        /// You shouldn't need to call this method in general, since Cohee manages its plugins
         /// automatically. 
         /// </summary>
         /// <remarks>
         /// This method can be useful in certain cases when it is necessary to treat an Assembly as a
-        /// Duality plugin, even though it isn't located in the Plugins folder, or is not available
+        /// Cohee plugin, even though it isn't located in the Plugins folder, or is not available
         /// as a file at all. A typical case for this is Unit Testing where the testing Assembly may
         /// specify additional Duality types such as Components, Resources, etc.
         /// </remarks>
