@@ -43,6 +43,8 @@
     <Compile Include="Backend\AssemblyLoader\AssemblyLoadedEventArgs.cs" />
     <Compile Include="Backend\AssemblyLoader\AssemblyResolveEventArgs.cs" />
     <Compile Include="Backend\AssemblyLoader\IAssemblyLoader.cs" />
+    <Compile Include="Backend\ICoheeBackend.cs" />
+    <Compile Include="Backend\ISystemBackend.cs" />
     <Compile Include="CoheeApp.cs" />
     <Compile Include="PluginManager\CoheePlugin.cs" />
     <Compile Include="Component.cs" />
@@ -57,6 +59,8 @@
     <Compile Include="LogSystem\LogMessageType.cs" />
     <Compile Include="LogSystem\Logs.cs" />
     <Compile Include="LogSystem\TextWriterLogOutput.cs" />
+    <Compile Include="PluginManager\CorePlugin.cs" />
+    <Compile Include="PluginManager\CorePluginManager.cs" />
     <Compile Include="PluginManager\PluginManager.cs" />
     <Compile Include="ProfileSystem\Profile.cs" />
     <Compile Include="ProfileSystem\ProfileCounter.cs" />
@@ -69,6 +73,7 @@
     <Compile Include="Time.cs" />
     <Compile Include="Utility\EventArgs\CoheePluginEvenArg.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsIEnumerable.cs" />
+    <Compile Include="Utility\ObjectCreator.cs" />
     <Compile Include="Utility\ReflectionHelper.cs" />
   </ItemGroup>
   <ItemGroup>

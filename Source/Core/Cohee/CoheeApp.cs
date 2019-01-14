@@ -58,7 +58,7 @@ namespace Cohee
 
 
         private static CorePluginManager corePluginManager = new CorePluginManager();
-
+        private static ISystemBackend systemBackend = null;
 
 
         /// <summary>
@@ -69,6 +69,14 @@ namespace Cohee
         public static CorePluginManager PluginManager
         {
             get { return corePluginManager; }
+        }
+
+        /// <summary>
+        /// [GET] The system backend that is used by Duality. Don't use this unless you know exactly what you're doing.
+        /// </summary>
+        public static ISystemBackend SystemBackend
+        {
+            get { return systemBackend; }
         }
 
         /// <summary>

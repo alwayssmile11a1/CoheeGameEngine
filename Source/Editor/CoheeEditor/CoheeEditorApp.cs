@@ -60,10 +60,10 @@ namespace Cohee.Editor
             if (!Directory.Exists(EditorHelper.SourceMediaDirectory)) Directory.CreateDirectory(EditorHelper.SourceMediaDirectory);
             if (!Directory.Exists(EditorHelper.SourceCodeDirectory)) Directory.CreateDirectory(EditorHelper.SourceCodeDirectory);
 
-            // Initialize Package Management system
-            packageManager = new PackageManager();
+            //// Initialize Package Management system
+            //packageManager = new PackageManager();
 
-            // Initialize Duality
+            // Initialize Cohee Core
             EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
             CoheeApp.PluginManager.PluginsReady += DualityApp_PluginsReady;
             CoheeApp.Init(

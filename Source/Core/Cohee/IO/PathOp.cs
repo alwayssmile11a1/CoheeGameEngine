@@ -76,74 +76,74 @@ namespace Cohee.IO
                 (path.Length > 1 && path[1] == VolumeSeparatorChar);
         }
 
-        ///// <summary>
-        ///// Returns a rooted version of the specified path, which uniquely identifies the referenced file system entity.
-        ///// Unlike most methods of <see cref="PathOp"/>, this method accesses the file system.
-        ///// </summary>
-        ///// <param name="path"></param>
-        ///// <returns></returns>
-        //public static string GetFullPath(string path)
-        //{
-        //    if (string.IsNullOrWhiteSpace(path)) return string.Empty;
+        /// <summary>
+        /// Returns a rooted version of the specified path, which uniquely identifies the referenced file system entity.
+        /// Unlike most methods of <see cref="PathOp"/>, this method accesses the file system.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string GetFullPath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return string.Empty;
 
-        //    CheckInvalidPathChars(path);
+            CheckInvalidPathChars(path);
 
-        //    return DualityApp.SystemBackend.FileSystem.GetFullPath(path);
-        //}
-        ///// <summary>
-        ///// Returns whether two paths are referring to the same file system entity.
-        ///// Unlike most methods of <see cref="PathOp"/>, this method accesses the file system.
-        ///// </summary>
-        ///// <param name="firstPath"></param>
-        ///// <param name="secondPath"></param>
-        ///// <returns></returns>
-        //public static bool ArePathsEqual(string firstPath, string secondPath)
-        //{
-        //    // Early-out for null or empty cases
-        //    if (string.IsNullOrEmpty(firstPath) && string.IsNullOrEmpty(secondPath)) return true;
-        //    if (string.IsNullOrEmpty(firstPath) || string.IsNullOrEmpty(secondPath)) return false;
+            return CoheeApp.SystemBackend.FileSystem.GetFullPath(path);
+        }
+        /// <summary>
+        /// Returns whether two paths are referring to the same file system entity.
+        /// Unlike most methods of <see cref="PathOp"/>, this method accesses the file system.
+        /// </summary>
+        /// <param name="firstPath"></param>
+        /// <param name="secondPath"></param>
+        /// <returns></returns>
+        public static bool ArePathsEqual(string firstPath, string secondPath)
+        {
+            // Early-out for null or empty cases
+            if (string.IsNullOrEmpty(firstPath) && string.IsNullOrEmpty(secondPath)) return true;
+            if (string.IsNullOrEmpty(firstPath) || string.IsNullOrEmpty(secondPath)) return false;
 
-        //    // Prepare for early-out string equality check
-        //    firstPath = firstPath.Trim();
-        //    secondPath = secondPath.Trim();
+            // Prepare for early-out string equality check
+            firstPath = firstPath.Trim();
+            secondPath = secondPath.Trim();
 
-        //    // Early-out for string equality, avoiding file system access
-        //    if (string.Equals(firstPath, secondPath, StringComparison.OrdinalIgnoreCase)) return true;
+            // Early-out for string equality, avoiding file system access
+            if (string.Equals(firstPath, secondPath, StringComparison.OrdinalIgnoreCase)) return true;
 
-        //    // Obtain absolute paths
-        //    firstPath = GetFullPath(firstPath);
-        //    secondPath = GetFullPath(secondPath);
+            // Obtain absolute paths
+            firstPath = GetFullPath(firstPath);
+            secondPath = GetFullPath(secondPath);
 
-        //    // Compare absolute paths
-        //    return string.Equals(firstPath, secondPath, StringComparison.OrdinalIgnoreCase);
-        //}
-        ///// <summary>
-        ///// Returns whether one path is a sub-path of another.
-        ///// Unlike most methods of <see cref="PathOp"/>, this method accesses the file system.
-        ///// </summary>
-        ///// <param name="path">The supposed sub-path.</param>
-        ///// <param name="baseDir">The (directory) path in which the supposed sub-path might be located in.</param>
-        ///// <returns>True, if <c>path</c> is a sub-path of <c>baseDir</c>.</returns>
-        ///// <example>
-        ///// <c>PathHelper.IsPathLocatedIn(@"C:\SomeDir\SubDir", @"C:\SomeDir")</c> will return true.
-        ///// </example>
-        //public static bool IsPathLocatedIn(string path, string baseDir)
-        //{
-        //    if (baseDir[baseDir.Length - 1] != DirectorySeparatorChar &&
-        //        baseDir[baseDir.Length - 1] != AltDirectorySeparatorChar)
-        //        baseDir += DirectorySeparatorChar;
+            // Compare absolute paths
+            return string.Equals(firstPath, secondPath, StringComparison.OrdinalIgnoreCase);
+        }
+        /// <summary>
+        /// Returns whether one path is a sub-path of another.
+        /// Unlike most methods of <see cref="PathOp"/>, this method accesses the file system.
+        /// </summary>
+        /// <param name="path">The supposed sub-path.</param>
+        /// <param name="baseDir">The (directory) path in which the supposed sub-path might be located in.</param>
+        /// <returns>True, if <c>path</c> is a sub-path of <c>baseDir</c>.</returns>
+        /// <example>
+        /// <c>PathHelper.IsPathLocatedIn(@"C:\SomeDir\SubDir", @"C:\SomeDir")</c> will return true.
+        /// </example>
+        public static bool IsPathLocatedIn(string path, string baseDir)
+        {
+            if (baseDir[baseDir.Length - 1] != DirectorySeparatorChar &&
+                baseDir[baseDir.Length - 1] != AltDirectorySeparatorChar)
+                baseDir += DirectorySeparatorChar;
 
-        //    path = GetFullPath(path);
-        //    baseDir = GetDirectoryName(GetFullPath(baseDir));
-        //    do
-        //    {
-        //        path = GetDirectoryName(path);
-        //        if (path == baseDir) return true;
-        //        if (path.Length < baseDir.Length) return false;
-        //    } while (!string.IsNullOrEmpty(path));
+            path = GetFullPath(path);
+            baseDir = GetDirectoryName(GetFullPath(baseDir));
+            do
+            {
+                path = GetDirectoryName(path);
+                if (path == baseDir) return true;
+                if (path.Length < baseDir.Length) return false;
+            } while (!string.IsNullOrEmpty(path));
 
-        //    return false;
-        //}
+            return false;
+        }
 
         /// <summary>
         /// Determines the directory name component of a path, i.e. everything except the rightmost path element name.
