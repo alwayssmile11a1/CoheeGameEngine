@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Backend\AssemblyLoader\AssemblyLoadedEventArgs.cs" />
     <Compile Include="Backend\AssemblyLoader\AssemblyResolveEventArgs.cs" />
+    <Compile Include="Backend\AssemblyLoader\DefaultAssemblyLoader.cs" />
     <Compile Include="Backend\AssemblyLoader\IAssemblyLoader.cs" />
     <Compile Include="Backend\ICoheeBackend.cs" />
     <Compile Include="Backend\ISystemBackend.cs" />
