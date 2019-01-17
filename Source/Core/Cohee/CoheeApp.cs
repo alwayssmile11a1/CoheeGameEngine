@@ -66,7 +66,7 @@ namespace Cohee
         /// If you want to load a plugin, use the <see cref="CorePluginManager"/> from this property.
         /// If you want to load a non-plugin Assembly, use the <see cref="AssemblyLoader"/>.
         /// </summary>
-        public static CorePluginManager PluginManager
+        public static CorePluginManager CPluginManager
         {
             get { return corePluginManager; }
         }
@@ -88,6 +88,69 @@ namespace Cohee
 		/// Usually these are just the ones from the host application, passed on.
 		/// </param>
 		public static void Init(ExecutionEnvironment env, ExecutionContext context, IAssemblyLoader plugins, string[] commandLineArgs)
+        {
+
+        }
+
+        public static void Terminate()
+        {
+            //if (!initialized) return;
+            //if (isUpdating)
+            //{
+            //    terminateScheduled = true;
+            //    return;
+            //}
+
+            //if (environment == ExecutionEnvironment.Editor && execContext == ExecutionContext.Game)
+            //{
+            //    Scene.Current.Dispose();
+            //    Logs.Core.Write("DualityApp terminated in sandbox mode.");
+            //    terminateScheduled = false;
+            //    return;
+            //}
+
+            //if (execContext != ExecutionContext.Editor)
+            //{
+            //    OnTerminating();
+            //    SaveUserData();
+            //}
+
+            //// Signal that the game simulation has ended.
+            //if (execContext == ExecutionContext.Game)
+            //    pluginManager.InvokeGameEnded();
+
+            //// Dispose all content that is still loaded
+            //ContentProvider.ClearContent();
+
+            //// Discard plugin data (Resources, current Scene) ahead of time. Otherwise, it'll get shut down in ClearPlugins, after the backend is gone.
+            //pluginManager.DiscardPluginData();
+
+            //sound.Dispose();
+            //sound = null;
+            //ShutdownBackend(ref graphicsBack);
+            //ShutdownBackend(ref audioBack);
+            //pluginManager.ClearPlugins();
+
+            //// Since this performs file system operations, it needs to happen before shutting down the system backend.
+            //Profile.SaveTextReport(environment == ExecutionEnvironment.Editor ? "perflog_editor.txt" : "perflog.txt");
+
+            //ShutdownBackend(ref systemBack);
+
+            //// Shut down the plugin manager and plugin loader
+            //pluginManager.Terminate();
+            //pluginManager.PluginsRemoving -= pluginManager_PluginsRemoving;
+            //pluginManager.PluginsRemoved -= pluginManager_PluginsRemoved;
+            //assemblyLoader.Terminate();
+            //assemblyLoader = null;
+
+            //Logs.Core.Write("DualityApp terminated");
+
+            //initialized = false;
+            //execContext = ExecutionContext.Terminated;
+        }
+
+
+        public static void InitPostWindow()
         {
 
         }

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Cohee.Backend;
 using Cohee.Editor.UIs;
 
 namespace Cohee.Editor
@@ -15,10 +18,18 @@ namespace Cohee.Editor
         public const string EditorPrevLogfileDir = "Temp";
 
 
+        private static EditorPluginManager editorPluginManager = new EditorPluginManager();
         private static bool needsRecovery = false;
         private static MainWindow mainWindow = null;
         private static EditorLogOutput memoryLogOutput = null;
         private static bool appSuspended = true;
+
+
+        public static EditorPluginManager EPluginManager
+        {
+            get { return editorPluginManager; }
+        }
+
 
         public static void Init(MainWindow mainWindow)
         {
@@ -64,8 +75,8 @@ namespace Cohee.Editor
             //packageManager = new PackageManager();
 
             // Initialize Cohee Core
-            EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
-            CoheeApp.PluginManager.PluginsReady += DualityApp_PluginsReady;
+            //EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
+            CoheeApp.CPluginManager.PluginsReady += CoheeApp_PluginsReady;
             CoheeApp.Init(
                 CoheeApp.ExecutionEnvironment.Editor,
                 CoheeApp.ExecutionContext.Editor,
@@ -73,25 +84,108 @@ namespace Cohee.Editor
                 null);
 
             // Initialize the plugin manager for the editor. We'll use the same loader as the core.
-            pluginManager.Init(DualityApp.PluginManager.AssemblyLoader);
+            editorPluginManager.Init(CoheeApp.CPluginManager.AssemblyLoader);
 
             // Need to load editor plugins before initializing the graphics context, so the backend is available
-            pluginManager.LoadPlugins();
+            editorPluginManager.LoadPlugins();
 
             // Need to initialize graphics context and default content before instantiating anything that could require any of them
             InitMainGraphicsContext();
-            DualityApp.InitPostWindow();
+            CoheeApp.InitPostWindow();
 
             LoadUserData();
-            pluginManager.InitPlugins();
+            editorPluginManager.InitPlugins();
+
+
+
 
             // Allow the engine to run
             appSuspended = false;
         }
 
-        public static void Terminate(bool byUser)
+        public static bool Terminate(bool byUser)
         {
+            //bool cancel = false;
 
+            //// Display safety message boxes if the close operation is triggered by the user.
+            //if (byUser)
+            //{
+            //    var unsavedResTemp = CoheeEditorApp.UnsavedResources.ToArray();
+            //    if (unsavedResTemp.Any())
+            //    {
+            //        string unsavedResText = unsavedResTemp.Take(5).ToString(r => r.GetType().GetTypeCSCodeName(true) + ":\t" + r.FullName, "\n");
+            //        if (unsavedResTemp.Count() > 5)
+            //            unsavedResText += "\n" + string.Format(Properties.GeneralRes.Msg_ConfirmQuitUnsaved_Desc_More, unsavedResTemp.Count() - 5);
+            //        MessageBoxResult result = MessageBox.Show(
+            //            string.Format(Properties.GeneralRes.Msg_ConfirmQuitUnsaved_Desc, "\n\n" + unsavedResText + "\n\n"),
+            //            Properties.GeneralRes.Msg_ConfirmQuitUnsaved_Caption,
+            //            MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
+            //        if (result == MessageBoxResult.Yes)
+            //        {
+            //            Sandbox.Stop();
+            //            CoheeEditorApp.SaveAllProjectData();
+            //        }
+            //        else if (result == MessageBoxResult.Cancel)
+            //            cancel = true;
+            //    }
+            //}
+
+            //// Did we cancel it? Return false.
+            //if (cancel)
+            //    return false;
+
+            //// Otherwise, actually start terminating.
+            //// From this point on, there's no return - need to re-init the editor afterwards.
+            //if (Terminating != null)
+            //    Terminating(null, EventArgs.Empty);
+
+            //// Unregister events
+            //EditorHintImageAttribute.ImageResolvers -= EditorHintImageResolver;
+            //DualityApp.PluginManager.PluginsReady -= DualityApp_PluginsReady;
+            //mainForm.Activated -= mainForm_Activated;
+            //mainForm.Deactivate -= mainForm_Deactivate;
+            //Scene.Leaving -= Scene_Leaving;
+            //Scene.Entered -= Scene_Entered;
+            //Application.Idle -= Application_Idle;
+            //Resource.ResourceSaved -= Resource_ResourceSaved;
+            //Resource.ResourceSaving -= Resource_ResourceSaving;
+            //Resource.ResourceDisposing -= Resource_ResourceDisposing;
+            //FileEventManager.PluginsChanged -= FileEventManager_PluginsChanged;
+            //editorObjects.GameObjectsAdded -= editorObjects_GameObjectsAdded;
+            //editorObjects.GameObjectsRemoved -= editorObjects_GameObjectsRemoved;
+            //editorObjects.ComponentAdded -= editorObjects_ComponentAdded;
+            //editorObjects.ComponentRemoving -= editorObjects_ComponentRemoved;
+
+            //// Terminate editor actions
+            //editorActions.Clear();
+
+            //// Terminate secondary editor components
+            //UndoRedoManager.Terminate();
+            //FileEventManager.Terminate();
+            //HelpSystem.Terminate();
+            //Sandbox.Terminate();
+            //PreviewProvider.Terminate();
+            //ConvertOperation.Terminate();
+            //AssetManager.Terminate();
+            //DesignTimeObjectData.Terminate();
+
+            //// Shut down the editor backend
+            //CoheeApp.ShutdownBackend(ref graphicsBack);
+
+            //// Shut down the plugin manager 
+            //editorPluginManager.Terminate();
+
+            //// Terminate Duality
+            //CoheeApp.Terminate();
+
+            //// Remove the global in-memory log
+            //if (memoryLogOutput != null)
+            //{
+            //    Logs.RemoveGlobalOutput(memoryLogOutput);
+            //    memoryLogOutput = null;
+            //}
+
+            return true;
         }
 
 
@@ -105,5 +199,80 @@ namespace Cohee.Editor
 
         }
 
+        private static void CoheeApp_PluginsReady(object sender, CoheePluginEventArgs e)
+        {
+            foreach (CorePlugin plugin in e.Plugins)
+            {
+                AnalyzeCorePlugin(plugin);
+            }
+        }
+
+        public static void AnalyzeCorePlugin(CorePlugin plugin)
+        {
+            //Logs.Editor.Write("Analyzing Core Plugin: {0}", plugin.AssemblyName);
+            //Logs.Editor.PushIndent();
+
+            //// Query references to other Assemblies
+            //var asmRefQuery = from AssemblyName a in plugin.PluginAssembly.GetReferencedAssemblies()
+            //                  select a.GetShortAssemblyName();
+            //string thisAsmName = typeof(CoheeEditorApp).Assembly.GetShortAssemblyName();
+            //foreach (string asmName in asmRefQuery)
+            //{
+            //    bool illegalRef = false;
+
+            //    // Scan for illegally referenced Assemblies
+            //    if (asmName == thisAsmName)
+            //        illegalRef = true;
+            //    else if (editorPluginManager.LoadedPlugins.Any(p => p.PluginAssembly.GetShortAssemblyName() == asmName))
+            //        illegalRef = true;
+
+            //    // Warn about them
+            //    if (illegalRef)
+            //    {
+            //        Logs.Editor.WriteWarning(
+            //            "Found illegally referenced Assembly '{0}'. " +
+            //            "CorePlugins should never reference or use DualityEditor or any of its EditorPlugins. Consider moving the critical code to an EditorPlugin.",
+            //            asmName);
+            //    }
+            //}
+
+            //// Try to retrieve all Types from the current Assembly
+            //Type[] exportedTypes;
+            //try
+            //{
+            //    exportedTypes = plugin.PluginAssembly.GetExportedTypes();
+            //}
+            //catch (Exception e)
+            //{
+            //    Logs.Editor.WriteError(
+            //        "Unable to analyze exported types because an error occured: {0}",
+            //        LogFormat.Exception(e));
+            //    exportedTypes = null;
+            //}
+
+            //// Analyze exported types
+            //if (exportedTypes != null)
+            //{
+            //    // Query Component types
+            //    var cmpTypeQuery = from Type t in exportedTypes
+            //                       where typeof(Component).IsAssignableFrom(t)
+            //                       select t;
+            //    foreach (var cmpType in cmpTypeQuery)
+            //    {
+            //        // Scan for public Fields
+            //        FieldInfo[] fields = cmpType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+            //        if (fields.Length > 0)
+            //        {
+            //            Logs.Editor.WriteWarning(
+            //                "Found public fields in Component class '{0}': {1}. " +
+            //                "The usage of public fields is strongly discouraged in Component classes. Consider using properties instead.",
+            //                cmpType.GetTypeCSCodeName(true),
+            //                fields.ToString(f => LogFormat.FieldInfo(f, false), ", "));
+            //        }
+            //    }
+            //}
+
+            //Logs.Editor.PopIndent();
+        }
     }
 }

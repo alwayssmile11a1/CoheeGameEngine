@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cohee
 {
-    class Resource
+    public class Resource
     {
     }
 }

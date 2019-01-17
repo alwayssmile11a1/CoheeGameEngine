@@ -47,6 +47,9 @@
     <Compile Include="Backend\ICoheeBackend.cs" />
     <Compile Include="Backend\ISystemBackend.cs" />
     <Compile Include="CoheeApp.cs" />
+    <Compile Include="IO\FileAccessMode.cs" />
+    <Compile Include="IO\IFileSystem.cs" />
+    <Compile Include="IO\NamedDirectory.cs" />
     <Compile Include="PluginManager\CoheePlugin.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="GameObject.cs" />

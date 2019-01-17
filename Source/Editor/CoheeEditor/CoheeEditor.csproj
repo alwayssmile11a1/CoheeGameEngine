@@ -65,6 +65,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CoheeEditorApp.cs" />
+    <Compile Include="PluginManager\EditorPlugin.cs" />
+    <Compile Include="PluginManager\EditorPluginManager.cs" />
     <Compile Include="Properties\GeneralRes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
