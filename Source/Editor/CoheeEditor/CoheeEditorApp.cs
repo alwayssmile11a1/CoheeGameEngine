@@ -76,7 +76,7 @@ namespace Cohee.Editor
 
             // Initialize Cohee Core
             //EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
-            CoheeApp.CPluginManager.PluginsReady += CoheeApp_PluginsReady;
+            CoheeApp.CPluginManager.PluginsReady += CoheeApp_CorePluginsReady;
             CoheeApp.Init(
                 CoheeApp.ExecutionEnvironment.Editor,
                 CoheeApp.ExecutionContext.Editor,
@@ -199,7 +199,7 @@ namespace Cohee.Editor
 
         }
 
-        private static void CoheeApp_PluginsReady(object sender, CoheePluginEventArgs e)
+        private static void CoheeApp_CorePluginsReady(object sender, CoheePluginEventArgs e)
         {
             foreach (CorePlugin plugin in e.Plugins)
             {
@@ -209,70 +209,70 @@ namespace Cohee.Editor
 
         public static void AnalyzeCorePlugin(CorePlugin plugin)
         {
-            //Logs.Editor.Write("Analyzing Core Plugin: {0}", plugin.AssemblyName);
-            //Logs.Editor.PushIndent();
+            Logs.Editor.Write("Analyzing Core Plugin: {0}", plugin.AssemblyName);
+            Logs.Editor.PushIndent();
 
-            //// Query references to other Assemblies
-            //var asmRefQuery = from AssemblyName a in plugin.PluginAssembly.GetReferencedAssemblies()
-            //                  select a.GetShortAssemblyName();
-            //string thisAsmName = typeof(CoheeEditorApp).Assembly.GetShortAssemblyName();
-            //foreach (string asmName in asmRefQuery)
-            //{
-            //    bool illegalRef = false;
+            // Query references to other Assemblies
+            var asmRefQuery = from AssemblyName a in plugin.PluginAssembly.GetReferencedAssemblies()
+                              select a.GetShortAssemblyName();
+            string thisAsmName = typeof(CoheeEditorApp).Assembly.GetShortAssemblyName();
+            foreach (string asmName in asmRefQuery)
+            {
+                bool illegalRef = false;
 
-            //    // Scan for illegally referenced Assemblies
-            //    if (asmName == thisAsmName)
-            //        illegalRef = true;
-            //    else if (editorPluginManager.LoadedPlugins.Any(p => p.PluginAssembly.GetShortAssemblyName() == asmName))
-            //        illegalRef = true;
+                // Scan for illegally referenced Assemblies
+                if (asmName == thisAsmName)
+                    illegalRef = true;
+                else if (editorPluginManager.LoadedPlugins.Any(p => p.PluginAssembly.GetShortAssemblyName() == asmName))
+                    illegalRef = true;
 
-            //    // Warn about them
-            //    if (illegalRef)
-            //    {
-            //        Logs.Editor.WriteWarning(
-            //            "Found illegally referenced Assembly '{0}'. " +
-            //            "CorePlugins should never reference or use DualityEditor or any of its EditorPlugins. Consider moving the critical code to an EditorPlugin.",
-            //            asmName);
-            //    }
-            //}
+                // Warn about them
+                if (illegalRef)
+                {
+                    Logs.Editor.WriteWarning(
+                        "Found illegally referenced Assembly '{0}'. " +
+                        "CorePlugins should never reference or use DualityEditor or any of its EditorPlugins. Consider moving the critical code to an EditorPlugin.",
+                        asmName);
+                }
+            }
 
-            //// Try to retrieve all Types from the current Assembly
-            //Type[] exportedTypes;
-            //try
-            //{
-            //    exportedTypes = plugin.PluginAssembly.GetExportedTypes();
-            //}
-            //catch (Exception e)
-            //{
-            //    Logs.Editor.WriteError(
-            //        "Unable to analyze exported types because an error occured: {0}",
-            //        LogFormat.Exception(e));
-            //    exportedTypes = null;
-            //}
+            // Try to retrieve all Types from the current Assembly
+            Type[] exportedTypes;
+            try
+            {
+                exportedTypes = plugin.PluginAssembly.GetExportedTypes();
+            }
+            catch (Exception e)
+            {
+                Logs.Editor.WriteError(
+                    "Unable to analyze exported types because an error occured: {0}",
+                    LogFormat.Exception(e));
+                exportedTypes = null;
+            }
 
-            //// Analyze exported types
-            //if (exportedTypes != null)
-            //{
-            //    // Query Component types
-            //    var cmpTypeQuery = from Type t in exportedTypes
-            //                       where typeof(Component).IsAssignableFrom(t)
-            //                       select t;
-            //    foreach (var cmpType in cmpTypeQuery)
-            //    {
-            //        // Scan for public Fields
-            //        FieldInfo[] fields = cmpType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
-            //        if (fields.Length > 0)
-            //        {
-            //            Logs.Editor.WriteWarning(
-            //                "Found public fields in Component class '{0}': {1}. " +
-            //                "The usage of public fields is strongly discouraged in Component classes. Consider using properties instead.",
-            //                cmpType.GetTypeCSCodeName(true),
-            //                fields.ToString(f => LogFormat.FieldInfo(f, false), ", "));
-            //        }
-            //    }
-            //}
+            // Analyze exported types
+            if (exportedTypes != null)
+            {
+                // Query Component types
+                var cmpTypeQuery = from Type t in exportedTypes
+                                   where typeof(Component).IsAssignableFrom(t)
+                                   select t;
+                foreach (var cmpType in cmpTypeQuery)
+                {
+                    // Scan for public Fields
+                    FieldInfo[] fields = cmpType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+                    if (fields.Length > 0)
+                    {
+                        Logs.Editor.WriteWarning(
+                            "Found public fields in Component class '{0}': {1}. " +
+                            "The usage of public fields is strongly discouraged in Component classes. Consider using properties instead.",
+                            cmpType.GetTypeCSCodeName(true),
+                            fields.ToString(f => LogFormat.FieldInfo(f, false), ", "));
+                    }
+                }
+            }
 
-            //Logs.Editor.PopIndent();
+            Logs.Editor.PopIndent();
         }
     }
 }

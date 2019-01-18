@@ -115,5 +115,16 @@ namespace Cohee
 
             return typeStr.Replace('+', '.').ToString();
         }
+
+        /// <summary>
+        /// Returns the short version of an Assembly name.
+        /// </summary>
+        /// <param name="assemblyName"></param>
+        /// <returns></returns>
+        public static string GetShortAssemblyName(this AssemblyName assemblyName)
+        {
+            return assemblyName.FullName.Split(',')[0];
+        }
+
     }
 }
