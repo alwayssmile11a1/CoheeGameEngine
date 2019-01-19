@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,13 +57,17 @@ namespace Cohee
         public const string CmdArgEditor = "editor";
         public const string CmdArgProfiling = "profile";
 
-
+        private static bool initialized = false;
+        private static bool runFromEditor = false;
+        private static IAssemblyLoader assemblyLoader = null;
+        private static ExecutionEnvironment environment = ExecutionEnvironment.Unknown;
+        private static ExecutionContext execContext = ExecutionContext.Terminated;
         private static CorePluginManager corePluginManager = new CorePluginManager();
         private static ISystemBackend systemBackend = null;
 
 
         /// <summary>
-        /// [GET] The plugin manager that is used by Duality. Don't use this unless you know exactly what you're doing.
+        /// [GET] The core plugin manager that is used by Cohee. Don't use this unless you know exactly what you're doing.
         /// If you want to load a plugin, use the <see cref="CorePluginManager"/> from this property.
         /// If you want to load a non-plugin Assembly, use the <see cref="AssemblyLoader"/>.
         /// </summary>
@@ -72,7 +77,7 @@ namespace Cohee
         }
 
         /// <summary>
-        /// [GET] The system backend that is used by Duality. Don't use this unless you know exactly what you're doing.
+        /// [GET] The system backend that is used by Cohee. Don't use this unless you know exactly what you're doing.
         /// </summary>
         public static ISystemBackend SystemBackend
         {
@@ -80,16 +85,107 @@ namespace Cohee
         }
 
         /// <summary>
-		/// Initializes this DualityApp. Should be called before performing any operations within Duality.
+		/// Initializes this CoheeApp. Should be called before performing any operations within Cohee.
 		/// </summary>
 		/// <param name="context">The <see cref="ExecutionContext"/> in which Duality runs.</param>
 		/// <param name="commandLineArgs">
-		/// Command line arguments to run this DualityApp with. 
+		/// Command line arguments to run this CoheeApp with. 
 		/// Usually these are just the ones from the host application, passed on.
 		/// </param>
 		public static void Init(ExecutionEnvironment env, ExecutionContext context, IAssemblyLoader plugins, string[] commandLineArgs)
         {
+            if (initialized) return;
 
+            // Process command line options
+            if (commandLineArgs != null)
+            {
+                // Enter debug mode
+                if (commandLineArgs.Contains(CmdArgDebug)) System.Diagnostics.Debugger.Launch();
+                // Run from editor
+                if (commandLineArgs.Contains(CmdArgEditor)) runFromEditor = true;
+            }
+
+            // If the core was compiled in debug mode and a debugger is attached, log 
+            // to the Debug channel, so we can put the VS output window to good use.
+            #if DEBUG
+            bool isDebugging = System.Diagnostics.Debugger.IsAttached;
+            if (isDebugging)
+            {
+                // Only add a new Debug output if we don't already have one, and don't
+                // log to a Console channel either. VS will automatically redirect Console
+                // output to the Output window when debugging a non-Console application,
+                // and we don't want to end up with double log entries.
+                bool hasDebugOut = Logs.GlobalOutput.OfType<DebugLogOutput>().Any();
+                bool hasConsoleOut = Logs.GlobalOutput.OfType<TextWriterLogOutput>().Any(w => w.GetType().Name.Contains("Console"));
+                if (!hasDebugOut && !hasConsoleOut)
+                {
+                    Logs.AddGlobalOutput(new DebugLogOutput());
+                }
+            }
+            #endif
+
+            environment = env;
+            execContext = context;
+
+            // Initialize the plugin manager
+            {
+                assemblyLoader = plugins ?? new Cohee.Backend.Dummy.DummyAssemblyLoader();
+                Logs.Core.Write("Using '{0}' to load plugins.", assemblyLoader.GetType().Name);
+
+                assemblyLoader.Init();
+
+                // Log assembly loading data for diagnostic purposes
+                {
+                    Logs.Core.Write("Currently Loaded Assemblies:" + Environment.NewLine + "{0}",
+                        assemblyLoader.LoadedAssemblies.ToString(
+                            assembly => "  " + LogFormat.Assembly(assembly),
+                            Environment.NewLine));
+                    Logs.Core.Write("Plugin Base Directories:" + Environment.NewLine + "{0}",
+                        assemblyLoader.BaseDirectories.ToString(
+                            path => "  " + path,
+                            Environment.NewLine));
+                    Logs.Core.Write("Available Assembly Paths:" + Environment.NewLine + "{0}",
+                        assemblyLoader.AvailableAssemblyPaths.ToString(
+                            path => "  " + path,
+                            Environment.NewLine));
+                }
+
+                corePluginManager.Init(assemblyLoader);
+                corePluginManager.PluginsRemoving += pluginManager_PluginsRemoving;
+                corePluginManager.PluginsRemoved += pluginManager_PluginsRemoved;
+            }
+
+            // Load all plugins. This needs to be done first, so backends and Types can be located.
+            corePluginManager.LoadPlugins();
+
+            // Initialize the system backend for system info and file system access
+            InitBackend(out systemBackend);
+
+            // Load application and user data and submit a change event, so all settings are applied
+            LoadAppData();
+            LoadUserData();
+            OnAppDataChanged();
+            OnUserDataChanged();
+
+            //// Initialize the graphics backend
+            //InitBackend(out graphicsBack);
+
+            //// Initialize the audio backend
+            //InitBackend(out audioBack);
+            //sound = new SoundDevice();
+
+            // Initialize all core plugins, this may allocate Resources or establish references between plugins
+            corePluginManager.InitPlugins();
+
+            initialized = true;
+
+            // Write environment specs as a debug log
+            Logs.Core.Write(
+                "DualityApp initialized" + Environment.NewLine +
+                "Debug Mode: {0}" + Environment.NewLine +
+                "Command line arguments: {1}",
+                System.Diagnostics.Debugger.IsAttached,
+                commandLineArgs != null ? commandLineArgs.ToString(", ") : "null");
         }
 
         public static void Terminate()
@@ -151,6 +247,151 @@ namespace Cohee
 
 
         public static void InitPostWindow()
+        {
+
+        }
+
+        /// <summary>
+		/// Triggers Duality to (re)load its <see cref="DualityAppData"/>.
+		/// </summary>
+		public static void LoadAppData()
+        {
+            
+        }
+        /// <summary>
+        /// Triggers Duality to (re)load its <see cref="DualityUserData"/>.
+        /// </summary>
+        public static void LoadUserData()
+        {
+
+        }
+
+        private static void OnUserDataChanged()
+        {
+           
+        }
+        private static void OnAppDataChanged()
+        {
+            
+        }
+
+        internal static void InitBackend<T>(out T target, Func<Type, IEnumerable<TypeInfo>> typeFinder = null) where T : class, ICoheeBackend
+        {
+            if (typeFinder == null) typeFinder = GetAvailCoheeTypes;
+
+            Logs.Core.Write("Initializing {0}...", LogFormat.Type(typeof(T)));
+            Logs.Core.PushIndent();
+
+            // Generate a list of available backends for evaluation
+            List<ICoheeBackend> backends = new List<ICoheeBackend>();
+            foreach (TypeInfo backendType in typeFinder(typeof(ICoheeBackend)))
+            {
+                if (backendType.IsInterface) continue;
+                if (backendType.IsAbstract) continue;
+                if (!backendType.IsClass) continue;
+                if (!typeof(T).GetTypeInfo().IsAssignableFrom(backendType)) continue;
+
+                ICoheeBackend backend = backendType.CreateInstanceOf() as ICoheeBackend;
+                if (backend == null)
+                {
+                    Logs.Core.WriteWarning("Unable to create an instance of {0}. Skipping it.", backendType.FullName);
+                    continue;
+                }
+                backends.Add(backend);
+            }
+
+            // Sort backends from best to worst
+            backends.StableSort((a, b) => b.Priority > a.Priority ? 1 : -1);
+
+            // Try to initialize each one and select the first that works
+            T selectedBackend = null;
+            foreach (T backend in backends)
+            {
+                if (appData != null &&
+                    appData.SkipBackends != null &&
+                    appData.SkipBackends.Any(s => string.Equals(s, backend.Id, StringComparison.OrdinalIgnoreCase)))
+                {
+                    Logs.Core.Write("Backend '{0}' skipped because of AppData settings.", backend.Name);
+                    continue;
+                }
+
+                bool available = false;
+                try
+                {
+                    available = backend.CheckAvailable();
+                    if (!available)
+                    {
+                        Logs.Core.Write("Backend '{0}' reports to be unavailable. Skipping it.", backend.Name);
+                    }
+                }
+                catch (Exception e)
+                {
+                    available = false;
+                    Logs.Core.WriteWarning("Backend '{0}' failed the availability check with an exception: {1}", backend.Name, LogFormat.Exception(e));
+                }
+                if (!available) continue;
+
+                Logs.Core.Write("{0}...", backend.Name);
+                Logs.Core.PushIndent();
+                {
+                    try
+                    {
+                        backend.Init();
+                        selectedBackend = backend;
+                    }
+                    catch (Exception e)
+                    {
+                        Logs.Core.WriteError("Failed: {0}", LogFormat.Exception(e));
+                    }
+                }
+                Logs.Core.PopIndent();
+
+                if (selectedBackend != null)
+                    break;
+            }
+
+            // If we found a proper backend and initialized it, add it to the list of active backends
+            if (selectedBackend != null)
+            {
+                target = selectedBackend;
+
+                TypeInfo selectedBackendType = selectedBackend.GetType().GetTypeInfo();
+                corePluginManager.LockPlugin(selectedBackendType.Assembly);
+            }
+            else
+            {
+                target = null;
+            }
+
+            Logs.Core.PopIndent();
+        }
+
+        /// <summary>
+        /// Enumerates all available Duality <see cref="System.Type">Types</see> that are assignable
+        /// to the specified Type. 
+        /// </summary>
+        /// <param name="baseType">The base type to use for matching the result types.</param>
+        /// <returns>An enumeration of all Duality types deriving from the specified type.</returns>
+        /// <example>
+        /// The following code logs all available kinds of <see cref="Duality.Components.Renderer">Renderers</see>:
+        /// <code>
+        /// var rendererTypes = DualityApp.GetAvailDualityTypes(typeof(Duality.Components.Renderer));
+        /// foreach (Type rt in rendererTypes)
+        /// {
+        /// 	Logs.Core.Write("Renderer Type '{0}' from Assembly '{1}'", LogFormat.Type(rt), rt.Assembly.FullName);
+        /// }
+        /// </code>
+        /// </example>
+        public static IEnumerable<TypeInfo> GetAvailCoheeTypes(Type baseType)
+        {
+            return corePluginManager.GetTypes(baseType);
+        }
+
+        private static void pluginManager_PluginsRemoving(object sender, CoheePluginEventArgs e)
+        {
+    
+        }
+        private static void pluginManager_PluginsRemoved(object sender, CoheePluginEventArgs e)
         {
 
         }

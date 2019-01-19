@@ -77,15 +77,10 @@ namespace Cohee.Editor
             // Initialize Cohee Core
             //EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
             CoheeApp.CPluginManager.PluginsReady += CoheeApp_CorePluginsReady;
-            CoheeApp.Init(
-                CoheeApp.ExecutionEnvironment.Editor,
-                CoheeApp.ExecutionContext.Editor,
-                new DefaultAssemblyLoader(),
-                null);
+            CoheeApp.Init(CoheeApp.ExecutionEnvironment.Editor, CoheeApp.ExecutionContext.Editor, new DefaultAssemblyLoader(), null);
 
             // Initialize the plugin manager for the editor. We'll use the same loader as the core.
             editorPluginManager.Init(CoheeApp.CPluginManager.AssemblyLoader);
-
             // Need to load editor plugins before initializing the graphics context, so the backend is available
             editorPluginManager.LoadPlugins();
 

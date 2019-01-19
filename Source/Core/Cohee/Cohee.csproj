@@ -44,12 +44,14 @@
     <Compile Include="Backend\AssemblyLoader\AssemblyResolveEventArgs.cs" />
     <Compile Include="Backend\AssemblyLoader\DefaultAssemblyLoader.cs" />
     <Compile Include="Backend\AssemblyLoader\IAssemblyLoader.cs" />
+    <Compile Include="Backend\Dummy\DummyAssemblyLoader.cs" />
     <Compile Include="Backend\ICoheeBackend.cs" />
     <Compile Include="Backend\ISystemBackend.cs" />
     <Compile Include="CoheeApp.cs" />
     <Compile Include="IO\FileAccessMode.cs" />
     <Compile Include="IO\IFileSystem.cs" />
     <Compile Include="IO\NamedDirectory.cs" />
+    <Compile Include="LogSystem\DebugLogOutput.cs" />
     <Compile Include="PluginManager\CoheePlugin.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="GameObject.cs" />
