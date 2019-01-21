@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cohee.Editor.UIs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Cohee.Editor
         /// This method is called when all plugins and the editors user data and layout are loaded. May initialize GUI.
         /// </summary>
         /// <param name="main"></param>
-        internal protected virtual void InitPlugin(MainForm main) { }
+        internal protected virtual void InitPlugin(MainWindow main) { }
         /// <summary>
         /// Saves the plugins user data to the provided Xml Node.
         /// </summary>

@@ -64,14 +64,14 @@ namespace Cohee
         private static ExecutionContext execContext = ExecutionContext.Terminated;
         private static CorePluginManager corePluginManager = new CorePluginManager();
         private static ISystemBackend systemBackend = null;
-
+        private static CoheeAppData appData = null;
 
         /// <summary>
         /// [GET] The core plugin manager that is used by Cohee. Don't use this unless you know exactly what you're doing.
         /// If you want to load a plugin, use the <see cref="CorePluginManager"/> from this property.
         /// If you want to load a non-plugin Assembly, use the <see cref="AssemblyLoader"/>.
         /// </summary>
-        public static CorePluginManager CPluginManager
+        public static CorePluginManager CorePluginManager
         {
             get { return corePluginManager; }
         }
@@ -245,7 +245,11 @@ namespace Cohee
             //execContext = ExecutionContext.Terminated;
         }
 
-
+        /// <summary>
+		/// Initializes the part of Cohee that requires a valid rendering context. 
+		/// Should be called before performing any rendering related operations with Cohee.
+		/// Is called implicitly when using <see cref="OpenWindow"/>.
+		/// </summary>
         public static void InitPostWindow()
         {
 
@@ -367,7 +371,7 @@ namespace Cohee
         }
 
         /// <summary>
-        /// Enumerates all available Duality <see cref="System.Type">Types</see> that are assignable
+        /// Enumerates all available Cohee <see cref="System.Type">Types</see> that are assignable
         /// to the specified Type. 
         /// </summary>
         /// <param name="baseType">The base type to use for matching the result types.</param>
@@ -375,7 +379,7 @@ namespace Cohee
         /// <example>
         /// The following code logs all available kinds of <see cref="Duality.Components.Renderer">Renderers</see>:
         /// <code>
-        /// var rendererTypes = DualityApp.GetAvailDualityTypes(typeof(Duality.Components.Renderer));
+        /// var rendererTypes = CoheeApp.GetAvailCoheeTypes(typeof(Cohee.Components.Renderer));
         /// foreach (Type rt in rendererTypes)
         /// {
         /// 	Logs.Core.Write("Renderer Type '{0}' from Assembly '{1}'", LogFormat.Type(rt), rt.Assembly.FullName);

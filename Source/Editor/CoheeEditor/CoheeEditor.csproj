@@ -84,8 +84,8 @@
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\EditorHelper.cs" />
-    <Compile Include="Utility\EditorLogEntry.cs" />
-    <Compile Include="Utility\EditorLogOutput.cs" />
+    <Compile Include="Utility\EditorLog\EditorLogEntry.cs" />
+    <Compile Include="Utility\EditorLog\EditorLogOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -131,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WorkingFolderIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editoruserdata.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -167,7 +167,7 @@ namespace Cohee.Editor
         }
         protected override void OnInitPlugin(EditorPlugin plugin)
         {
-            plugin.InitPlugin(CoheeEditorApp.MainForm);
+            plugin.InitPlugin(CoheeEditorApp.MainWindow);
         }
 
         private void assemblyLoader_AssemblyResolve(object sender, AssemblyResolveEventArgs args)

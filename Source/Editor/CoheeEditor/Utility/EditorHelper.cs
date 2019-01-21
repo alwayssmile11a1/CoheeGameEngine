@@ -9,7 +9,7 @@ namespace Cohee.Editor
 {
     public static class EditorHelper
     {
-        public static readonly string DualityLauncherExecFile = "DualityLauncher.exe";
+        public static readonly string CoheeLauncherExecFile = "CoheeLauncher.exe";
         public static readonly string BackupDirectory = "Backup";
         public static readonly string SourceDirectory = "Source";
 

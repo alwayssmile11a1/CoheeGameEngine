@@ -61,6 +61,35 @@ namespace Cohee.Editor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;UserData&gt;
+        ///  &lt;EditorApp&gt;
+        ///    &lt;Backups&gt;true&lt;/Backups&gt;
+        ///    &lt;Autosaves&gt;ThirtyMinutes&lt;/Autosaves&gt;
+        ///    &lt;FirstSession&gt;true&lt;/FirstSession&gt;
+        ///  &lt;/EditorApp&gt;
+        ///  &lt;Plugins&gt;
+        ///    &lt;Plugin id=&quot;CamView&quot;&gt;
+        ///      &lt;CamView id=&quot;0&quot;&gt;
+        ///        &lt;Perspective&gt;Parallax&lt;/Perspective&gt;
+        ///        &lt;FocusDist&gt;500&lt;/FocusDist&gt;
+        ///        &lt;BackgroundColor&gt;
+        ///          &lt;R&gt;64&lt;/R&gt;
+        ///          &lt;G&gt;64&lt;/G&gt;
+        ///          &lt;B&gt;64&lt;/B&gt;
+        ///          &lt;A&gt;0&lt;/A&gt;
+        ///        &lt;/BackgroundColor&gt;
+        ///        &lt;SnapToGridSize&gt;
+        ///          &lt;X&gt;0&lt;/X&gt;
+        ///           [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DefaultEditorUserData {
+            get {
+                return ResourceManager.GetString("DefaultEditorUserData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon IconWorkingFolder {

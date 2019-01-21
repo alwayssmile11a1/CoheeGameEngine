@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 using Cohee.Backend;
 using Cohee.Editor.UIs;
 
@@ -16,28 +17,38 @@ namespace Cohee.Editor
         public const string EditorLogfilePath = "logfile_editor.txt";
         public const string EditorPrevLogfileName = "logfile_editor_{0}.txt";
         public const string EditorPrevLogfileDir = "Temp";
-
+        public const string UserDataFile = "EditorUserData.xml";
+        private const string UserDataDockSeparator = "<!-- DockPanel Data -->";
 
         private static EditorPluginManager editorPluginManager = new EditorPluginManager();
         private static bool needsRecovery = false;
         private static MainWindow mainWindow = null;
-        private static EditorLogOutput memoryLogOutput = null;
+        private static EditorLogOutput editorLogOutput = null;
         private static bool appSuspended = true;
 
 
-        public static EditorPluginManager EPluginManager
+        public static EditorPluginManager EditorPluginManager
         {
             get { return editorPluginManager; }
         }
 
+        public static EditorLogOutput EditorLogOutput
+        {
+            get { return editorLogOutput; }
+        }
+
+        public static MainWindow MainWindow
+        {
+            get { return mainWindow; }
+        }
 
         public static void Init(MainWindow mainWindow)
         {
             CoheeEditorApp.mainWindow = mainWindow;
 
             // Set up an in-memory data log so plugins can access the log history when needed
-            CoheeEditorApp.memoryLogOutput = new EditorLogOutput();
-            Logs.AddGlobalOutput(memoryLogOutput);
+            editorLogOutput = new EditorLogOutput();
+            Logs.AddGlobalOutput(editorLogOutput);
 
             // Create working directories, if not existing yet.
             if (!Directory.Exists(CoheeApp.DataDirectory))
@@ -66,7 +77,9 @@ namespace Cohee.Editor
                 FileInfo fileInfoIcon = new FileInfo(Path.Combine(CoheeApp.DataDirectory, "WorkingFolderIcon.ico"));
                 fileInfoIcon.Attributes |= FileAttributes.Hidden;
             }
+
             if (!Directory.Exists(CoheeApp.PluginDirectory)) Directory.CreateDirectory(CoheeApp.PluginDirectory);
+
             if (!Directory.Exists(EditorHelper.SourceDirectory)) Directory.CreateDirectory(EditorHelper.SourceDirectory);
             if (!Directory.Exists(EditorHelper.SourceMediaDirectory)) Directory.CreateDirectory(EditorHelper.SourceMediaDirectory);
             if (!Directory.Exists(EditorHelper.SourceCodeDirectory)) Directory.CreateDirectory(EditorHelper.SourceCodeDirectory);
@@ -76,11 +89,11 @@ namespace Cohee.Editor
 
             // Initialize Cohee Core
             //EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
-            CoheeApp.CPluginManager.PluginsReady += CoheeApp_CorePluginsReady;
+            CoheeApp.CorePluginManager.PluginsReady += CoheeApp_CorePluginsReady;
             CoheeApp.Init(CoheeApp.ExecutionEnvironment.Editor, CoheeApp.ExecutionContext.Editor, new DefaultAssemblyLoader(), null);
 
             // Initialize the plugin manager for the editor. We'll use the same loader as the core.
-            editorPluginManager.Init(CoheeApp.CPluginManager.AssemblyLoader);
+            editorPluginManager.Init(CoheeApp.CorePluginManager.AssemblyLoader);
             // Need to load editor plugins before initializing the graphics context, so the backend is available
             editorPluginManager.LoadPlugins();
 
@@ -89,6 +102,7 @@ namespace Cohee.Editor
             CoheeApp.InitPostWindow();
 
             LoadUserData();
+
             editorPluginManager.InitPlugins();
 
 
@@ -191,6 +205,31 @@ namespace Cohee.Editor
 
         private static void LoadUserData()
         {
+            if (!File.Exists(UserDataFile))
+            {
+                File.WriteAllText(UserDataFile, Properties.GeneralRes.DefaultEditorUserData);
+                if (!File.Exists(UserDataFile)) return;
+            }
+
+            Logs.Editor.Write("Loading user data...");
+            Logs.Editor.PushIndent();
+
+            Encoding encoding = Encoding.Default;
+            StringBuilder editorData = new StringBuilder();
+            StringBuilder dockPanelData = new StringBuilder();
+            using (StreamReader reader = new StreamReader(UserDataFile))
+            {
+                encoding = reader.CurrentEncoding;
+                string line;
+
+                // Retrieve pre-DockPanel section
+                while ((line = reader.ReadLine()) != null && line.Trim() != UserDataDockSeparator)
+                    editorData.AppendLine(line);
+
+                // Retrieve DockPanel section
+                while ((line = reader.ReadLine()) != null)
+                    dockPanelData.AppendLine(line);
+            }
 
         }
 
