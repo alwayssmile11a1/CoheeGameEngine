@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Cohee
@@ -124,6 +125,16 @@ namespace Cohee
         public static string GetShortAssemblyName(this AssemblyName assemblyName)
         {
             return assemblyName.FullName.Split(',')[0];
+        }
+
+        /// <summary>
+        /// Returns a string describing a certain Type.
+        /// </summary>
+        /// <param name="T">The Type to describe</param>
+        /// <returns></returns>
+        public static string GetTypeId(this Type T)
+        {
+            return T.FullName != null ? Regex.Replace(T.FullName, @"(, [^\]\[]*)", "") : T.Name;
         }
 
     }

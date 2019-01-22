@@ -1,4 +1,5 @@
 ﻿using Cohee.Backend;
+using Cohee.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,7 @@ namespace Cohee
         public const string CmdArgDebug = "debug";
         public const string CmdArgEditor = "editor";
         public const string CmdArgProfiling = "profile";
+        public const string AppDataPath = "AppData.dat";
 
         private static bool initialized = false;
         private static bool runFromEditor = false;
@@ -82,6 +84,37 @@ namespace Cohee
         public static ISystemBackend SystemBackend
         {
             get { return systemBackend; }
+        }
+
+        /// <summary>
+		/// [GET] Returns the <see cref="ExecutionContext"/> in which this CoheeApp is currently running.
+		/// </summary>
+		public static ExecutionContext ExecContext
+        {
+            get { return execContext; }
+            internal set
+            {
+                if (execContext != value)
+                {
+                    ExecutionContext previous = execContext;
+                    execContext = value;
+
+                    if (previous == ExecutionContext.Game && value != ExecutionContext.Game)
+                        corePluginManager.InvokeGameEnded();
+
+                    corePluginManager.InvokeExecContextChanged(previous);
+
+                    if (previous != ExecutionContext.Game && value == ExecutionContext.Game)
+                        corePluginManager.InvokeGameStarting();
+                }
+            }
+        }
+        /// <summary>
+        /// [GET] Returns the <see cref="ExecutionEnvironment"/> in which this CoheeApp is currently running.
+        /// </summary>
+        public static ExecutionEnvironment ExecEnvironment
+        {
+            get { return environment; }
         }
 
         /// <summary>
@@ -256,11 +289,11 @@ namespace Cohee
         }
 
         /// <summary>
-		/// Triggers Duality to (re)load its <see cref="DualityAppData"/>.
+		/// Triggers Cohee to (re)load its <see cref="CoheeAppData"/>.
 		/// </summary>
 		public static void LoadAppData()
         {
-            
+            appData = Serializer.TryReadObject<CoheeAppData>(AppDataPath) ?? new CoheeAppData();
         }
         /// <summary>
         /// Triggers Duality to (re)load its <see cref="DualityUserData"/>.

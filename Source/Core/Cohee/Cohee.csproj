@@ -77,6 +77,15 @@
     <Compile Include="ProfileSystem\TimeCounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
+    <Compile Include="Serialization\DataType.cs" />
+    <Compile Include="Serialization\DontSerializeAttribute.cs" />
+    <Compile Include="Serialization\IDataReader.cs" />
+    <Compile Include="Serialization\IDataWritter.cs" />
+    <Compile Include="Serialization\ISerializeExplicit.cs" />
+    <Compile Include="Serialization\ISerializeSurrogate.cs" />
+    <Compile Include="Serialization\ObjectIdManager.cs" />
+    <Compile Include="Serialization\Serializer.cs" />
+    <Compile Include="Serialization\SerializeType.cs" />
     <Compile Include="Time.cs" />
     <Compile Include="Utility\EventArgs\CoheePluginEvenArg.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsIEnumerable.cs" />
@@ -92,7 +101,9 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Serialization\Surrogates\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*" "$(SolutionDir)Build\Output\" /S /Y</PostBuildEvent>

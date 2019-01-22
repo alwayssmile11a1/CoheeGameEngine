@@ -97,11 +97,11 @@ namespace Cohee.Editor
             // Need to load editor plugins before initializing the graphics context, so the backend is available
             editorPluginManager.LoadPlugins();
 
-            // Need to initialize graphics context and default content before instantiating anything that could require any of them
-            InitMainGraphicsContext();
-            CoheeApp.InitPostWindow();
+            //// Need to initialize graphics context and default content before instantiating anything that could require any of them
+            //InitMainGraphicsContext();
+            //CoheeApp.InitPostWindow();
 
-            LoadUserData();
+            //LoadUserData();
 
             editorPluginManager.InitPlugins();
 
