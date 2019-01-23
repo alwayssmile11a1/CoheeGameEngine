@@ -211,9 +211,6 @@ namespace Cohee.Serialization
 
 
         /// <summary>
-        /// The de/serialization <see cref="Cohee.Log"/>.
-        /// </summary>
-        /// <summary>
         /// A list of <see cref="System.Reflection.FieldInfo">field</see> blockers. If any registered field blocker
         /// returns true upon serializing a specific field, a default value is assumed instead.
         /// </summary>
@@ -226,6 +223,10 @@ namespace Cohee.Serialization
         private Stream stream = null;
         private bool opInProgress = false;
         private bool disposed = false;
+
+        /// <summary>
+        /// The de/serialization <see cref="Cohee.Log"/>.
+        /// </summary>
         private Log log = Logs.Core;
 
         private Dictionary<string, Type> typeResolveCache = new Dictionary<string, Type>();

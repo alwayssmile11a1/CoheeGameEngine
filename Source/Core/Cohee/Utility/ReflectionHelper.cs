@@ -13,6 +13,107 @@ namespace Cohee
 	/// </summary>
     public static class ReflectionHelper
     {
+        private static Dictionary<MemberInfo, Attribute[]> customMemberAttribCache = new Dictionary<MemberInfo, Attribute[]>();
+
+        /// <summary>
+		/// Returns all custom attributes of the specified Type that are attached to the specified member.
+		/// Inherites attributes are returned as well. This method is usually faster than comparable .Net methods,
+		/// because it caches previous results internally.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="member"></param>
+		/// <returns></returns>
+		public static IEnumerable<T> GetAttributesCached<T>(this MemberInfo member) where T : Attribute
+        {
+            lock (customMemberAttribCache)
+            {
+                Attribute[] result;
+                if (!customMemberAttribCache.TryGetValue(member, out result))
+                {
+                    result = member.GetCustomAttributes(true).OfType<Attribute>().ToArray();
+
+                    // If it's a Type, also check implemented interfaces for (EditorHint) attributes
+                    if (member is TypeInfo)
+                    {
+                        TypeInfo typeInfo = member as TypeInfo;
+                        IEnumerable<Attribute> query = result;
+                        Type[] interfaces = typeInfo.ImplementedInterfaces.ToArray();
+                        if (interfaces.Length > 0)
+                        {
+                            bool addedAny = false;
+                            foreach (Type interfaceType in interfaces)
+                            {
+                                TypeInfo interfaceTypeInfo = interfaceType.GetTypeInfo();
+                                IEnumerable<Attribute> subQuery = GetAttributesCached<Editor.EditorHintAttribute>(interfaceTypeInfo);
+                                if (subQuery.Any())
+                                {
+                                    query = query.Concat(subQuery);
+                                    addedAny = true;
+                                }
+                            }
+                            if (addedAny)
+                            {
+                                result = query.Distinct().ToArray();
+                            }
+                        }
+                    }
+                    // If it's a member, check if it is an interface implementation and add their (EditorHint) attributes as well
+                    else
+                    {
+                        TypeInfo declaringTypeInfo = member.DeclaringType == null ? null : member.DeclaringType.GetTypeInfo();
+                        if (declaringTypeInfo != null && !declaringTypeInfo.IsInterface)
+                        {
+                            IEnumerable<Attribute> query = result;
+                            Type[] interfaces = declaringTypeInfo.ImplementedInterfaces.ToArray();
+                            if (interfaces.Length > 0)
+                            {
+                                bool addedAny = false;
+                                foreach (Type interfaceType in interfaces)
+                                {
+                                    TypeInfo interfaceTypeInfo = interfaceType.GetTypeInfo();
+                                    foreach (MemberInfo interfaceMemberInfo in interfaceTypeInfo.DeclaredMembersDeep())
+                                    {
+                                        if (interfaceMemberInfo.Name != member.Name) continue;
+                                        IEnumerable<Attribute> subQuery = GetAttributesCached<Editor.EditorHintAttribute>(interfaceMemberInfo);
+                                        if (subQuery.Any())
+                                        {
+                                            query = query.Concat(subQuery);
+                                            addedAny = true;
+                                        }
+                                    }
+                                }
+                                if (addedAny)
+                                {
+                                    result = query.Distinct().ToArray();
+                                }
+                            }
+                        }
+                    }
+
+                    // Mind the result for later. Don't do this twice.				
+                    customMemberAttribCache[member] = result;
+                }
+
+                if (typeof(T) == typeof(Attribute))
+                    return result as IEnumerable<T>;
+                else
+                    return result.OfType<T>();
+            }
+        }
+
+        /// <summary>
+        /// Returns all custom attributes of the specified Type that are attached to the specified member.
+        /// Inherites attributes are returned as well. This method is usually faster than comparable .Net methods, 
+        /// because it caches previous results internally.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public static bool HasAttributeCached<T>(this MemberInfo member) where T : Attribute
+        {
+            return GetAttributesCached<T>(member).Any();
+        }
+
         /// <summary>
 		/// Returns the short version of an Assembly name.
 		/// </summary>

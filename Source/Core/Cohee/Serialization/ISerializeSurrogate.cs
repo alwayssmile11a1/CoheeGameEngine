@@ -10,7 +10,7 @@ namespace Cohee.Serialization
     /// <summary>
 	/// De/Serializes an object instead of letting it de/serialize itself or using a Reflection-driven approach.
 	/// </summary>
-	/// <seealso cref="Duality.Serialization.SerializeSurrogate{T}"/>
+	/// <seealso cref="Cohee.Serialization.SerializeSurrogate{T}"/>
 	public interface ISerializeSurrogate
     {
         /// <summary>
@@ -36,7 +36,7 @@ namespace Cohee.Serialization
         /// <summary>
         /// Writes constructor data for the replaced object. This will be used in a deserialization pre-pass 
         /// for constructing the object. Note that constructor data may not contain any object references to
-        /// itsself, since it the object doesn't exist yet at this deserialization stage.
+        /// itself, since it the object doesn't exist yet at this deserialization stage.
         /// </summary>
         /// <param name="writer">The <see cref="IDataWriter"/> to serialize constructor data to.</param>
         void WriteConstructorData(IDataWriter writer);
