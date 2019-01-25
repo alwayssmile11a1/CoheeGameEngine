@@ -224,9 +224,6 @@ namespace Cohee.Serialization
         private bool opInProgress = false;
         private bool disposed = false;
 
-        /// <summary>
-        /// The de/serialization <see cref="Cohee.Log"/>.
-        /// </summary>
         private Log log = Logs.Core;
 
         private Dictionary<string, Type> typeResolveCache = new Dictionary<string, Type>();
@@ -266,7 +263,7 @@ namespace Cohee.Serialization
             }
         }
         /// <summary>
-        /// [GET / SET] The local de/serialization <see cref="Duality.Log"/>.
+        /// [GET / SET] The local de/serialization <see cref="Cohee.Log"/>.
         /// </summary>
         public Log LocalLog
         {

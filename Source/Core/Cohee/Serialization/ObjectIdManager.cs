@@ -36,14 +36,12 @@ namespace Cohee.Serialization
         private int idStackHash = 0;
         private Dictionary<object, uint> objRefIdMap = new Dictionary<object, uint>(new ReferenceEqualityComparer());
         private Dictionary<uint, object> idObjRefMap = new Dictionary<uint, object>();
-        private Dictionary<Type, uint> typeHashCache = new Dictionary<Type, uint>();
 
         /// <summary>
         /// Clears all object id mappings.
         /// </summary>
         public void Clear()
         {
-            this.typeHashCache.Clear();
             this.objRefIdMap.Clear();
             this.idObjRefMap.Clear();
             this.idGenSeed.Clear();

@@ -9,6 +9,28 @@ namespace Cohee
     public static class ExtMethodsIList
     {
         /// <summary>
+		/// Returns the combined hash code of the specified list.
+        /// For more details, see Fowler–Noll–Vo hash function
+		/// </summary>
+		/// <param name="list"></param>
+		/// <returns></returns>
+		public static int GetCombinedHashCode<T>(this IList<T> list, int firstIndex = 0, int length = -1)
+        {
+            if (length == -1) length = list.Count;
+            int endIndex = length < 0 ? list.Count - firstIndex : firstIndex + length;
+            unchecked
+            {
+                const int p = 16777619;
+                int hash = (int)2166136261;
+
+                for (int i = firstIndex; i < endIndex; i++)
+                    hash = (hash ^ list[i].GetHashCode()) * p;
+
+                return hash;
+            }
+        }
+
+        /// <summary>
 		/// Performs a stable sort.
 		/// </summary>
 		/// <typeparam name="T">The lists object type.</typeparam>
