@@ -49,7 +49,9 @@
     <Compile Include="Backend\ISystemBackend.cs" />
     <Compile Include="CoheeApp.cs" />
     <Compile Include="CoheeAppData.cs" />
+    <Compile Include="IO\DirectoryOp.cs" />
     <Compile Include="IO\FileAccessMode.cs" />
+    <Compile Include="IO\FileOp.cs" />
     <Compile Include="IO\IFileSystem.cs" />
     <Compile Include="IO\NamedDirectory.cs" />
     <Compile Include="LogSystem\DebugLogOutput.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="ProfileSystem\TimeCounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
+    <Compile Include="Serialization\BinarySerializer.cs" />
     <Compile Include="Serialization\DataType.cs" />
     <Compile Include="Serialization\DontSerializeAttribute.cs" />
     <Compile Include="Serialization\IDataReader.cs" />
@@ -85,8 +88,10 @@
     <Compile Include="Serialization\ISerializeSurrogate.cs" />
     <Compile Include="Serialization\IUniqueIdentifyable.cs" />
     <Compile Include="Serialization\ObjectIdManager.cs" />
+    <Compile Include="Serialization\SerializeErrorHandler.cs" />
     <Compile Include="Serialization\Serializer.cs" />
     <Compile Include="Serialization\SerializeType.cs" />
+    <Compile Include="Serialization\XmlSerializer.cs" />
     <Compile Include="Time.cs" />
     <Compile Include="Utility\EditorHints\EditorHintAttribute.cs" />
     <Compile Include="Utility\EventArgs\CoheePluginEvenArg.cs" />

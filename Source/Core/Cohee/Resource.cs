@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cohee
 {
-    public class Resource
+    public abstract class Resource
     {
+        /// <summary>
+        /// A Resource files extension.
+        /// </summary>
+        internal static readonly string FileExt = ".res";
     }
 }

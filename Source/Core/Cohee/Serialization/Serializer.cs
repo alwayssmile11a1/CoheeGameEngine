@@ -481,7 +481,7 @@ namespace Cohee.Serialization
 
 
         /// <summary>
-        /// Logs an error that occurred during <see cref="Duality.Serialization.ISerializeExplicit">custom serialization</see>.
+        /// Logs an error that occurred during <see cref="Cohee.Serialization.ISerializeExplicit">custom serialization</see>.
         /// </summary>
         /// <param name="objId">The object id of the affected object.</param>
         /// <param name="serializeType">The <see cref="System.Type"/> of the affected object.</param>
@@ -495,7 +495,7 @@ namespace Cohee.Serialization
                 LogFormat.Exception(e));
         }
         /// <summary>
-        /// Logs an error that occurred during <see cref="Duality.Serialization.ISerializeExplicit">custom deserialization</see>.
+        /// Logs an error that occurred during <see cref="Cohee.Serialization.ISerializeExplicit">custom deserialization</see>.
         /// </summary>
         /// <param name="objId">The object id of the affected object.</param>
         /// <param name="serializeType">The <see cref="System.Type"/> of the affected object.</param>
@@ -783,7 +783,7 @@ namespace Cohee.Serialization
                 if (availableSerializerTypes.Count == 0)
                 {
                     availableSerializerTypes = new List<Type>();
-                    foreach (TypeInfo typeInfo in DualityApp.GetAvailDualityTypes(typeof(Serializer)))
+                    foreach (TypeInfo typeInfo in CoheeApp.GetAvailCoheeTypes(typeof(Serializer)))
                     {
                         if (typeInfo.IsAbstract) continue;
                         availableSerializerTypes.Add(typeInfo.AsType());
@@ -1083,7 +1083,7 @@ namespace Cohee.Serialization
             // Search for actual Resource files and detect their serialization format
             if (DirectoryOp.Exists(CoheeApp.DataDirectory))
             {
-                foreach (string resFile in DirectoryOp.GetFiles(CoheeyApp.DataDirectory, true))
+                foreach (string resFile in DirectoryOp.GetFiles(CoheeApp.DataDirectory, true))
                 {
                     if (!resFile.EndsWith(Resource.FileExt, StringComparison.OrdinalIgnoreCase)) continue;
                     using (Stream stream = FileOp.Open(resFile, FileAccessMode.Read))
