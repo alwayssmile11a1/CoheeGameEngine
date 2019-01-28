@@ -87,6 +87,16 @@ namespace Cohee
         }
 
         /// <summary>
+        /// [GET] The plugin loader that is used by Cohee. Don't use this unless you know exactly what you're doing.
+        /// If you want to load a plugin, use the <see cref="CorePluginManager"/>. 
+        /// If you want to load a non-plugin Assembly, use the <see cref="IAssemblyLoader"/> from this property.
+        /// </summary>
+        public static IAssemblyLoader AssemblyLoader
+        {
+            get { return assemblyLoader; }
+        }
+
+        /// <summary>
 		/// [GET] Returns the <see cref="ExecutionContext"/> in which this CoheeApp is currently running.
 		/// </summary>
 		public static ExecutionContext ExecContext
