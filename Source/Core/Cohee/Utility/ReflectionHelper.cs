@@ -424,6 +424,17 @@ namespace Cohee
             return args.ResolvedMember;
         }
 
+        /// <summary>
+        /// Resolves a Type based on its <see cref="GetTypeId">type id</see>.
+        /// </summary>
+        /// <param name="typeString">The type string to resolve.</param>
+        /// <param name="declaringMethod">The generic method that is declaring the Type. Only necessary when resolving a generic methods parameter Type.</param>
+        /// <returns></returns>
+        public static Type ResolveType(string typeString, MethodInfo declaringMethod = null)
+        {
+            return ResolveType(typeString, null, declaringMethod);
+        }
+
         private static Type ResolveType(string typeString, IEnumerable<Assembly> searchAsm, MethodInfo declaringMethod)
         {
             if (typeString == null) return null;
