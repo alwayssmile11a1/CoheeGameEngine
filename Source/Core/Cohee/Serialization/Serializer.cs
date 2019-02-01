@@ -548,7 +548,7 @@ namespace Cohee.Serialization
                 this.HandleAssignValueToField(objSerializeType, obj, fieldName, fieldValue);
                 return;
             }
-
+            
             TypeInfo fieldTypeInfo = field.FieldType.GetTypeInfo();
             if (fieldValue != null && !fieldTypeInfo.IsInstanceOfType(fieldValue))
             {
@@ -1013,12 +1013,12 @@ namespace Cohee.Serialization
             return result;
         }
         /// <summary>
-        /// Retrieves a matching <see cref="Duality.Serialization.ISerializeSurrogate"/> for the specified <see cref="System.Type"/>.
+        /// Retrieves a matching <see cref="Cohee.Serialization.ISerializeSurrogate"/> for the specified <see cref="System.Type"/>.
         /// </summary>
-        /// <param name="t">The <see cref="System.Type"/> to retrieve a <see cref="Duality.Serialization.ISerializeSurrogate"/> for.</param>
+        /// <param name="type">The <see cref="System.Type"/> to retrieve a <see cref="Cohee.Serialization.ISerializeSurrogate"/> for.</param>
         /// <returns></returns>
         internal static ISerializeSurrogate GetSurrogateFor(TypeInfo type)
-        {
+        {    
             if (surrogates == null)
             {
                 surrogates = CoheeApp.GetAvailCoheeTypes(typeof(ISerializeSurrogate))
@@ -1102,6 +1102,7 @@ namespace Cohee.Serialization
                 }
             }
         }
+
         internal static void ClearTypeCache()
         {
             foreach (Serializer tempSerializer in tempCheckSerializers)
@@ -1131,6 +1132,7 @@ namespace Cohee.Serialization
             if (HandleSerializeError(error))
                 e.ResolvedMember = error.ResolvedMember;
         }
+
         private static void ReflectionHelper_TypeResolve(object sender, ResolveMemberEventArgs e)
         {
             ResolveTypeError error = new ResolveTypeError(e.MemberId);
