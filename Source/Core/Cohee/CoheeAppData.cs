@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cohee
 {
+    /// <summary>
+    /// Provides general information about this Cohee application / game.
+    /// </summary>
     public class CoheeAppData
     {
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -26,6 +27,7 @@ namespace Cohee.Editor
         private static EditorLogOutput editorLogOutput = null;
         private static bool appSuspended = true;
 
+        public static event EventHandler Terminating = null;
 
         public static EditorPluginManager EditorPluginManager
         {
@@ -88,7 +90,7 @@ namespace Cohee.Editor
             //packageManager = new PackageManager();
 
             // Initialize Cohee Core
-            //EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
+            EditorHintImageAttribute.ImageResolvers += EditorHintImageResolver;
             CoheeApp.CorePluginManager.PluginsReady += CoheeApp_CorePluginsReady;
             CoheeApp.Init(CoheeApp.ExecutionEnvironment.Editor, CoheeApp.ExecutionContext.Editor, new DefaultAssemblyLoader(), null);
 
@@ -97,9 +99,9 @@ namespace Cohee.Editor
             // Need to load editor plugins before initializing the graphics context, so the backend is available
             editorPluginManager.LoadPlugins();
 
-            //// Need to initialize graphics context and default content before instantiating anything that could require any of them
-            //InitMainGraphicsContext();
-            //CoheeApp.InitPostWindow();
+            // Need to initialize graphics context and default content before instantiating anything that could require any of them
+            InitMainGraphicsContext();
+            CoheeApp.InitPostWindow();
 
             //LoadUserData();
 
@@ -114,7 +116,7 @@ namespace Cohee.Editor
 
         public static bool Terminate(bool byUser)
         {
-            //bool cancel = false;
+            bool cancel = false;
 
             //// Display safety message boxes if the close operation is triggered by the user.
             //if (byUser)
@@ -139,18 +141,18 @@ namespace Cohee.Editor
             //    }
             //}
 
-            //// Did we cancel it? Return false.
-            //if (cancel)
-            //    return false;
+            // Did we cancel it? Return false.
+            if (cancel)
+                return false;
 
-            //// Otherwise, actually start terminating.
-            //// From this point on, there's no return - need to re-init the editor afterwards.
-            //if (Terminating != null)
-            //    Terminating(null, EventArgs.Empty);
+            // Otherwise, actually start terminating.
+            // From this point on, there's no return - need to re-init the editor afterwards.
+            if (Terminating != null)
+                Terminating(null, EventArgs.Empty);
 
-            //// Unregister events
-            //EditorHintImageAttribute.ImageResolvers -= EditorHintImageResolver;
-            //DualityApp.PluginManager.PluginsReady -= DualityApp_PluginsReady;
+            // Unregister events
+            EditorHintImageAttribute.ImageResolvers -= EditorHintImageResolver;
+            CoheeApp.CorePluginManager.PluginsReady -= CoheeApp_CorePluginsReady;
             //mainForm.Activated -= mainForm_Activated;
             //mainForm.Deactivate -= mainForm_Deactivate;
             //Scene.Leaving -= Scene_Leaving;
@@ -181,18 +183,18 @@ namespace Cohee.Editor
             //// Shut down the editor backend
             //CoheeApp.ShutdownBackend(ref graphicsBack);
 
-            //// Shut down the plugin manager 
-            //editorPluginManager.Terminate();
+            // Shut down the plugin manager 
+            editorPluginManager.Terminate();
 
-            //// Terminate Duality
-            //CoheeApp.Terminate();
+            // Terminate Cohee
+            CoheeApp.Terminate();
 
-            //// Remove the global in-memory log
-            //if (memoryLogOutput != null)
-            //{
-            //    Logs.RemoveGlobalOutput(memoryLogOutput);
-            //    memoryLogOutput = null;
-            //}
+            // Remove the global in-memory log
+            if (editorLogOutput != null)
+            {
+                Logs.RemoveGlobalOutput(editorLogOutput);
+                editorLogOutput = null;
+            }
 
             return true;
         }
@@ -200,37 +202,93 @@ namespace Cohee.Editor
 
         private static void InitMainGraphicsContext()
         {
+            //if (mainGraphicsContext != null) return;
 
+            //if (graphicsBackend == null)
+            //    CoheeApp.InitBackend(out graphicsBackend, GetAvailCoheeEditorTypes);
+
+            //Logs.Editor.Write("Creating editor graphics context...");
+            //Logs.Editor.PushIndent();
+            //try
+            //{
+            //    // Currently bound to game-specific settings. Should be decoupled
+            //    // from them at some point, so the editor can use independent settings.
+            //    mainGraphicsContext = graphicsBackend.CreateContext(
+            //        CoheeApp.AppData.MultisampleBackBuffer ?
+            //        CoheeApp.UserData.AntialiasingQuality :
+            //        AAQuality.Off);
+            //}
+            //catch (Exception e)
+            //{
+            //    mainGraphicsContext = null;
+            //    Logs.Editor.WriteError("Can't create editor graphics context, because an error occurred: {0}", LogFormat.Exception(e));
+            //}
+            //Logs.Editor.PopIndent();
         }
 
-        private static void LoadUserData()
+        //private static void LoadUserData()
+        //{
+        //    if (!File.Exists(UserDataFile))
+        //    {
+        //        File.WriteAllText(UserDataFile, Properties.GeneralRes.DefaultEditorUserData);
+        //        if (!File.Exists(UserDataFile)) return;
+        //    }
+
+        //    Logs.Editor.Write("Loading user data...");
+        //    Logs.Editor.PushIndent();
+
+        //    Encoding encoding = Encoding.Default;
+        //    StringBuilder editorData = new StringBuilder();
+        //    StringBuilder dockPanelData = new StringBuilder();
+        //    using (StreamReader reader = new StreamReader(UserDataFile))
+        //    {
+        //        encoding = reader.CurrentEncoding;
+        //        string line;
+
+        //        // Retrieve pre-DockPanel section
+        //        while ((line = reader.ReadLine()) != null && line.Trim() != UserDataDockSeparator)
+        //            editorData.AppendLine(line);
+
+        //        // Retrieve DockPanel section
+        //        while ((line = reader.ReadLine()) != null)
+        //            dockPanelData.AppendLine(line);
+        //    }
+
+        //}
+
+        public static IEnumerable<Assembly> GetCoheeEditorAssemblies()
         {
-            if (!File.Exists(UserDataFile))
+            return editorPluginManager.GetAssemblies();
+        }
+
+        public static IEnumerable<TypeInfo> GetAvailCoheeEditorTypes(Type baseType)
+        {
+            return editorPluginManager.GetTypes(baseType);
+        }
+
+        private static object EditorHintImageResolver(string manifestResourceName)
+        {
+            Assembly[] allAssemblies = CoheeApp.GetCoheeAssemblies().Concat(GetCoheeEditorAssemblies()).Distinct().ToArray();
+            foreach (Assembly assembly in allAssemblies)
             {
-                File.WriteAllText(UserDataFile, Properties.GeneralRes.DefaultEditorUserData);
-                if (!File.Exists(UserDataFile)) return;
+                string[] resourceNames = assembly.GetManifestResourceNames();
+                if (resourceNames.Contains(manifestResourceName))
+                {
+                    // Since images require to keep their origin stream open, we'll need to copy it to gain independence.
+                    using (Stream stream = assembly.GetManifestResourceStream(manifestResourceName))
+                    using (Bitmap bitmap = Bitmap.FromStream(stream) as Bitmap)
+                    {
+                        Bitmap independentBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+                        independentBitmap.SetResolution(bitmap.HorizontalResolution, bitmap.VerticalResolution);
+                        using (Graphics graphics = Graphics.FromImage(independentBitmap))
+                        {
+                            graphics.DrawImageUnscaled(bitmap, 0, 0);
+                        }
+                        return independentBitmap;
+                    }
+                }
             }
-
-            Logs.Editor.Write("Loading user data...");
-            Logs.Editor.PushIndent();
-
-            Encoding encoding = Encoding.Default;
-            StringBuilder editorData = new StringBuilder();
-            StringBuilder dockPanelData = new StringBuilder();
-            using (StreamReader reader = new StreamReader(UserDataFile))
-            {
-                encoding = reader.CurrentEncoding;
-                string line;
-
-                // Retrieve pre-DockPanel section
-                while ((line = reader.ReadLine()) != null && line.Trim() != UserDataDockSeparator)
-                    editorData.AppendLine(line);
-
-                // Retrieve DockPanel section
-                while ((line = reader.ReadLine()) != null)
-                    dockPanelData.AppendLine(line);
-            }
-
+            return null;
         }
 
         private static void CoheeApp_CorePluginsReady(object sender, CoheePluginEventArgs e)

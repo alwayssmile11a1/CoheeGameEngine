@@ -56,5 +56,24 @@ namespace Cohee
 
             return result;
         }
+
+        /// <summary>
+        /// Returns all properties that are declared within this Type, or any of its base Types.
+        /// Includes public, non-public, static and instance properties.
+        /// </summary>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static IEnumerable<PropertyInfo> DeclaredPropertiesDeep(this TypeInfo type)
+        {
+            IEnumerable<PropertyInfo> result = Enumerable.Empty<PropertyInfo>();
+
+            while (type != null)
+            {
+                result = result.Concat(type.DeclaredProperties);
+                type = type.GetBaseTypeInfo();
+            }
+
+            return result;
+        }
     }
 }

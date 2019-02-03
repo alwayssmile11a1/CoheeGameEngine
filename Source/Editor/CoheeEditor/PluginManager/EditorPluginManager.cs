@@ -11,14 +11,14 @@ using System.Xml.Linq;
 namespace Cohee.Editor
 {
     /// <summary>
-	/// Manages loading, initialization and life cycle of Duality editor plugins.
+	/// Manages loading, initialization and life cycle of Cohee editor plugins.
 	/// 
 	/// Since all assemblies are owned by the .Net runtime that only exposes a very limited
 	/// degree of control, this class should only be used statically: Disposing it would
 	/// only get rid of management data, not of the actual plugin assemblies, which would
 	/// then cause problems.
 	/// 
-	/// A static instance of this class is available through <see cref="DualityEditorApp.PluginManager"/>.
+	/// A static instance of this class is available through <see cref="CoheeEditorApp.PluginManager"/>.
 	/// </summary>
 	public class EditorPluginManager : PluginManager<EditorPlugin>
     {

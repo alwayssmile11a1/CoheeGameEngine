@@ -1,4 +1,5 @@
 ﻿using Cohee.Backend;
+using Cohee.IO;
 using Cohee.Serialization;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,8 @@ namespace Cohee
         public const string CmdArgEditor = "editor";
         public const string CmdArgProfiling = "profile";
         public const string AppDataPath = "AppData.dat";
+        public const string UserDataPath = "UserData.dat";
+        
 
         private static bool initialized = false;
         private static bool runFromEditor = false;
@@ -66,7 +69,26 @@ namespace Cohee
         private static ExecutionContext execContext = ExecutionContext.Terminated;
         private static CorePluginManager corePluginManager = new CorePluginManager();
         private static ISystemBackend systemBackend = null;
+        private static IGraphicsBackend graphicsBackend = null;
+        private static IAudioBackend audioBackend = null;
         private static CoheeAppData appData = null;
+        private static CoheeUserData userData = null;
+        private static bool isUpdating = false;
+        private static bool terminateScheduled = false;
+
+        /// <summary>
+        /// Called when the games UserData changes
+        /// </summary>
+        public static event EventHandler UserDataChanged = null;
+        /// <summary>
+        /// Called when the games AppData changes
+        /// </summary>
+        public static event EventHandler AppDataChanged = null;
+        /// <summary>
+        /// Called when Cohee is being terminated by choice (e.g. not because of crashes or similar).
+        /// It is also called in an editor environment.
+        /// </summary>
+        public static event EventHandler Terminating = null;
 
         /// <summary>
         /// [GET] The core plugin manager that is used by Cohee. Don't use this unless you know exactly what you're doing.
@@ -77,7 +99,6 @@ namespace Cohee
         {
             get { return corePluginManager; }
         }
-
         /// <summary>
         /// [GET] The system backend that is used by Cohee. Don't use this unless you know exactly what you're doing.
         /// </summary>
@@ -85,7 +106,20 @@ namespace Cohee
         {
             get { return systemBackend; }
         }
-
+        /// <summary>
+        /// [GET] The graphics backend that is used by Duality. Don't use this unless you know exactly what you're doing.
+        /// </summary>
+        public static IGraphicsBackend GraphicsBackend
+        {
+            get { return graphicsBackend; }
+        }
+        /// <summary>
+        /// [GET] The audio backend that is used by Duality. Don't use this unless you know exactly what you're doing.
+        /// </summary>
+        public static IAudioBackend AudioBackend
+        {
+            get { return audioBackend; }
+        }
         /// <summary>
         /// [GET] The plugin loader that is used by Cohee. Don't use this unless you know exactly what you're doing.
         /// If you want to load a plugin, use the <see cref="CorePluginManager"/>. 
@@ -95,7 +129,6 @@ namespace Cohee
         {
             get { return assemblyLoader; }
         }
-
         /// <summary>
 		/// [GET] Returns the <see cref="ExecutionContext"/> in which this CoheeApp is currently running.
 		/// </summary>
@@ -126,6 +159,34 @@ namespace Cohee
         {
             get { return environment; }
         }
+        /// <summary>
+		/// [GET / SET] Provides access to Cohee's current <see cref="CoheeAppData">application data</see>. This is never null.
+		/// Any kind of data change event is fired as soon as you re-assign this property. Be sure to do that after changing its data.
+		/// </summary>
+		public static CoheeAppData AppData
+        {
+            get { return appData; }
+            set
+            {
+                appData = value ?? new CoheeAppData();
+                // We're currently missing direct changes without invoking this setter
+                OnAppDataChanged();
+            }
+        }
+        /// <summary>
+        /// [GET / SET] Provides access to Cohee's current <see cref="CoheeUserData">user data</see>. This is never null.
+        /// Any kind of data change event is fired as soon as you re-assign this property. Be sure to do that after changing its data.
+        /// </summary>
+        public static CoheeUserData UserData
+        {
+            get { return userData; }
+            set
+            {
+                userData = value ?? new CoheeUserData();
+                // We're currently missing direct changes without invoking this setter
+                OnUserDataChanged();
+            }
+        }
 
         /// <summary>
 		/// Initializes this CoheeApp. Should be called before performing any operations within Cohee.
@@ -135,7 +196,7 @@ namespace Cohee
 		/// Command line arguments to run this CoheeApp with. 
 		/// Usually these are just the ones from the host application, passed on.
 		/// </param>
-		public static void Init(ExecutionEnvironment env, ExecutionContext context, IAssemblyLoader plugins, string[] commandLineArgs)
+		public static void Init(ExecutionEnvironment env, ExecutionContext context, IAssemblyLoader assemLoader, string[] commandLineArgs)
         {
             if (initialized) return;
 
@@ -172,7 +233,7 @@ namespace Cohee
 
             // Initialize the plugin manager
             {
-                assemblyLoader = plugins ?? new Cohee.Backend.Dummy.DummyAssemblyLoader();
+                assemblyLoader = assemLoader ?? new Cohee.Backend.Dummy.DummyAssemblyLoader();
                 Logs.Core.Write("Using '{0}' to load plugins.", assemblyLoader.GetType().Name);
 
                 assemblyLoader.Init();
@@ -210,11 +271,11 @@ namespace Cohee
             OnAppDataChanged();
             OnUserDataChanged();
 
-            //// Initialize the graphics backend
-            //InitBackend(out graphicsBack);
+            // Initialize the graphics backend
+            InitBackend(out graphicsBackend);
 
-            //// Initialize the audio backend
-            //InitBackend(out audioBack);
+            // Initialize the audio backend
+            InitBackend(out audioBackend);
             //sound = new SoundDevice();
 
             // Initialize all core plugins, this may allocate Resources or establish references between plugins
@@ -233,59 +294,60 @@ namespace Cohee
 
         public static void Terminate()
         {
-            //if (!initialized) return;
-            //if (isUpdating)
-            //{
-            //    terminateScheduled = true;
-            //    return;
-            //}
+            if (!initialized) return;
+            if (isUpdating)
+            {
+                terminateScheduled = true;
+                return;
+            }
 
-            //if (environment == ExecutionEnvironment.Editor && execContext == ExecutionContext.Game)
-            //{
-            //    Scene.Current.Dispose();
-            //    Logs.Core.Write("DualityApp terminated in sandbox mode.");
-            //    terminateScheduled = false;
-            //    return;
-            //}
+            if (environment == ExecutionEnvironment.Editor && execContext == ExecutionContext.Game)
+            {
+                //Scene.Current.Dispose();
+                Logs.Core.Write("CoheeApp terminated in sandbox mode.");
+                terminateScheduled = false;
+                return;
+            }
 
-            //if (execContext != ExecutionContext.Editor)
-            //{
-            //    OnTerminating();
-            //    SaveUserData();
-            //}
+            if (execContext != ExecutionContext.Editor)
+            {
+                OnTerminating();
+                SaveUserData();
+            }
 
-            //// Signal that the game simulation has ended.
-            //if (execContext == ExecutionContext.Game)
-            //    pluginManager.InvokeGameEnded();
+            // Signal that the game simulation has ended.
+            if (execContext == ExecutionContext.Game)
+                corePluginManager.InvokeGameEnded();
 
             //// Dispose all content that is still loaded
             //ContentProvider.ClearContent();
 
-            //// Discard plugin data (Resources, current Scene) ahead of time. Otherwise, it'll get shut down in ClearPlugins, after the backend is gone.
-            //pluginManager.DiscardPluginData();
+            // Discard plugin data (Resources, current Scene) ahead of time. Otherwise, it'll get shut down in ClearPlugins, after the backend is gone.
+            corePluginManager.DiscardPluginData();
 
             //sound.Dispose();
             //sound = null;
-            //ShutdownBackend(ref graphicsBack);
-            //ShutdownBackend(ref audioBack);
-            //pluginManager.ClearPlugins();
+            ShutdownBackend(ref graphicsBackend);
+            ShutdownBackend(ref audioBackend);
+
+            corePluginManager.ClearPlugins();
 
             //// Since this performs file system operations, it needs to happen before shutting down the system backend.
             //Profile.SaveTextReport(environment == ExecutionEnvironment.Editor ? "perflog_editor.txt" : "perflog.txt");
 
-            //ShutdownBackend(ref systemBack);
+            ShutdownBackend(ref systemBackend);
 
-            //// Shut down the plugin manager and plugin loader
-            //pluginManager.Terminate();
-            //pluginManager.PluginsRemoving -= pluginManager_PluginsRemoving;
-            //pluginManager.PluginsRemoved -= pluginManager_PluginsRemoved;
-            //assemblyLoader.Terminate();
-            //assemblyLoader = null;
+            // Shut down the plugin manager and plugin loader
+            corePluginManager.Terminate();
+            corePluginManager.PluginsRemoving -= pluginManager_PluginsRemoving;
+            corePluginManager.PluginsRemoved -= pluginManager_PluginsRemoved;
+            assemblyLoader.Terminate();
+            assemblyLoader = null;
 
-            //Logs.Core.Write("DualityApp terminated");
+            Logs.Core.Write("CoheeApp terminated");
 
-            //initialized = false;
-            //execContext = ExecutionContext.Terminated;
+            initialized = false;
+            execContext = ExecutionContext.Terminated;
         }
 
         /// <summary>
@@ -295,31 +357,84 @@ namespace Cohee
 		/// </summary>
         public static void InitPostWindow()
         {
+            DefaultContent.Init();
 
+            // Post-Window init is the last thing that happens before loading game
+            // content and entering simulation. When done in a game context, notify
+            // plugins that the game is about to start - otherwise, exec context changes
+            // will trigger the same code later.
+            if (execContext == ExecutionContext.Game)
+                corePluginManager.InvokeGameStarting();
         }
 
+        //      /// <summary>
+        //      /// Opens up a window for Duality to render into. This also initializes the part of Duality that requires a 
+        //      /// valid rendering context. Should be called before performing any rendering related operations with Duality.
+        //      /// </summary>
+        //      public static INativeWindow OpenWindow(WindowOptions options)
+        //      {
+        //          if (!initialized) throw new InvalidOperationException("Can't initialize graphics / rendering because Duality itself isn't initialized yet.");
+
+        //          Logs.Core.Write("Opening Window...");
+        //          Logs.Core.PushIndent();
+        //          INativeWindow window = graphicsBackend.CreateWindow(options);
+        //          Logs.Core.PopIndent();
+
+        //          InitPostWindow();
+
+        //          return window;
+        //      }
+
         /// <summary>
-		/// Triggers Cohee to (re)load its <see cref="CoheeAppData"/>.
-		/// </summary>
-		public static void LoadAppData()
+        /// Triggers Cohee to (re)load its <see cref="CoheeAppData"/>.
+        /// </summary>
+        public static void LoadAppData()
         {
             appData = Serializer.TryReadObject<CoheeAppData>(AppDataPath) ?? new CoheeAppData();
         }
         /// <summary>
-        /// Triggers Duality to (re)load its <see cref="DualityUserData"/>.
+        /// Triggers Cohee to (re)load its <see cref="CoheeUserData"/>.
         /// </summary>
         public static void LoadUserData()
         {
-
+            string path = UserDataPath;
+            if (!FileOp.Exists(path) || execContext == ExecutionContext.Editor || runFromEditor) path = "DefaultUserData.dat";
+            userData = Serializer.TryReadObject<CoheeUserData>(path) ?? new CoheeUserData();
+        }
+        /// <summary>
+        /// Triggers Cohee to save its <see cref="CoheeAppData"/>.
+        /// </summary>
+        public static void SaveAppData()
+        {
+            Serializer.WriteObject(appData, AppDataPath, typeof(XmlSerializer));
+        }
+        /// <summary>
+        /// Triggers Cohee to save its <see cref="CoheeUserData"/>.
+        /// </summary>
+        public static void SaveUserData()
+        {
+            Serializer.WriteObject(userData, UserDataPath, typeof(XmlSerializer));
+            if (execContext == ExecutionContext.Editor)
+            {
+                Serializer.WriteObject(userData, "DefaultUserData.dat", typeof(XmlSerializer));
+            }
+        }
+        private static void OnAppDataChanged()
+        {
+            if (AppDataChanged != null)
+                AppDataChanged(null, EventArgs.Empty);
         }
 
         private static void OnUserDataChanged()
         {
-           
+            if (UserDataChanged != null)
+                UserDataChanged(null, EventArgs.Empty);
         }
-        private static void OnAppDataChanged()
+
+        private static void OnTerminating()
         {
-            
+            if (Terminating != null)
+                Terminating(null, EventArgs.Empty);
         }
 
         internal static void InitBackend<T>(out T target, Func<Type, IEnumerable<TypeInfo>> typeFinder = null) where T : class, ICoheeBackend
@@ -413,6 +528,30 @@ namespace Cohee
             Logs.Core.PopIndent();
         }
 
+        internal static void ShutdownBackend<T>(ref T backend) where T : class, ICoheeBackend
+        {
+            if (backend == null) return;
+
+            Logs.Core.Write("Shutting down {0}...", backend.Name);
+            Logs.Core.PushIndent();
+            {
+                try
+                {
+                    backend.Shutdown();
+
+                    TypeInfo backendType = backend.GetType().GetTypeInfo();
+                    corePluginManager.UnlockPlugin(backendType.Assembly);
+
+                    backend = null;
+                }
+                catch (Exception e)
+                {
+                    Logs.Core.WriteError("Failed: {0}", LogFormat.Exception(e));
+                }
+            }
+            Logs.Core.PopIndent();
+        }
+
         /// <summary>
         /// Enumerates all available Cohee <see cref="System.Type">Types</see> that are assignable
         /// to the specified Type. 
@@ -434,9 +573,18 @@ namespace Cohee
             return corePluginManager.GetTypes(baseType);
         }
 
+        /// <summary>
+        /// Enumerates all currently loaded assemblies that are part of Cohee, i.e. Cohee itsself and all loaded plugins.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<Assembly> GetCoheeAssemblies()
+        {
+            return corePluginManager.GetAssemblies();
+        }
+
         private static void pluginManager_PluginsRemoving(object sender, CoheePluginEventArgs e)
         {
-    
+            
         }
         private static void pluginManager_PluginsRemoved(object sender, CoheePluginEventArgs e)
         {

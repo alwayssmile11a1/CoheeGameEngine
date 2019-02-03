@@ -40,15 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backend\AssemblyLoader\AssemblyLoadedEventArgs.cs" />
-    <Compile Include="Backend\AssemblyLoader\AssemblyResolveEventArgs.cs" />
-    <Compile Include="Backend\AssemblyLoader\DefaultAssemblyLoader.cs" />
-    <Compile Include="Backend\AssemblyLoader\IAssemblyLoader.cs" />
-    <Compile Include="Backend\Dummy\DummyAssemblyLoader.cs" />
+    <Compile Include="AssemblyLoader\AssemblyLoadedEventArgs.cs" />
+    <Compile Include="AssemblyLoader\AssemblyResolveEventArgs.cs" />
+    <Compile Include="AssemblyLoader\DefaultAssemblyLoader.cs" />
+    <Compile Include="AssemblyLoader\IAssemblyLoader.cs" />
+    <Compile Include="AssemblyLoader\Dummy\DummyAssemblyLoader.cs" />
+    <Compile Include="Backend\Audio\IAudioBackend.cs" />
+    <Compile Include="Backend\Graphics\IGraphicsBackend.cs" />
     <Compile Include="Backend\ICoheeBackend.cs" />
-    <Compile Include="Backend\ISystemBackend.cs" />
+    <Compile Include="Backend\System\ISystemBackend.cs" />
     <Compile Include="CoheeApp.cs" />
     <Compile Include="CoheeAppData.cs" />
+    <Compile Include="CoheeUserData.cs" />
+    <Compile Include="DefaultContent.cs" />
     <Compile Include="IO\DirectoryOp.cs" />
     <Compile Include="IO\FileAccessMode.cs" />
     <Compile Include="IO\FileOp.cs" />
@@ -94,9 +98,11 @@
     <Compile Include="Serialization\XmlSerializer.cs" />
     <Compile Include="Time.cs" />
     <Compile Include="Utility\EditorHints\EditorHintAttribute.cs" />
+    <Compile Include="Utility\EditorHints\EditorHintImageAttribute.cs" />
     <Compile Include="Utility\EventArgs\CoheePluginEvenArg.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsIEnumerable.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsIList.cs" />
+    <Compile Include="Utility\Extensions\ExtMethodsPropertyInfo.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsTypeInfo.cs" />
     <Compile Include="Utility\ObjectCreator.cs" />
     <Compile Include="Utility\RawList.cs" />

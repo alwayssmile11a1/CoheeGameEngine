@@ -12,5 +12,9 @@ namespace Cohee
         /// A Resource files extension.
         /// </summary>
         internal static readonly string FileExt = ".res";
+        /// <summary>
+        /// (Virtual) base path for Cohee's embedded default content.
+        /// </summary>
+        public static readonly string DefaultContentBasePath = "Default:";
     }
 }
