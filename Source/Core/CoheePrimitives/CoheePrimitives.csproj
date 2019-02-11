@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drawing\ColorHsva.cs" />
+    <Compile Include="Drawing\ColorRgba.cs" />
+    <Compile Include="Drawing\IColorData.cs" />
     <Compile Include="Math\Alignment.cs" />
     <Compile Include="Math\MathF.cs" />
     <Compile Include="Math\Matrix3.cs" />

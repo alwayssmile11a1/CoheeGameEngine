@@ -368,12 +368,12 @@ namespace Cohee
         }
 
         //      /// <summary>
-        //      /// Opens up a window for Duality to render into. This also initializes the part of Duality that requires a 
+        //      /// Opens up a window for Cohee to render into. This also initializes the part of Duality that requires a 
         //      /// valid rendering context. Should be called before performing any rendering related operations with Duality.
         //      /// </summary>
         //      public static INativeWindow OpenWindow(WindowOptions options)
         //      {
-        //          if (!initialized) throw new InvalidOperationException("Can't initialize graphics / rendering because Duality itself isn't initialized yet.");
+        //          if (!initialized) throw new InvalidOperationException("Can't initialize graphics / rendering because Cohee itself isn't initialized yet.");
 
         //          Logs.Core.Write("Opening Window...");
         //          Logs.Core.PushIndent();
