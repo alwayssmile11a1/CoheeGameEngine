@@ -1,4 +1,4 @@
-﻿namespace Cohee.Backend
+﻿namespace Cohee.Drawing
 {
     /// <summary>
     /// Specifies intervals and modes to refresh the screen and update the game.

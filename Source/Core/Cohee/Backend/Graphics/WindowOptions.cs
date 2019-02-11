@@ -1,4 +1,6 @@
-﻿namespace Cohee.Backend
+﻿using Cohee.Drawing;
+
+namespace Cohee.Backend
 {
     public class WindowOptions
     {

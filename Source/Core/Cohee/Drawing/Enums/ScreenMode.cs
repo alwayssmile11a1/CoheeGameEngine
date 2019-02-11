@@ -1,4 +1,4 @@
-﻿namespace Cohee.Backend
+﻿namespace Cohee.Drawing
 {
     /// <summary>
 	/// Describes the way a Cohee window is set up.
