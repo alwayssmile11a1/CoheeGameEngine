@@ -54,6 +54,7 @@
     <Compile Include="Backend\Graphics\INativeTexture.cs" />
     <Compile Include="Backend\Graphics\INativeWindow.cs" />
     <Compile Include="Drawing\Enums\AAQuality.cs" />
+    <Compile Include="Drawing\Enums\IndexDataElementType.cs" />
     <Compile Include="Drawing\Enums\RefreshMode.cs" />
     <Compile Include="Backend\Graphics\RenderOptions.cs" />
     <Compile Include="Backend\Graphics\RenderStats.cs" />
@@ -73,8 +74,14 @@
     <Compile Include="Drawing\Enums\ColorDataLayout.cs" />
     <Compile Include="Drawing\Enums\GraphicsBufferType.cs" />
     <Compile Include="Drawing\Enums\ProjectionMode.cs" />
+    <Compile Include="Drawing\ShaderParameterCollection.cs" />
     <Compile Include="Drawing\VertexData\VertexBuffer.cs" />
     <Compile Include="Drawing\VertexData\VertexDrawRange.cs" />
+    <Compile Include="Drawing\VertexFormatDefinition\VertexDeclaration.cs" />
+    <Compile Include="Drawing\VertexFormatDefinition\VertexElement.cs" />
+    <Compile Include="Drawing\VertexFormatDefinition\VertexElementAttribute.cs" />
+    <Compile Include="Drawing\VertexFormatDefinition\VertexElementType.cs" />
+    <Compile Include="Resources\Material.cs" />
     <Compile Include="Resources\Shaders\ShaderFieldInfo.cs" />
     <Compile Include="Resources\Shaders\ShaderFieldScope.cs" />
     <Compile Include="Resources\Shaders\ShaderFieldType.cs" />

@@ -35,7 +35,7 @@
         /// </summary>
         float FarZ { get; }
         /// <summary>
-        /// [GET] Returns whether the drawing device is currently performing a visual picking opreation.
+        /// [GET] Returns whether the drawing device is currently performing a visual picking operation.
         /// </summary>
         bool IsPicking { get; }
         /// <summary>
@@ -105,122 +105,5 @@
         /// </summary>
         /// <param name="batch"></param>
         void AddBatch(DrawBatch batch);
-    }
-
-    /// <summary>
-    /// A static class containing extension methods to extend <see cref="IDrawDevice"/> API with convenience methods.
-    /// </summary>
-    public static class ExtMethodsIDrawDevice
-    {
-        /// <summary>
-        /// Transforms screen space to world space.
-        /// </summary>
-        /// <param name="screenPos"></param>
-        /// <param name="device"></param>
-        /// <returns></returns>
-        public static Vector3 GetWorldPos(this IDrawDevice device, Vector2 screenPos)
-        {
-            return device.GetWorldPos(new Vector3(screenPos));
-        }
-        /// <summary>
-        /// Transforms world space to screen space.
-        /// </summary>
-        /// <param name="worldPos"></param>
-        /// <param name="device"></param>
-        /// <returns></returns>
-        public static Vector2 GetScreenPos(this IDrawDevice device, Vector2 worldPos)
-        {
-            return device.GetScreenPos(new Vector3(worldPos));
-        }
-
-        /// <summary>
-        /// Rents a temporary material instance for rendering, based on the specified <see cref="BatchInfo"/>.
-        /// The instance is returned implicitly when the device is done with the current rendering operation.
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="baseMaterial"></param>
-        /// <returns></returns>
-        public static BatchInfo RentMaterial(this IDrawDevice device, BatchInfo baseMaterial)
-        {
-            BatchInfo material = device.RentMaterial();
-            material.InitFrom(baseMaterial);
-            return material;
-        }
-        /// <summary>
-        /// Rents a temporary material instance for rendering, based on the specified <see cref="Material"/>.
-        /// The instance is returned implicitly when the device is done with the current rendering operation.
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="baseMaterial"></param>
-        /// <returns></returns>
-        public static BatchInfo RentMaterial(this IDrawDevice device, ContentRef<Material> baseMaterial)
-        {
-            return device.RentMaterial(
-                baseMaterial.IsAvailable ?
-                baseMaterial.Res.Info :
-                Material.Checkerboard.Res.Info);
-        }
-
-        /// <summary>
-        /// Adds a parameterized set of vertices to the drawing devices rendering schedule.
-        /// </summary>
-        /// <typeparam name="T">The type of vertex data to add.</typeparam>
-        /// <param name="device"></param>
-        /// <param name="material">The <see cref="Duality.Resources.Material"/> to use for rendering the vertices.</param>
-        /// <param name="vertexMode">The vertices drawing mode.</param>
-        /// <param name="vertices">
-        /// A vertex data buffer that stores the vertices to add. Ownership of the buffer
-        /// remains at the callsite, while the <see cref="IDrawDevice"/> copies the required
-        /// data into internal storage.
-        /// </param>
-        public static void AddVertices<T>(this IDrawDevice device, ContentRef<Material> material, VertexMode vertexMode, params T[] vertices) where T : struct, IVertexData
-        {
-            device.AddVertices<T>(
-                material.IsAvailable ? material.Res.Info : Material.Checkerboard.Res.Info,
-                vertexMode,
-                vertices,
-                vertices.Length);
-        }
-        /// <summary>
-        /// Adds a parameterized set of vertices to the drawing devices rendering schedule.
-        /// </summary>
-        /// <typeparam name="T">The type of vertex data to add.</typeparam>
-        /// <param name="device"></param>
-        /// <param name="material">The <see cref="Duality.Drawing.BatchInfo"/> to use for rendering the vertices.</param>
-        /// <param name="vertexMode">The vertices drawing mode.</param>
-        /// <param name="vertices">
-        /// A vertex data buffer that stores the vertices to add. Ownership of the buffer
-        /// remains at the callsite, while the <see cref="IDrawDevice"/> copies the required
-        /// data into internal storage.
-        /// </param>
-        public static void AddVertices<T>(this IDrawDevice device, BatchInfo material, VertexMode vertexMode, params T[] vertices) where T : struct, IVertexData
-        {
-            device.AddVertices<T>(
-                material,
-                vertexMode,
-                vertices,
-                vertices.Length);
-        }
-        /// <summary>
-        /// Adds a parameterized set of vertices to the drawing devices rendering schedule.
-        /// </summary>
-        /// <typeparam name="T">The type of vertex data to add.</typeparam>
-        /// <param name="device"></param>
-        /// <param name="material">The <see cref="Duality.Resources.Material"/> to use for rendering the vertices.</param>
-        /// <param name="vertexMode">The vertices drawing mode.</param>
-        /// <param name="vertexBuffer">
-        /// A vertex data buffer that stores the vertices to add. Ownership of the buffer
-        /// remains at the callsite, while the <see cref="IDrawDevice"/> copies the required
-        /// data into internal storage.
-        /// </param>
-        /// <param name="vertexCount">The number of vertices to add, from the beginning of the buffer.</param>
-        public static void AddVertices<T>(this IDrawDevice device, ContentRef<Material> material, VertexMode vertexMode, T[] vertexBuffer, int vertexCount) where T : struct, IVertexData
-        {
-            device.AddVertices<T>(
-                material.IsAvailable ? material.Res.Info : Material.Checkerboard.Res.Info,
-                vertexMode,
-                vertexBuffer,
-                vertexCount);
-        }
     }
 }

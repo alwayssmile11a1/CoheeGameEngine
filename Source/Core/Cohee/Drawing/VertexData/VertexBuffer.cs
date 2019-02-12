@@ -16,7 +16,6 @@ namespace Cohee.Drawing
         private int vertexCount = 0;
         private int indexCount = 0;
 
-
         /// <summary>
         /// [GET] A reference to the native backend storage for this buffers vertex data.
         /// </summary>
@@ -289,12 +288,12 @@ namespace Cohee.Drawing
         private void EnsureNativeVertex()
         {
             if (this.nativeVertex == null)
-                this.nativeVertex = DualityApp.GraphicsBackend.CreateBuffer(GraphicsBufferType.Vertex);
+                this.nativeVertex = CoheeApp.GraphicsBackend.CreateBuffer(GraphicsBufferType.Vertex);
         }
         private void EnsureNativeIndex()
         {
             if (this.nativeIndex == null)
-                this.nativeIndex = DualityApp.GraphicsBackend.CreateBuffer(GraphicsBufferType.Index);
+                this.nativeIndex = CoheeApp.GraphicsBackend.CreateBuffer(GraphicsBufferType.Index);
         }
 
         private static IndexDataElementType GetIndexElementType<T>() where T : struct
