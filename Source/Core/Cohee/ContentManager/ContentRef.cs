@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.Reflection;
 using Cohee.Cloning;
 
 namespace Cohee
@@ -162,7 +164,7 @@ namespace Cohee
 
         /// <summary>
         /// Creates a ContentRef pointing to the specified <see cref="Resource"/>, assuming the
-        /// specified path as its origin, if the Resource itsself is either null or doesn't
+        /// specified path as its origin, if the Resource itself is either null or doesn't
         /// provide a valid <see cref="Resource.Path"/>.
         /// </summary>
         /// <param name="res">The Resource to reference.</param>

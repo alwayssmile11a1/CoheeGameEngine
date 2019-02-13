@@ -8,7 +8,7 @@ namespace Cohee
 {
     /// <summary>
 	/// <para>
-	/// The <see cref="ContentProvider"/> is Duality's main place for content management. If you need any kind of <see cref="Resource"/>,
+	/// The <see cref="ContentProvider"/> is Cohee's main place for content management. If you need any kind of <see cref="Resource"/>,
 	/// simply request it from the <see cref="ContentProvider"/> directly, or indirectly via <see cref="ContentRef{T}"/>. It keeps 
 	/// track of which Resources are loaded and valid and prevents Resources from being loaded more than once at a time, thus 
 	/// reducing loading times and redundancy.
@@ -76,7 +76,7 @@ namespace Cohee
         /// Returns a list of all available / existing content matching the specified Type
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="baseDirectory">The base directory to search in. Defaults to <see cref="DualityApp.DataDirectory"/> if not specified otherwise.</param>
+        /// <param name="baseDirectory">The base directory to search in. Defaults to <see cref="CoheeApp.DataDirectory"/> if not specified otherwise.</param>
         /// <returns></returns>
         public static List<ContentRef<T>> GetAvailableContent<T>(string baseDirectory = null) where T : Resource
         {
@@ -92,7 +92,7 @@ namespace Cohee
         /// Returns a list of all available / existing content matching the specified Type
         /// </summary>
         /// <param name="t"></param>
-        /// <param name="baseDirectory">The base directory to search in. Defaults to <see cref="DualityApp.DataDirectory"/> if not specified otherwise.</param>
+        /// <param name="baseDirectory">The base directory to search in. Defaults to <see cref="CoheeApp.DataDirectory"/> if not specified otherwise.</param>
         /// <returns></returns>
         public static List<IContentRef> GetAvailableContent(Type t, string baseDirectory = null)
         {
@@ -181,7 +181,7 @@ namespace Cohee
         public static bool RemoveContent(Resource content, bool dispose = true)
         {
             if (content == null) return false;
-            return RemoveContent(content.Path);
+            return RemoveContent(content.Path, dispose);
         }
         /// <summary>
         /// Unregisters content that has been registered using the specified path key.
