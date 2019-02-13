@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Cohee.Cloning;
 using Cohee.Editor;
+using Cohee.Editor.AssetManagement;
 using Cohee.IO;
 using Cohee.Properties;
 using Cohee.Serialization;
@@ -75,9 +76,9 @@ namespace Cohee
             internal set { this.path = value; }
         }
         /// <summary>
-        /// [GET / SET] Provides information on the way this <see cref="Duality.Resource"/> should be treated during
+        /// [GET / SET] Provides information on the way this <see cref="Cohee.Resource"/> should be treated during
         /// Asset import operations in the editor. This information is not available at runtime and can only be
-        /// accessed or set outside a <see cref="DualityApp.ExecutionEnvironment.Launcher"/> environment.
+        /// accessed or set outside a <see cref="CoheeApp.ExecutionEnvironment.Launcher"/> environment.
         /// </summary>
         [EditorHintFlags(MemberFlags.Invisible)]
         public AssetInfo AssetInfo
@@ -126,7 +127,7 @@ namespace Cohee
             }
         }
         /// <summary>
-        /// [GET] Returns whether the Resource is part of Duality's embedded default content.
+        /// [GET] Returns whether the Resource is part of Cohee's embedded default content.
         /// </summary>
         [EditorHintFlags(MemberFlags.Invisible)]
         public bool IsDefaultContent
@@ -134,7 +135,7 @@ namespace Cohee
             get { return Resource.IsDefaultContentPath(this.path); }
         }
         /// <summary>
-        /// [GET] Returns whether the Resource has been generated at runtime and  cannot be retrieved via content path.
+        /// [GET] Returns whether the Resource has been generated at runtime and cannot be retrieved via content path.
         /// </summary>
         [EditorHintFlags(MemberFlags.Invisible)]
         public bool IsRuntimeResource
@@ -557,7 +558,7 @@ namespace Cohee
             // Extract the type extension and match it with the available resource types
             string typeName = token[token.Length - 1];
             TypeInfo matchingInfo =
-                CoheeApp.GetAvailDualityTypes(typeof(Resource))
+                CoheeApp.GetAvailCoheeTypes(typeof(Resource))
                 .FirstOrDefault(t => t.Name == typeName);
             if (matchingInfo == null)
                 return null;
@@ -567,7 +568,7 @@ namespace Cohee
         }
 
         /// <summary>
-        /// A <see cref="Duality.Serialization.Serializer.FieldBlockers">FieldBlocker</see> to prevent
+        /// A <see cref="Cohee.Serialization.Serializer.FieldBlockers">FieldBlocker</see> to prevent
         /// fields flagged with a <see cref="DontSerializeResourceAttribute"/> from being serialized.
         /// </summary>
         /// <param name="field"></param>

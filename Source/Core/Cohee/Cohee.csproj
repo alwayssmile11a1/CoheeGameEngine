@@ -61,7 +61,7 @@
     <Compile Include="Cloning\ICloneExplicit.cs" />
     <Compile Include="Cloning\ICloneOperation.cs" />
     <Compile Include="Cloning\ICloneTargetSetup.cs" />
-    <Compile Include="ContentRef.cs" />
+    <Compile Include="ContentManager\ContentRef.cs" />
     <Compile Include="Drawing\Enums\AAQuality.cs" />
     <Compile Include="Drawing\Enums\IndexDataElementType.cs" />
     <Compile Include="Drawing\Enums\RefreshMode.cs" />
@@ -74,8 +74,8 @@
     <Compile Include="CoheeApp.cs" />
     <Compile Include="CoheeAppData.cs" />
     <Compile Include="CoheeUserData.cs" />
-    <Compile Include="ContentProvider.cs" />
-    <Compile Include="DefaultContent.cs" />
+    <Compile Include="ContentManager\ContentProvider.cs" />
+    <Compile Include="ContentManager\DefaultContent.cs" />
     <Compile Include="Drawing\BatchInfo.cs" />
     <Compile Include="Drawing\DrawBatch.cs" />
     <Compile Include="Drawing\Enums\ClearFlag.cs" />
@@ -91,6 +91,9 @@
     <Compile Include="Drawing\VertexFormatDefinition\VertexElementAttribute.cs" />
     <Compile Include="Drawing\VertexFormatDefinition\VertexElementType.cs" />
     <Compile Include="Properties\CoreResNames.cs" />
+    <Compile Include="Resources\AssetInfo.cs" />
+    <Compile Include="Resources\EventArgs\ResourceResolveEventArgs.cs" />
+    <Compile Include="Resources\InitState.cs" />
     <Compile Include="Resources\Material.cs" />
     <Compile Include="Resources\Shaders\ShaderFieldInfo.cs" />
     <Compile Include="Resources\Shaders\ShaderFieldScope.cs" />
@@ -114,7 +117,7 @@
     <Compile Include="PluginManager\CoheePlugin.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="IContentRef.cs" />
+    <Compile Include="ContentManager\IContentRef.cs" />
     <Compile Include="IO\PathOp.cs" />
     <Compile Include="LogSystem\CustomLogInfo.cs" />
     <Compile Include="LogSystem\ILogOutput.cs" />
@@ -134,7 +137,7 @@
     <Compile Include="ProfileSystem\StatCounter.cs" />
     <Compile Include="ProfileSystem\TimeCounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource.cs" />
+    <Compile Include="Resources\Resource.cs" />
     <Compile Include="Serialization\BinarySerializer.cs" />
     <Compile Include="Serialization\DataType.cs" />
     <Compile Include="Serialization\DontSerializeAttribute.cs" />
@@ -153,7 +156,9 @@
     <Compile Include="Utility\EditorHints\EditorHintFlagsAttribute.cs" />
     <Compile Include="Utility\EditorHints\EditorHintImageAttribute.cs" />
     <Compile Include="Utility\EditorHints\MemberFlags.cs" />
-    <Compile Include="Utility\EventArgs\CoheePluginEvenArg.cs" />
+    <Compile Include="PluginManager\CoheePluginEvenArg.cs" />
+    <Compile Include="Resources\EventArgs\ResourceEventArgs.cs" />
+    <Compile Include="Resources\EventArgs\ResourceSaveEventArgs.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsIEnumerable.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsIList.cs" />
     <Compile Include="Utility\Extensions\ExtMethodsPropertyInfo.cs" />
