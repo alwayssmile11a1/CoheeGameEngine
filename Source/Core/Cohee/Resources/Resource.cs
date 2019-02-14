@@ -557,9 +557,7 @@ namespace Cohee
 
             // Extract the type extension and match it with the available resource types
             string typeName = token[token.Length - 1];
-            TypeInfo matchingInfo =
-                CoheeApp.GetAvailCoheeTypes(typeof(Resource))
-                .FirstOrDefault(t => t.Name == typeName);
+            TypeInfo matchingInfo = CoheeApp.GetAvailCoheeTypes(typeof(Resource)).FirstOrDefault(t => t.Name == typeName);
             if (matchingInfo == null)
                 return null;
 

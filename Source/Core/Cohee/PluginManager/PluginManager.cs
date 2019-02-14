@@ -141,7 +141,7 @@ namespace Cohee
             List<TypeInfo> availTypes;
             if (this.availTypeDict.TryGetValue(baseType, out availTypes))
                 return availTypes;
-
+            TypeInfo baseTypeInfo = baseType.GetTypeInfo();
             availTypes = new List<TypeInfo>();
             IEnumerable<Assembly> asmQuery = this.GetAssemblies();
             foreach (Assembly asm in asmQuery)
@@ -154,7 +154,7 @@ namespace Cohee
                 // Add the matching subset of these types to the result
                 availTypes.AddRange(
                     from t in types
-                    where baseType.GetTypeInfo().IsAssignableFrom(t)
+                    where baseTypeInfo.IsAssignableFrom(t)
                     orderby t.Name
                     select t);
             }

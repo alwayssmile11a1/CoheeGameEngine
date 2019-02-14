@@ -121,7 +121,7 @@ namespace Cohee
             }
         }
         /// <summary>
-        /// [GET] Returns whether the referenced Resource is part of Duality's embedded default content.
+        /// [GET] Returns whether the referenced Resource is part of Cohee's embedded default content.
         /// </summary>
         public bool IsDefaultContent
         {
