@@ -577,8 +577,8 @@ namespace Cohee
             return field.HasAttributeCached<DontSerializeResourceAttribute>();
         }
         /// <summary>
-        /// A <see cref="Duality.Serialization.Serializer.FieldBlockers">FieldBlocker</see> to prevent
-        /// fields of <see cref="Duality.Resources.PrefabLink">PrefabLink-ed</see> objects from being serialized unnecessarily.
+        /// A <see cref="Cohee.Serialization.Serializer.FieldBlockers">FieldBlocker</see> to prevent
+        /// fields of <see cref="Cohee.Resources.PrefabLink">PrefabLink-ed</see> objects from being serialized unnecessarily.
         /// </summary>
         /// <param name="field"></param>
         /// <param name="obj"></param>
@@ -639,7 +639,7 @@ namespace Cohee
             for (int i = 0; i < referencedTypes.Length; ++i)
             {
                 if (referencedTypes[i] == null || !resourceTypeInfo.IsAssignableFrom(referencedTypes[i].GetTypeInfo()))
-                    throw new ArgumentException("Only Resource Types are valied in this Attribute");
+                    throw new ArgumentException("Only Resource Types are valid in this Attribute");
             }
             this.referencedTypes = referencedTypes;
         }
