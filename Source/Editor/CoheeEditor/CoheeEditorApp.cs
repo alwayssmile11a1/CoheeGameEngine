@@ -200,31 +200,31 @@ namespace Cohee.Editor
         }
 
 
-        private static void InitMainGraphicsContext()
-        {
-            //if (mainGraphicsContext != null) return;
+        //private static void InitMainGraphicsContext()
+        //{
+        //    if (mainGraphicsContext != null) return;
 
-            //if (graphicsBackend == null)
-            //    CoheeApp.InitBackend(out graphicsBackend, GetAvailCoheeEditorTypes);
+        //    if (graphicsBackend == null)
+        //        CoheeApp.InitBackend(out graphicsBackend, GetAvailCoheeEditorTypes);
 
-            //Logs.Editor.Write("Creating editor graphics context...");
-            //Logs.Editor.PushIndent();
-            //try
-            //{
-            //    // Currently bound to game-specific settings. Should be decoupled
-            //    // from them at some point, so the editor can use independent settings.
-            //    mainGraphicsContext = graphicsBackend.CreateContext(
-            //        CoheeApp.AppData.MultisampleBackBuffer ?
-            //        CoheeApp.UserData.AntialiasingQuality :
-            //        AAQuality.Off);
-            //}
-            //catch (Exception e)
-            //{
-            //    mainGraphicsContext = null;
-            //    Logs.Editor.WriteError("Can't create editor graphics context, because an error occurred: {0}", LogFormat.Exception(e));
-            //}
-            //Logs.Editor.PopIndent();
-        }
+        //    Logs.Editor.Write("Creating editor graphics context...");
+        //    Logs.Editor.PushIndent();
+        //    try
+        //    {
+        //        // Currently bound to game-specific settings. Should be decoupled
+        //        // from them at some point, so the editor can use independent settings.
+        //        mainGraphicsContext = graphicsBackend.CreateContext(
+        //            CoheeApp.AppData.MultisampleBackBuffer ?
+        //            CoheeApp.UserData.AntialiasingQuality :
+        //            AAQuality.Off);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        mainGraphicsContext = null;
+        //        Logs.Editor.WriteError("Can't create editor graphics context, because an error occurred: {0}", LogFormat.Exception(e));
+        //    }
+        //    Logs.Editor.PopIndent();
+        //}
 
         //private static void LoadUserData()
         //{

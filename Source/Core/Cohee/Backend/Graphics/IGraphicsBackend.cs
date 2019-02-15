@@ -24,7 +24,7 @@ namespace Cohee.Backend
         /// Retrieves the main rendering buffer's pixel data from video memory in the Rgba8 format.
         /// 
         /// Note that generic, array-based variants of this method are available via extension method
-        /// when using the Duality.Backend namespace.
+        /// when using the Cohee.Backend namespace.
         /// </summary>
         /// <param name="target">The target buffer to store transferred pixel data in.</param>
         /// <param name="dataLayout">The desired color layout of the specified buffer.</param>

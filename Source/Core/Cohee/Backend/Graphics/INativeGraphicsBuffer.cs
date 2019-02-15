@@ -40,63 +40,63 @@ namespace Cohee.Backend
     }
     public static class ExtMethodsINativeVertexBuffer
     {
-    //    /// <summary>
-    //    /// Sets up an empty storage with the specified size, in number of array elements of the
-    //    /// generic type of this method.
-    //    /// </summary>
-    //    /// <param name="count"></param>
-    //    public static void SetupEmpty<T>(this INativeGraphicsBuffer buffer, int count) where T : struct
-    //    {
-    //        int itemSize = Marshal.SizeOf(typeof(T));
-    //        buffer.SetupEmpty(count * itemSize);
-    //    }
-    //    /// <summary>
-    //    /// Uploads the specified data block into this buffer, replacing all previous contents.
-    //    /// </summary>
-    //    /// <typeparam name="T"></typeparam>
-    //    /// <param name="buffer"></param>
-    //    /// <param name="data">An array containing the data that will be uploaded.</param>
-    //    /// <param name="index">The array starting index from which to start uploading data.</param>
-    //    /// <param name="count">The number of elements from the array that should be uploaded.</param>
-    //    public static void LoadData<T>(this INativeGraphicsBuffer buffer, T[] data, int index, int count) where T : struct
-    //    {
-    //        if (index < 0) throw new ArgumentOutOfRangeException("index", "Index cannot be negative");
-    //        if (count < 0) throw new ArgumentOutOfRangeException("count", "Count cannot be negative");
-    //        if (index + count > data.Length) throw new ArgumentOutOfRangeException("count", "Index + Count cannot exceed the specified arrays length.");
+        /// <summary>
+        /// Sets up an empty storage with the specified size, in number of array elements of the
+        /// generic type of this method.
+        /// </summary>
+        /// <param name="count"></param>
+        public static void SetupEmpty<T>(this INativeGraphicsBuffer buffer, int count) where T : struct
+        {
+            int itemSize = Marshal.SizeOf(typeof(T));
+            buffer.SetupEmpty(count * itemSize);
+        }
+        /// <summary>
+        /// Uploads the specified data block into this buffer, replacing all previous contents.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="buffer"></param>
+        /// <param name="data">An array containing the data that will be uploaded.</param>
+        /// <param name="index">The array starting index from which to start uploading data.</param>
+        /// <param name="count">The number of elements from the array that should be uploaded.</param>
+        public static void LoadData<T>(this INativeGraphicsBuffer buffer, T[] data, int index, int count) where T : struct
+        {
+            if (index < 0) throw new ArgumentOutOfRangeException("index", "Index cannot be negative");
+            if (count < 0) throw new ArgumentOutOfRangeException("count", "Count cannot be negative");
+            if (index + count > data.Length) throw new ArgumentOutOfRangeException("count", "Index + Count cannot exceed the specified arrays length.");
 
-    //        int itemSize = Marshal.SizeOf(typeof(T));
-    //        using (PinnedArrayHandle pinned = new PinnedArrayHandle(data))
-    //        {
-    //            IntPtr dataAddress = IntPtr.Add(pinned.Address, index * itemSize);
-    //            buffer.LoadData(
-    //                dataAddress,
-    //                count * itemSize);
-    //        }
-    //    }
-    //    /// <summary>
-    //    /// Uploads the specified data block into a subsection of this buffer, keeping all other content.
-    //    /// </summary>
-    //    /// <param name="bufferIndex">The offset from the beginning of the existing buffer, as number of elements.</param>
-    //    /// <param name="data">An array containing the data that will be uploaded.</param>
-    //    /// <param name="index">The array starting index from which to start uploading data.</param>
-    //    /// <param name="count">The number of elements from the array that should be uploaded.</param>
-    //    public static void LoadSubData<T>(this INativeGraphicsBuffer buffer, int bufferIndex, T[] data, int index, int count) where T : struct
-    //    {
-    //        if (bufferIndex < 0) throw new ArgumentOutOfRangeException("bufferIndex", "Buffer index cannot be negative");
-    //        if (index < 0) throw new ArgumentOutOfRangeException("index", "Index cannot be negative");
-    //        if (count < 0) throw new ArgumentOutOfRangeException("count", "Count cannot be negative");
-    //        if (index + count > data.Length) throw new ArgumentOutOfRangeException("count", "Index + Count cannot exceed the specified arrays length.");
+            int itemSize = Marshal.SizeOf(typeof(T));
+            using (PinnedArrayHandle pinned = new PinnedArrayHandle(data))
+            {
+                IntPtr dataAddress = IntPtr.Add(pinned.Address, index * itemSize);
+                buffer.LoadData(
+                    dataAddress,
+                    count * itemSize);
+            }
+        }
+        /// <summary>
+        /// Uploads the specified data block into a subsection of this buffer, keeping all other content.
+        /// </summary>
+        /// <param name="bufferIndex">The offset from the beginning of the existing buffer, as number of elements.</param>
+        /// <param name="data">An array containing the data that will be uploaded.</param>
+        /// <param name="index">The array starting index from which to start uploading data.</param>
+        /// <param name="count">The number of elements from the array that should be uploaded.</param>
+        public static void LoadSubData<T>(this INativeGraphicsBuffer buffer, int bufferIndex, T[] data, int index, int count) where T : struct
+        {
+            if (bufferIndex < 0) throw new ArgumentOutOfRangeException("bufferIndex", "Buffer index cannot be negative");
+            if (index < 0) throw new ArgumentOutOfRangeException("index", "Index cannot be negative");
+            if (count < 0) throw new ArgumentOutOfRangeException("count", "Count cannot be negative");
+            if (index + count > data.Length) throw new ArgumentOutOfRangeException("count", "Index + Count cannot exceed the specified arrays length.");
 
-    //        int itemSize = Marshal.SizeOf(typeof(T));
-    //        using (PinnedArrayHandle pinned = new PinnedArrayHandle(data))
-    //        {
-    //            IntPtr dataAddress = IntPtr.Add(pinned.Address, index * itemSize);
-    //            IntPtr bufferAddressOffset = IntPtr.Add(IntPtr.Zero, bufferIndex * itemSize);
-    //            buffer.LoadSubData(
-    //                bufferAddressOffset,
-    //                dataAddress,
-    //                count * itemSize);
-    //        }
-    //    }
-    //}
+            int itemSize = Marshal.SizeOf(typeof(T));
+            using (PinnedArrayHandle pinned = new PinnedArrayHandle(data))
+            {
+                IntPtr dataAddress = IntPtr.Add(pinned.Address, index * itemSize);
+                IntPtr bufferAddressOffset = IntPtr.Add(IntPtr.Zero, bufferIndex * itemSize);
+                buffer.LoadSubData(
+                    bufferAddressOffset,
+                    dataAddress,
+                    count * itemSize);
+            }
+        }
+    }
 }

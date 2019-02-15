@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cohee.Resources;
 using Cohee.Serialization;
 
 namespace Cohee.Drawing

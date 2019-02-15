@@ -319,8 +319,8 @@ namespace Cohee
             if (execContext == ExecutionContext.Game)
                 corePluginManager.InvokeGameEnded();
 
-            //// Dispose all content that is still loaded
-            //ContentProvider.ClearContent();
+            // Dispose all content that is still loaded
+            ContentProvider.ClearContent(true);
 
             // Discard plugin data (Resources, current Scene) ahead of time. Otherwise, it'll get shut down in ClearPlugins, after the backend is gone.
             corePluginManager.DiscardPluginData();
@@ -350,22 +350,22 @@ namespace Cohee
             execContext = ExecutionContext.Terminated;
         }
 
-        /// <summary>
-		/// Initializes the part of Cohee that requires a valid rendering context. 
-		/// Should be called before performing any rendering related operations with Cohee.
-		/// Is called implicitly when using <see cref="OpenWindow"/>.
-		/// </summary>
-        public static void InitPostWindow()
-        {
-            DefaultContent.Init();
+  //      /// <summary>
+		///// Initializes the part of Cohee that requires a valid rendering context. 
+		///// Should be called before performing any rendering related operations with Cohee.
+		///// Is called implicitly when using <see cref="OpenWindow"/>.
+		///// </summary>
+  //      public static void InitPostWindow()
+  //      {
+  //          DefaultContent.Init();
 
-            // Post-Window init is the last thing that happens before loading game
-            // content and entering simulation. When done in a game context, notify
-            // plugins that the game is about to start - otherwise, exec context changes
-            // will trigger the same code later.
-            if (execContext == ExecutionContext.Game)
-                corePluginManager.InvokeGameStarting();
-        }
+  //          // Post-Window init is the last thing that happens before loading game
+  //          // content and entering simulation. When done in a game context, notify
+  //          // plugins that the game is about to start - otherwise, exec context changes
+  //          // will trigger the same code later.
+  //          if (execContext == ExecutionContext.Game)
+  //              corePluginManager.InvokeGameStarting();
+  //      }
 
         //      /// <summary>
         //      /// Opens up a window for Cohee to render into. This also initializes the part of Duality that requires a 
@@ -582,13 +582,61 @@ namespace Cohee
             return corePluginManager.GetAssemblies();
         }
 
-        private static void pluginManager_PluginsRemoving(object sender, CoheePluginEventArgs e)
-        {
-            
-        }
-        private static void pluginManager_PluginsRemoved(object sender, CoheePluginEventArgs e)
-        {
+        //private static void pluginManager_PluginsRemoving(object sender, CoheePluginEventArgs e)
+        //{
+        //    // Save user and app data, they'll be reloaded after plugin reload is done,
+        //    // as they can reference plugin data as well.
+        //    SaveUserData();
+        //    SaveAppData();
 
-        }
+        //    // Dispose static Resources that could reference plugin data
+        //    VisualLogs.ClearAll();
+        //    if (!Scene.Current.IsEmpty)
+        //        Scene.Current.Dispose();
+
+        //    // Gather all other Resources that could reference plugin data
+        //    List<Resource> pluginContent = new List<Resource>();
+        //    Assembly coreAssembly = typeof(Resource).GetTypeInfo().Assembly;
+        //    foreach (Resource resource in ContentProvider.GetLoadedContent<Resource>())
+        //    {
+        //        if (resource.IsDefaultContent) continue;
+
+        //        Assembly assembly = resource.GetType().GetTypeInfo().Assembly;
+        //        bool canReferencePluginData =
+        //            resource is Prefab ||
+        //            resource is Scene ||
+        //            assembly != coreAssembly;
+
+        //        if (canReferencePluginData)
+        //            pluginContent.Add(resource);
+        //    }
+
+        //    // Dispose gathered content to avoid carrying over old instances by accident
+        //    foreach (Resource r in pluginContent)
+        //        ContentProvider.RemoveContent(r);
+        //}
+        //private static void pluginManager_PluginsRemoved(object sender, CoheePluginEventArgs e)
+        //{
+        //    // Clean globally cached type data
+        //    ImageCodec.ClearTypeCache();
+        //    ObjectCreator.ClearTypeCache();
+        //    ReflectionHelper.ClearTypeCache();
+        //    Component.RequireMap.ClearTypeCache();
+        //    Component.ExecOrder.ClearTypeCache();
+        //    Serializer.ClearTypeCache();
+        //    CloneProvider.ClearTypeCache();
+
+        //    // Clean input sources that a disposed Assembly forgot to unregister.
+        //    foreach (CorePlugin plugin in e.Plugins)
+        //        CleanInputSources(plugin.PluginAssembly);
+
+        //    // Clean event bindings that are still linked to the disposed Assembly.
+        //    foreach (CorePlugin plugin in e.Plugins)
+        //        CleanEventBindings(plugin.PluginAssembly);
+
+        //    // Reload user and app data
+        //    LoadAppData();
+        //    LoadUserData();
+        //}
     }
 }
