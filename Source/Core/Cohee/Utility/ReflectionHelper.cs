@@ -13,6 +13,11 @@ namespace Cohee
 	/// </summary>
     public static class ReflectionHelper
     {
+        private static class StaticLookup<T>
+        {
+            //public static readonly bool IsDeepCopyByAssignment = typeof(T).GetTypeInfo().IsDeepCopyByAssignment();
+            public static readonly bool IsReferenceOrContainsReferences = typeof(T).GetTypeInfo().IsReferenceOrContainsReferences();
+        }
 
         private const char MemberTokenUndefined = 'U';
         private const char MemberTokenTypeInfo = 'T';
@@ -25,6 +30,7 @@ namespace Cohee
         private static Dictionary<MemberInfo, Attribute[]> customMemberAttribCache = new Dictionary<MemberInfo, Attribute[]>();
         private static Dictionary<string, MemberInfo> memberResolveCache = new Dictionary<string, MemberInfo>();
         private static Dictionary<string, Type> typeResolveCache = new Dictionary<string, Type>();
+        private static Dictionary<TypeInfo, bool> isRefOrHasRefCache = new Dictionary<TypeInfo, bool>();
 
         /// <summary>
         /// Fired when automatically resolving a certain Type has failed. Allows any subscriber to provide a suitable match.
@@ -661,6 +667,58 @@ namespace Cohee
             return true;
         }
 
+        /// <summary>
+        /// Returns whether the specified type is a reference or could contain references.
+        /// Types where this is false are completely irrelevant to garbage collection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static bool IsReferenceOrContainsReferences<T>()
+        {
+            return StaticLookup<T>.IsReferenceOrContainsReferences;
+        }
+        /// <summary>
+		/// Returns whether the specified type is a reference or could contain references.
+		/// Types where this is false are completely irrelevant to garbage collection.
+		/// </summary>
+		/// <param name="typeInfo"></param>
+		/// <returns></returns>
+		public static bool IsReferenceOrContainsReferences(this TypeInfo typeInfo)
+        {
+            // Early-out for some obvious cases
+            if (typeInfo.IsArray) return true;
+            if (typeInfo.IsPrimitive) return false;
+            if (typeInfo.IsEnum) return false;
+            if (typeInfo.IsClass) return true;
+            if (typeInfo.IsInterface) return true;
+
+            lock (isRefOrHasRefCache)
+            {
+                // If we have no evidence so far, check the cache and iterate fields
+                bool isRefOrHasRef;
+                if (isRefOrHasRefCache.TryGetValue(typeInfo, out isRefOrHasRef))
+                {
+                    return isRefOrHasRef;
+                }
+                else
+                {
+                    isRefOrHasRef = true;
+                    foreach (FieldInfo field in typeInfo.DeclaredFieldsDeep())
+                    {
+                        if (field.IsStatic) continue;
+                        TypeInfo fieldTypeInfo = field.FieldType.GetTypeInfo();
+                        if (!IsReferenceOrContainsReferences(fieldTypeInfo))
+                        {
+                            isRefOrHasRef = false;
+                            break;
+                        }
+                    }
+
+                    isRefOrHasRefCache[typeInfo] = isRefOrHasRef;
+                    return isRefOrHasRef;
+                }
+            }
+        }
     }
 
     public class ResolveMemberEventArgs : EventArgs
