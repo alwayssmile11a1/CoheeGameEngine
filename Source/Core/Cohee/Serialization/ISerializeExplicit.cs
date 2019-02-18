@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cohee.Serialization
+﻿namespace Cohee.Serialization
 {
     /// <summary>
 	/// Provides a general interface for an object type with custom serialization rather than using the automatic fallback.

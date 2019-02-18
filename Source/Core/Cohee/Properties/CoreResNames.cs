@@ -2,8 +2,11 @@
 {
     public static class CoreResNames
     {
-        private const string ManifestBaseName = "Cohee.EmbeddedResources.EditorSupport.";
+        private const string ManifestBaseName = "Cohee.Resources.EditorSupport.";
+
+        public const string CategoryGraphics = "Graphics";
 
         public const string ImageResource = ManifestBaseName + "iconResUnknown.png";
+        public const string ImagePixmap = ManifestBaseName + "iconResPixmap.png";
     }
 }

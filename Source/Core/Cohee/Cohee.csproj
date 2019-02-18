@@ -64,6 +64,8 @@
     <Compile Include="Cloning\ICloneTargetSetup.cs" />
     <Compile Include="ContentManager\ContentRef.cs" />
     <Compile Include="Drawing\Enums\AAQuality.cs" />
+    <Compile Include="Drawing\Enums\BlendMode.cs" />
+    <Compile Include="Drawing\Enums\ImageScaleFilter.cs" />
     <Compile Include="Drawing\Enums\IndexDataElementType.cs" />
     <Compile Include="Drawing\Enums\RefreshMode.cs" />
     <Compile Include="Backend\Graphics\RenderOptions.cs" />
@@ -84,6 +86,9 @@
     <Compile Include="Drawing\Enums\ColorDataLayout.cs" />
     <Compile Include="Drawing\Enums\GraphicsBufferType.cs" />
     <Compile Include="Drawing\Enums\ProjectionMode.cs" />
+    <Compile Include="Drawing\IImageCodec.cs" />
+    <Compile Include="Drawing\ImageCodec.cs" />
+    <Compile Include="Drawing\PixelData.cs" />
     <Compile Include="Drawing\ShaderParameterCollection.cs" />
     <Compile Include="Drawing\VertexData\VertexBuffer.cs" />
     <Compile Include="Drawing\VertexData\VertexDrawRange.cs" />
@@ -102,6 +107,7 @@
     <Compile Include="ResourcesManager\EventArgs\ResourceResolveEventArgs.cs" />
     <Compile Include="ResourcesManager\InitState.cs" />
     <Compile Include="ResourcesManager\Material.cs" />
+    <Compile Include="ResourcesManager\Pixmap.cs" />
     <Compile Include="ResourcesManager\Scene.cs" />
     <Compile Include="ResourcesManager\Shaders\BuiltinShaderFields.cs" />
     <Compile Include="ResourcesManager\Shaders\ShaderFieldInfo.cs" />
@@ -163,6 +169,7 @@
     <Compile Include="Serialization\XmlSerializer.cs" />
     <Compile Include="Time.cs" />
     <Compile Include="Utility\EditorHints\EditorHintAttribute.cs" />
+    <Compile Include="Utility\EditorHints\EditorHintCategoryAttribute.cs" />
     <Compile Include="Utility\EditorHints\EditorHintFlagsAttribute.cs" />
     <Compile Include="Utility\EditorHints\EditorHintImageAttribute.cs" />
     <Compile Include="Utility\EditorHints\MemberFlags.cs" />
@@ -196,7 +203,31 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\iconResUnknown.png" />
+    <None Include="Resources\EditorSupport\iconResPixmap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditorSupport\iconResUnknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoheeIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoheeIconB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoheeLogoBig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoheeLogoMedium.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoheeLogoSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Checkerboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\White.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
