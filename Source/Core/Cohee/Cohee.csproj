@@ -86,6 +86,7 @@
     <Compile Include="Drawing\Enums\ColorDataLayout.cs" />
     <Compile Include="Drawing\Enums\GraphicsBufferType.cs" />
     <Compile Include="Drawing\Enums\ProjectionMode.cs" />
+    <Compile Include="Drawing\Enums\TextureSizeMode.cs" />
     <Compile Include="Drawing\IImageCodec.cs" />
     <Compile Include="Drawing\ImageCodec.cs" />
     <Compile Include="Drawing\PixelData.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Utility\EditorHints\EditorHintCategoryAttribute.cs" />
     <Compile Include="Utility\EditorHints\EditorHintFlagsAttribute.cs" />
     <Compile Include="Utility\EditorHints\EditorHintImageAttribute.cs" />
+    <Compile Include="Utility\EditorHints\EditorHintRangeAttribute.cs" />
     <Compile Include="Utility\EditorHints\MemberFlags.cs" />
     <Compile Include="PluginManager\CoheePluginEvenArg.cs" />
     <Compile Include="ResourcesManager\EventArgs\ResourceEventArgs.cs" />
@@ -228,6 +230,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\White.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditorSupport\iconResTexture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

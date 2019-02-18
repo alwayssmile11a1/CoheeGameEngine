@@ -72,23 +72,23 @@ namespace Cohee
                 }
             });
         }
-        ///// <summary>
-        ///// Initializes static default content properties of type <typeparamref name="T"/> using a predefined
-        ///// mapping from property names to <see cref="Resource"/> instances.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="dictionary"></param>
-        //public static void InitType<T>(IDictionary<string, T> dictionary) where T : Resource
-        //{
-        //    InitType<T>(name =>
-        //    {
-        //        T res;
-        //        if (dictionary.TryGetValue(name, out res))
-        //            return res;
-        //        else
-        //            return null;
-        //    });
-        //}
+        /// <summary>
+        /// Initializes static default content properties of type <typeparamref name="T"/> using a predefined
+        /// mapping from property names to <see cref="Resource"/> instances.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dictionary"></param>
+        public static void InitType<T>(IDictionary<string, T> dictionary) where T : Resource
+        {
+            InitType<T>(name =>
+            {
+                T res;
+                if (dictionary.TryGetValue(name, out res))
+                    return res;
+                else
+                    return null;
+            });
+        }
         /// <summary>
         /// Initializes static default content properties of type <typeparamref name="T"/> using an init method
         /// that can create or retrieve a matching <see cref="Resource"/> instance for each property name.
