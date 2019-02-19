@@ -393,19 +393,19 @@ namespace Cohee.Drawing
         //    }
         //}
 
-        ///// <summary>
-        ///// Rescales the Layer, stretching it to the specified size.
-        ///// </summary>
-        ///// <param name="w"></param>
-        ///// <param name="h"></param>
-        ///// <param name="filter">The filtering method to use when rescaling</param>
-        //public PixelData CloneRescale(int w, int h, ImageScaleFilter filter = ImageScaleFilter.Linear)
-        //{
-        //    ColorRgba[] result = this.InternalRescale(w, h, filter);
-        //    if (result == null) return this.Clone();
+        /// <summary>
+        /// Rescales the Layer, stretching it to the specified size.
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="filter">The filtering method to use when rescaling</param>
+        public PixelData CloneRescale(int w, int h, ImageScaleFilter filter = ImageScaleFilter.Linear)
+        {
+            ColorRgba[] result = this.InternalRescale(w, h, filter);
+            if (result == null) return this.Clone();
 
-        //    return new PixelData(w, h, result);
-        //}
+            return new PixelData(w, h, result);
+        }
         /// <summary>
         /// Resizes the Layers boundaries.
         /// </summary>
@@ -717,92 +717,92 @@ namespace Cohee.Drawing
         //    });
         //}
 
-        //private ColorRgba[] InternalRescale(int w, int h, ImageScaleFilter filter)
-        //{
-        //    if (this.width == w && this.height == h) return null;
+        private ColorRgba[] InternalRescale(int w, int h, ImageScaleFilter filter)
+        {
+            if (this.width == w && this.height == h) return null;
 
-        //    ColorRgba[] tempDestData = new ColorRgba[w * h];
-        //    if (filter == ImageScaleFilter.Nearest)
-        //    {
-        //        // Don't use Parallel.For here, the overhead is too big and the compiler 
-        //        // does a great job optimizing this piece of code without, so don't get in the way.
-        //        for (int i = 0; i < tempDestData.Length; i++)
-        //        {
-        //            int y = i / w;
-        //            int x = i - (y * w);
+            ColorRgba[] tempDestData = new ColorRgba[w * h];
+            if (filter == ImageScaleFilter.Nearest)
+            {
+                // Don't use Parallel.For here, the overhead is too big and the compiler 
+                // does a great job optimizing this piece of code without, so don't get in the way.
+                for (int i = 0; i < tempDestData.Length; i++)
+                {
+                    int y = i / w;
+                    int x = i - (y * w);
 
-        //            int xTmp = (x * this.width) / w;
-        //            int yTmp = (y * this.height) / h;
-        //            int nTmp = xTmp + (yTmp * this.width);
-        //            tempDestData[i] = this.data[nTmp];
-        //        }
-        //    }
-        //    else if (filter == ImageScaleFilter.Linear)
-        //    {
-        //        Parallel.ForEach(Partitioner.Create(0, tempDestData.Length), range =>
-        //        {
-        //            for (int i = range.Item1; i < range.Item2; i++)
-        //            {
-        //                int y = i / w;
-        //                int x = i - (y * w);
+                    int xTmp = (x * this.width) / w;
+                    int yTmp = (y * this.height) / h;
+                    int nTmp = xTmp + (yTmp * this.width);
+                    tempDestData[i] = this.data[nTmp];
+                }
+            }
+            else if (filter == ImageScaleFilter.Linear)
+            {
+                Parallel.ForEach(Partitioner.Create(0, tempDestData.Length), range =>
+                {
+                    for (int i = range.Item1; i < range.Item2; i++)
+                    {
+                        int y = i / w;
+                        int x = i - (y * w);
 
-        //                float xRatio = ((float)(x * this.width) / (float)w) + 0.5f;
-        //                float yRatio = ((float)(y * this.height) / (float)h) + 0.5f;
-        //                int xTmp = (int)xRatio;
-        //                int yTmp = (int)yRatio;
-        //                xRatio -= xTmp;
-        //                yRatio -= yTmp;
+                        float xRatio = ((float)(x * this.width) / (float)w) + 0.5f;
+                        float yRatio = ((float)(y * this.height) / (float)h) + 0.5f;
+                        int xTmp = (int)xRatio;
+                        int yTmp = (int)yRatio;
+                        xRatio -= xTmp;
+                        yRatio -= yTmp;
 
-        //                int xTmp2 = xTmp + 1;
-        //                int yTmp2 = yTmp + 1;
-        //                xTmp = xTmp < this.width ? xTmp : this.width - 1;
-        //                yTmp = (yTmp < this.height ? yTmp : this.height - 1) * this.width;
-        //                xTmp2 = xTmp2 < this.width ? xTmp2 : this.width - 1;
-        //                yTmp2 = (yTmp2 < this.height ? yTmp2 : this.height - 1) * this.width;
+                        int xTmp2 = xTmp + 1;
+                        int yTmp2 = yTmp + 1;
+                        xTmp = xTmp < this.width ? xTmp : this.width - 1;
+                        yTmp = (yTmp < this.height ? yTmp : this.height - 1) * this.width;
+                        xTmp2 = xTmp2 < this.width ? xTmp2 : this.width - 1;
+                        yTmp2 = (yTmp2 < this.height ? yTmp2 : this.height - 1) * this.width;
 
-        //                int nTmp0 = xTmp + yTmp;
-        //                int nTmp1 = xTmp2 + yTmp;
-        //                int nTmp2 = xTmp + yTmp2;
-        //                int nTmp3 = xTmp2 + yTmp2;
+                        int nTmp0 = xTmp + yTmp;
+                        int nTmp1 = xTmp2 + yTmp;
+                        int nTmp2 = xTmp + yTmp2;
+                        int nTmp3 = xTmp2 + yTmp2;
 
-        //                tempDestData[i].R =
-        //                    (byte)
-        //                    (
-        //                        ((float)this.data[nTmp0].R * (1.0f - xRatio) * (1.0f - yRatio)) +
-        //                        ((float)this.data[nTmp1].R * xRatio * (1.0f - yRatio)) +
-        //                        ((float)this.data[nTmp2].R * yRatio * (1.0f - xRatio)) +
-        //                        ((float)this.data[nTmp3].R * xRatio * yRatio)
-        //                    );
-        //                tempDestData[i].G =
-        //                    (byte)
-        //                    (
-        //                        ((float)this.data[nTmp0].G * (1.0f - xRatio) * (1.0f - yRatio)) +
-        //                        ((float)this.data[nTmp1].G * xRatio * (1.0f - yRatio)) +
-        //                        ((float)this.data[nTmp2].G * yRatio * (1.0f - xRatio)) +
-        //                        ((float)this.data[nTmp3].G * xRatio * yRatio)
-        //                    );
-        //                tempDestData[i].B =
-        //                    (byte)
-        //                    (
-        //                        ((float)this.data[nTmp0].B * (1.0f - xRatio) * (1.0f - yRatio)) +
-        //                        ((float)this.data[nTmp1].B * xRatio * (1.0f - yRatio)) +
-        //                        ((float)this.data[nTmp2].B * yRatio * (1.0f - xRatio)) +
-        //                        ((float)this.data[nTmp3].B * xRatio * yRatio)
-        //                    );
-        //                tempDestData[i].A =
-        //                    (byte)
-        //                    (
-        //                        ((float)this.data[nTmp0].A * (1.0f - xRatio) * (1.0f - yRatio)) +
-        //                        ((float)this.data[nTmp1].A * xRatio * (1.0f - yRatio)) +
-        //                        ((float)this.data[nTmp2].A * yRatio * (1.0f - xRatio)) +
-        //                        ((float)this.data[nTmp3].A * xRatio * yRatio)
-        //                    );
-        //            }
-        //        });
-        //    }
+                        tempDestData[i].R =
+                            (byte)
+                            (
+                                ((float)this.data[nTmp0].R * (1.0f - xRatio) * (1.0f - yRatio)) +
+                                ((float)this.data[nTmp1].R * xRatio * (1.0f - yRatio)) +
+                                ((float)this.data[nTmp2].R * yRatio * (1.0f - xRatio)) +
+                                ((float)this.data[nTmp3].R * xRatio * yRatio)
+                            );
+                        tempDestData[i].G =
+                            (byte)
+                            (
+                                ((float)this.data[nTmp0].G * (1.0f - xRatio) * (1.0f - yRatio)) +
+                                ((float)this.data[nTmp1].G * xRatio * (1.0f - yRatio)) +
+                                ((float)this.data[nTmp2].G * yRatio * (1.0f - xRatio)) +
+                                ((float)this.data[nTmp3].G * xRatio * yRatio)
+                            );
+                        tempDestData[i].B =
+                            (byte)
+                            (
+                                ((float)this.data[nTmp0].B * (1.0f - xRatio) * (1.0f - yRatio)) +
+                                ((float)this.data[nTmp1].B * xRatio * (1.0f - yRatio)) +
+                                ((float)this.data[nTmp2].B * yRatio * (1.0f - xRatio)) +
+                                ((float)this.data[nTmp3].B * xRatio * yRatio)
+                            );
+                        tempDestData[i].A =
+                            (byte)
+                            (
+                                ((float)this.data[nTmp0].A * (1.0f - xRatio) * (1.0f - yRatio)) +
+                                ((float)this.data[nTmp1].A * xRatio * (1.0f - yRatio)) +
+                                ((float)this.data[nTmp2].A * yRatio * (1.0f - xRatio)) +
+                                ((float)this.data[nTmp3].A * xRatio * yRatio)
+                            );
+                    }
+                });
+            }
 
-        //    return tempDestData;
-        //}
+            return tempDestData;
+        }
 
         void ISerializeExplicit.WriteData(IDataWriter writer)
         {
