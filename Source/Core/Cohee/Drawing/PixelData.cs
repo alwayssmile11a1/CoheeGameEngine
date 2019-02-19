@@ -406,66 +406,66 @@ namespace Cohee.Drawing
 
         //    return new PixelData(w, h, result);
         //}
-        ///// <summary>
-        ///// Resizes the Layers boundaries.
-        ///// </summary>
-        ///// <param name="w"></param>
-        ///// <param name="h"></param>
-        ///// <param name="origin"></param>
-        //public PixelData CloneResize(int w, int h, Alignment origin = Alignment.TopLeft)
-        //{
-        //    int x = 0;
-        //    int y = 0;
+        /// <summary>
+        /// Resizes the Layers boundaries.
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="origin"></param>
+        public PixelData CloneResize(int w, int h, Alignment origin = Alignment.TopLeft)
+        {
+            int x = 0;
+            int y = 0;
 
-        //    if (origin == Alignment.Right ||
-        //        origin == Alignment.TopRight ||
-        //        origin == Alignment.BottomRight)
-        //        x = w - this.width;
-        //    else if (
-        //        origin == Alignment.Center ||
-        //        origin == Alignment.Top ||
-        //        origin == Alignment.Bottom)
-        //        x = (w - this.width) / 2;
+            if (origin == Alignment.Right ||
+                origin == Alignment.TopRight ||
+                origin == Alignment.BottomRight)
+                x = w - this.width;
+            else if (
+                origin == Alignment.Center ||
+                origin == Alignment.Top ||
+                origin == Alignment.Bottom)
+                x = (w - this.width) / 2;
 
-        //    if (origin == Alignment.Bottom ||
-        //        origin == Alignment.BottomLeft ||
-        //        origin == Alignment.BottomRight)
-        //        y = h - this.height;
-        //    else if (
-        //        origin == Alignment.Center ||
-        //        origin == Alignment.Left ||
-        //        origin == Alignment.Right)
-        //        y = (h - this.height) / 2;
+            if (origin == Alignment.Bottom ||
+                origin == Alignment.BottomLeft ||
+                origin == Alignment.BottomRight)
+                y = h - this.height;
+            else if (
+                origin == Alignment.Center ||
+                origin == Alignment.Left ||
+                origin == Alignment.Right)
+                y = (h - this.height) / 2;
 
-        //    return this.CloneSubImage(-x, -y, w, h);
-        //}
-        ///// <summary>
-        ///// Extracts a rectangular region of this Layer. If the extracted region is bigger than the original Layer,
-        ///// all new space is filled with a background color.
-        ///// </summary>
-        ///// <param name="x"></param>
-        ///// <param name="y"></param>
-        ///// <param name="w"></param>
-        ///// <param name="h"></param>
-        //public PixelData CloneSubImage(int x, int y, int w, int h)
-        //{
-        //    return this.CloneSubImage(x, y, w, h, ColorRgba.TransparentBlack);
-        //}
-        ///// <summary>
-        ///// Extracts a rectangular region of this Layer. If the extracted region is bigger than the original Layer,
-        ///// all new space is filled with a background color.
-        ///// </summary>
-        ///// <param name="x"></param>
-        ///// <param name="y"></param>
-        ///// <param name="w"></param>
-        ///// <param name="h"></param>
-        ///// <param name="backColor"></param>
-        //public PixelData CloneSubImage(int x, int y, int w, int h, ColorRgba backColor)
-        //{
-        //    PixelData tempLayer = new PixelData(w, h, backColor);
-        //    this.DrawOnto(tempLayer, BlendMode.Solid, -x, -y);
-        //    return tempLayer;
-        //}
+            return this.CloneSubImage(-x, -y, w, h);
+        }
+        /// <summary>
+        /// Extracts a rectangular region of this Layer. If the extracted region is bigger than the original Layer,
+        /// all new space is filled with a background color.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        public PixelData CloneSubImage(int x, int y, int w, int h)
+        {
+            return this.CloneSubImage(x, y, w, h, ColorRgba.TransparentBlack);
+        }
+        /// <summary>
+        /// Extracts a rectangular region of this Layer. If the extracted region is bigger than the original Layer,
+        /// all new space is filled with a background color.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="backColor"></param>
+        public PixelData CloneSubImage(int x, int y, int w, int h, ColorRgba backColor)
+        {
+            PixelData tempLayer = new PixelData(w, h, backColor);
+            this.DrawOnto(tempLayer, BlendMode.Solid, -x, -y);
+            return tempLayer;
+        }
         ///// <summary>
         ///// Crops the Layer, removing transparent / empty border areas.
         ///// </summary>
@@ -484,117 +484,117 @@ namespace Cohee.Drawing
         //        cropY ? size.Y : this.height);
         //}
 
-        ///// <summary>
-        ///// Performs a drawing operation from this Layer to a target layer.
-        ///// </summary>
-        ///// <param name="target"></param>
-        ///// <param name="blend"></param>
-        ///// <param name="destX"></param>
-        ///// <param name="destY"></param>
-        ///// <param name="width"></param>
-        ///// <param name="height"></param>
-        ///// <param name="srcX"></param>
-        ///// <param name="srcY"></param>
-        //public void DrawOnto(PixelData target, BlendMode blend, int destX, int destY, int width = -1, int height = -1, int srcX = 0, int srcY = 0)
-        //{
-        //    if (width == -1) width = this.width;
-        //    if (height == -1) height = this.height;
+        /// <summary>
+        /// Performs a drawing operation from this Layer to a target layer.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="blend"></param>
+        /// <param name="destX"></param>
+        /// <param name="destY"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="srcX"></param>
+        /// <param name="srcY"></param>
+        public void DrawOnto(PixelData target, BlendMode blend, int destX, int destY, int width = -1, int height = -1, int srcX = 0, int srcY = 0)
+        {
+            if (width == -1) width = this.width;
+            if (height == -1) height = this.height;
 
-        //    int beginX = MathF.Max(0, -destX, -srcX);
-        //    int beginY = MathF.Max(0, -destY, -srcY);
-        //    int endX = MathF.Min(width, this.width, target.width - destX, this.width - srcX);
-        //    int endY = MathF.Min(height, this.height, target.height - destY, this.height - srcY);
-        //    if (endX - beginX < 1) return;
-        //    if (endY - beginY < 1) return;
+            int beginX = MathF.Max(0, -destX, -srcX);
+            int beginY = MathF.Max(0, -destY, -srcY);
+            int endX = MathF.Min(width, this.width, target.width - destX, this.width - srcX);
+            int endY = MathF.Min(height, this.height, target.height - destY, this.height - srcY);
+            if (endX - beginX < 1) return;
+            if (endY - beginY < 1) return;
 
-        //    Parallel.ForEach(Partitioner.Create(beginX, endX), range =>
-        //    {
-        //        for (int i = range.Item1; i < range.Item2; i++)
-        //        {
-        //            for (int j = beginY; j < endY; j++)
-        //            {
-        //                int sourceN = srcX + i + this.width * (srcY + j);
-        //                int targetN = destX + i + target.width * (destY + j);
+            Parallel.ForEach(Partitioner.Create(beginX, endX), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                {
+                    for (int j = beginY; j < endY; j++)
+                    {
+                        int sourceN = srcX + i + this.width * (srcY + j);
+                        int targetN = destX + i + target.width * (destY + j);
 
-        //                if (blend == BlendMode.Solid)
-        //                {
-        //                    target.data[targetN] = this.data[sourceN];
-        //                }
-        //                else if (blend == BlendMode.Mask)
-        //                {
-        //                    if (this.data[sourceN].A >= 0) target.data[targetN] = this.data[sourceN];
-        //                }
-        //                else if (blend == BlendMode.Add)
-        //                {
-        //                    ColorRgba targetColor = target.data[targetN];
-        //                    float alphaTemp = (float)this.data[sourceN].A / 255.0f;
-        //                    target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.R + this.data[sourceN].R * alphaTemp)));
-        //                    target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.G + this.data[sourceN].G * alphaTemp)));
-        //                    target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.B + this.data[sourceN].B * alphaTemp)));
-        //                    target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)targetColor.A + (int)this.data[sourceN].A));
-        //                }
-        //                else if (blend == BlendMode.Alpha)
-        //                {
-        //                    ColorRgba targetColor = target.data[targetN];
-        //                    float alphaTemp = (float)this.data[sourceN].A / 255.0f;
-        //                    target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.R * (1.0f - alphaTemp) + this.data[sourceN].R * alphaTemp)));
-        //                    target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.G * (1.0f - alphaTemp) + this.data[sourceN].G * alphaTemp)));
-        //                    target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.B * (1.0f - alphaTemp) + this.data[sourceN].B * alphaTemp)));
-        //                    target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.A * (1.0f - alphaTemp) + this.data[sourceN].A)));
-        //                }
-        //                else if (blend == BlendMode.AlphaPre)
-        //                {
-        //                    ColorRgba targetColor = target.data[targetN];
-        //                    float alphaTemp = (float)this.data[sourceN].A / 255.0f;
-        //                    target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.R * (1.0f - alphaTemp) + this.data[sourceN].R)));
-        //                    target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.G * (1.0f - alphaTemp) + this.data[sourceN].G)));
-        //                    target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.B * (1.0f - alphaTemp) + this.data[sourceN].B)));
-        //                    target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.A * (1.0f - alphaTemp) + this.data[sourceN].A)));
-        //                }
-        //                else if (blend == BlendMode.Multiply)
-        //                {
-        //                    ColorRgba targetColor = target.data[targetN];
-        //                    float clrTempR = (float)targetColor.R / 255.0f;
-        //                    float clrTempG = (float)targetColor.G / 255.0f;
-        //                    float clrTempB = (float)targetColor.B / 255.0f;
-        //                    float clrTempA = (float)targetColor.A / 255.0f;
-        //                    target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].R * clrTempR)));
-        //                    target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].G * clrTempG)));
-        //                    target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].B * clrTempB)));
-        //                    target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)targetColor.A + (int)this.data[sourceN].A));
-        //                }
-        //                else if (blend == BlendMode.Light)
-        //                {
-        //                    ColorRgba targetColor = target.data[targetN];
-        //                    float clrTempR = (float)targetColor.R / 255.0f;
-        //                    float clrTempG = (float)targetColor.G / 255.0f;
-        //                    float clrTempB = (float)targetColor.B / 255.0f;
-        //                    float clrTempA = (float)targetColor.A / 255.0f;
-        //                    target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].R * clrTempR + targetColor.R)));
-        //                    target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].G * clrTempG + targetColor.G)));
-        //                    target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].B * clrTempB + targetColor.B)));
-        //                    target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)targetColor.A + (int)this.data[sourceN].A));
-        //                }
-        //                else if (blend == BlendMode.Invert)
-        //                {
-        //                    ColorRgba targetColor = target.data[targetN];
-        //                    float clrTempR = (float)targetColor.R / 255.0f;
-        //                    float clrTempG = (float)targetColor.G / 255.0f;
-        //                    float clrTempB = (float)targetColor.B / 255.0f;
-        //                    float clrTempA = (float)targetColor.A / 255.0f;
-        //                    float clrTempR2 = (float)this.data[sourceN].R / 255.0f;
-        //                    float clrTempG2 = (float)this.data[sourceN].G / 255.0f;
-        //                    float clrTempB2 = (float)this.data[sourceN].B / 255.0f;
-        //                    float clrTempA2 = (float)this.data[sourceN].A / 255.0f;
-        //                    target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].R * (1.0f - clrTempR) + targetColor.R * (1.0f - clrTempR2))));
-        //                    target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].G * (1.0f - clrTempG) + targetColor.G * (1.0f - clrTempG2))));
-        //                    target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].B * (1.0f - clrTempB) + targetColor.B * (1.0f - clrTempB2))));
-        //                    target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)(targetColor.A + this.data[sourceN].A)));
-        //                }
-        //            }
-        //        }
-        //    });
-        //}
+                        if (blend == BlendMode.Solid)
+                        {
+                            target.data[targetN] = this.data[sourceN];
+                        }
+                        else if (blend == BlendMode.Mask)
+                        {
+                            if (this.data[sourceN].A >= 0) target.data[targetN] = this.data[sourceN];
+                        }
+                        else if (blend == BlendMode.Add)
+                        {
+                            ColorRgba targetColor = target.data[targetN];
+                            float alphaTemp = (float)this.data[sourceN].A / 255.0f;
+                            target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.R + this.data[sourceN].R * alphaTemp)));
+                            target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.G + this.data[sourceN].G * alphaTemp)));
+                            target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.B + this.data[sourceN].B * alphaTemp)));
+                            target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)targetColor.A + (int)this.data[sourceN].A));
+                        }
+                        else if (blend == BlendMode.Alpha)
+                        {
+                            ColorRgba targetColor = target.data[targetN];
+                            float alphaTemp = (float)this.data[sourceN].A / 255.0f;
+                            target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.R * (1.0f - alphaTemp) + this.data[sourceN].R * alphaTemp)));
+                            target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.G * (1.0f - alphaTemp) + this.data[sourceN].G * alphaTemp)));
+                            target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.B * (1.0f - alphaTemp) + this.data[sourceN].B * alphaTemp)));
+                            target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.A * (1.0f - alphaTemp) + this.data[sourceN].A)));
+                        }
+                        else if (blend == BlendMode.AlphaPre)
+                        {
+                            ColorRgba targetColor = target.data[targetN];
+                            float alphaTemp = (float)this.data[sourceN].A / 255.0f;
+                            target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.R * (1.0f - alphaTemp) + this.data[sourceN].R)));
+                            target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.G * (1.0f - alphaTemp) + this.data[sourceN].G)));
+                            target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.B * (1.0f - alphaTemp) + this.data[sourceN].B)));
+                            target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(targetColor.A * (1.0f - alphaTemp) + this.data[sourceN].A)));
+                        }
+                        else if (blend == BlendMode.Multiply)
+                        {
+                            ColorRgba targetColor = target.data[targetN];
+                            float clrTempR = (float)targetColor.R / 255.0f;
+                            float clrTempG = (float)targetColor.G / 255.0f;
+                            float clrTempB = (float)targetColor.B / 255.0f;
+                            float clrTempA = (float)targetColor.A / 255.0f;
+                            target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].R * clrTempR)));
+                            target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].G * clrTempG)));
+                            target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].B * clrTempB)));
+                            target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)targetColor.A + (int)this.data[sourceN].A));
+                        }
+                        else if (blend == BlendMode.Light)
+                        {
+                            ColorRgba targetColor = target.data[targetN];
+                            float clrTempR = (float)targetColor.R / 255.0f;
+                            float clrTempG = (float)targetColor.G / 255.0f;
+                            float clrTempB = (float)targetColor.B / 255.0f;
+                            float clrTempA = (float)targetColor.A / 255.0f;
+                            target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].R * clrTempR + targetColor.R)));
+                            target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].G * clrTempG + targetColor.G)));
+                            target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].B * clrTempB + targetColor.B)));
+                            target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)targetColor.A + (int)this.data[sourceN].A));
+                        }
+                        else if (blend == BlendMode.Invert)
+                        {
+                            ColorRgba targetColor = target.data[targetN];
+                            float clrTempR = (float)targetColor.R / 255.0f;
+                            float clrTempG = (float)targetColor.G / 255.0f;
+                            float clrTempB = (float)targetColor.B / 255.0f;
+                            float clrTempA = (float)targetColor.A / 255.0f;
+                            float clrTempR2 = (float)this.data[sourceN].R / 255.0f;
+                            float clrTempG2 = (float)this.data[sourceN].G / 255.0f;
+                            float clrTempB2 = (float)this.data[sourceN].B / 255.0f;
+                            float clrTempA2 = (float)this.data[sourceN].A / 255.0f;
+                            target.data[targetN].R = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].R * (1.0f - clrTempR) + targetColor.R * (1.0f - clrTempR2))));
+                            target.data[targetN].G = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].G * (1.0f - clrTempG) + targetColor.G * (1.0f - clrTempG2))));
+                            target.data[targetN].B = (byte)Math.Min(255, Math.Max(0, (int)Math.Round(this.data[sourceN].B * (1.0f - clrTempB) + targetColor.B * (1.0f - clrTempB2))));
+                            target.data[targetN].A = (byte)Math.Min(255, Math.Max(0, (int)(targetColor.A + this.data[sourceN].A)));
+                        }
+                    }
+                }
+            });
+        }
         ///// <summary>
         ///// Performs a drawing operation from this Layer to a target layer.
         ///// </summary>

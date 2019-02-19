@@ -106,7 +106,7 @@
     <Compile Include="ResourcesManager\AssetInfo.cs" />
     <Compile Include="ResourcesManager\DrawTechnique.cs" />
     <Compile Include="ResourcesManager\EventArgs\ResourceResolveEventArgs.cs" />
-    <Compile Include="ResourcesManager\InitState.cs" />
+    <Compile Include="Utility\InitState.cs" />
     <Compile Include="ResourcesManager\Material.cs" />
     <Compile Include="ResourcesManager\Pixmap.cs" />
     <Compile Include="ResourcesManager\Scene.cs" />
@@ -233,6 +233,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\EditorSupport\iconResTexture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditorSupport\iconResDrawTechnique.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

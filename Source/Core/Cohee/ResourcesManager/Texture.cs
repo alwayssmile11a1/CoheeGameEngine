@@ -1,4 +1,5 @@
 ﻿using Cohee.Backend;
+using Cohee.Cloning;
 using Cohee.Drawing;
 using Cohee.Editor;
 using Cohee.Properties;
@@ -275,9 +276,9 @@ namespace Cohee.Resources
         /// </summary>
         public Texture() : this(0, 0) { }
         /// <summary>
-        /// Creates a new Texture based on a <see cref="Duality.Resources.Pixmap"/>.
+        /// Creates a new Texture based on a <see cref="Cohee.Resources.Pixmap"/>.
         /// </summary>
-        /// <param name="basePixmap">The <see cref="Duality.Resources.Pixmap"/> to use as source for pixel data.</param>
+        /// <param name="basePixmap">The <see cref="Cohee.Resources.Pixmap"/> to use as source for pixel data.</param>
         /// <param name="sizeMode">Specifies behaviour in case the source data has non-power-of-two dimensions.</param>
         /// <param name="filterMag">The OpenGL filter mode for drawing the Texture bigger than it is.</param>
         /// <param name="filterMin">The OpenGL fitler mode for drawing the Texture smaller than it is.</param>

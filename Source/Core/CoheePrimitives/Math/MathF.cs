@@ -1261,7 +1261,7 @@ namespace Cohee
         }
 
         /// <summary>
-        /// Returns the next power of two that is larger than the specified number.
+        /// Returns the next power of two that is larger than or equal to the specified number.
         /// </summary>
         /// <param name="n">The specified number.</param>
         /// <returns>The next power of two.</returns>
