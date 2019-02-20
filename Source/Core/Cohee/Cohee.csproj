@@ -106,6 +106,7 @@
     <Compile Include="ResourcesManager\AssetInfo.cs" />
     <Compile Include="ResourcesManager\DrawTechnique.cs" />
     <Compile Include="ResourcesManager\EventArgs\ResourceResolveEventArgs.cs" />
+    <Compile Include="ResourcesManager\Shaders\Shader.cs" />
     <Compile Include="Utility\InitState.cs" />
     <Compile Include="ResourcesManager\Material.cs" />
     <Compile Include="ResourcesManager\Pixmap.cs" />
