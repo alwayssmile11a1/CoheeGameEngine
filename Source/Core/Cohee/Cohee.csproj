@@ -106,7 +106,10 @@
     <Compile Include="ResourcesManager\AssetInfo.cs" />
     <Compile Include="ResourcesManager\DrawTechnique.cs" />
     <Compile Include="ResourcesManager\EventArgs\ResourceResolveEventArgs.cs" />
+    <Compile Include="ResourcesManager\Shaders\FragmentShader.cs" />
     <Compile Include="ResourcesManager\Shaders\Shader.cs" />
+    <Compile Include="ResourcesManager\Shaders\ShaderSourceBuilder.cs" />
+    <Compile Include="ResourcesManager\Shaders\VertexShader.cs" />
     <Compile Include="Utility\InitState.cs" />
     <Compile Include="ResourcesManager\Material.cs" />
     <Compile Include="ResourcesManager\Pixmap.cs" />
@@ -206,6 +209,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\BuiltinShaderFunctions.glsl" />
     <None Include="Resources\EditorSupport\iconResPixmap.png" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +234,10 @@
     <None Include="Resources\Checkerboard.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Minimal.frag" />
+    <None Include="Resources\Minimal.vert" />
+    <None Include="Resources\Picking.frag" />
+    <None Include="Resources\SharpAlpha.frag" />
     <None Include="Resources\White.png" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +245,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\EditorSupport\iconResDrawTechnique.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditorSupport\iconResFragmentShader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditorSupport\iconResVertexShader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditorSupport\iconResMaterial.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

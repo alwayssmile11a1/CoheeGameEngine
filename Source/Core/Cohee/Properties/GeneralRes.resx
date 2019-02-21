@@ -151,4 +151,28 @@
   <data name="iconResDrawTechnique" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EditorSupport\iconResDrawTechnique.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="iconResFragmentShader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditorSupport\iconResFragmentShader.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="iconResVertexShader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditorSupport\iconResVertexShader.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BuiltinShaderFunctions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BuiltinShaderFunctions.glsl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Minimal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Minimal.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Minimal1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Minimal.vert;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Picking" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Picking.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SharpAlpha" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SharpAlpha.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="iconResMaterial" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditorSupport\iconResMaterial.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

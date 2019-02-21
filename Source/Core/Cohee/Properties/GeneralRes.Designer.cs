@@ -61,6 +61,16 @@ namespace Cohee.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] BuiltinShaderFunctions {
+            get {
+                object obj = ResourceManager.GetObject("BuiltinShaderFunctions", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Checkerboard {
@@ -133,6 +143,26 @@ namespace Cohee.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap iconResFragmentShader {
+            get {
+                object obj = ResourceManager.GetObject("iconResFragmentShader", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iconResMaterial {
+            get {
+                object obj = ResourceManager.GetObject("iconResMaterial", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iconResPixmap {
             get {
                 object obj = ResourceManager.GetObject("iconResPixmap", resourceCulture);
@@ -157,6 +187,56 @@ namespace Cohee.Properties {
             get {
                 object obj = ResourceManager.GetObject("iconResUnknown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iconResVertexShader {
+            get {
+                object obj = ResourceManager.GetObject("iconResVertexShader", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Minimal {
+            get {
+                object obj = ResourceManager.GetObject("Minimal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Minimal1 {
+            get {
+                object obj = ResourceManager.GetObject("Minimal1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Picking {
+            get {
+                object obj = ResourceManager.GetObject("Picking", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SharpAlpha {
+            get {
+                object obj = ResourceManager.GetObject("SharpAlpha", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

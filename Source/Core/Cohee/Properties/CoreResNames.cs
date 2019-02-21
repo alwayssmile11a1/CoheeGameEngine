@@ -10,5 +10,9 @@
         public const string ImagePixmap = ManifestBaseName + "iconResPixmap.png";
         public const string ImageTexture = ManifestBaseName + "iconResTexture.png";
         public const string ImageDrawTechnique = ManifestBaseName + "iconResDrawTechnique.png";
+        public const string ImageVertexShader = ManifestBaseName + "iconResVertexShader.png";
+        public const string ImageFragmentShader = ManifestBaseName + "iconResFragmentShader.png";
+        public const string ImageMaterial = ManifestBaseName + "iconResMaterial.png";
+
     }
 }
