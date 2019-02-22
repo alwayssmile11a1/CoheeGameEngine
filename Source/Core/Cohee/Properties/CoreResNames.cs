@@ -4,9 +4,13 @@
     {
         private const string ManifestBaseName = "Cohee.Resources.EditorSupport.";
 
+        public const string CategoryNone = "";
         public const string CategoryGraphics = "Graphics";
 
         public const string ImageResource = ManifestBaseName + "iconResUnknown.png";
+        public const string ImageComponent = ManifestBaseName + "iconCmpUnknown.png";
+        public const string ImageGameObject = ManifestBaseName + "iconGameObj.png";
+
         public const string ImagePixmap = ManifestBaseName + "iconResPixmap.png";
         public const string ImageTexture = ManifestBaseName + "iconResTexture.png";
         public const string ImageDrawTechnique = ManifestBaseName + "iconResDrawTechnique.png";

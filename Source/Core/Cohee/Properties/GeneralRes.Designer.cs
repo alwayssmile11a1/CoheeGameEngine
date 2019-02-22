@@ -133,6 +133,26 @@ namespace Cohee.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap iconCmpUnknown {
+            get {
+                object obj = ResourceManager.GetObject("iconCmpUnknown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iconGameObj {
+            get {
+                object obj = ResourceManager.GetObject("iconGameObj", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iconResDrawTechnique {
             get {
                 object obj = ResourceManager.GetObject("iconResDrawTechnique", resourceCulture);

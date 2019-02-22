@@ -58,10 +58,15 @@
     <Compile Include="Cloning\CloneBehaviorAttribute.cs" />
     <Compile Include="Cloning\CloneFieldAttribute.cs" />
     <Compile Include="Cloning\CloneFieldFlags.cs" />
+    <Compile Include="Cloning\CloneProvider.cs" />
     <Compile Include="Cloning\CloneProviderContext.cs" />
+    <Compile Include="Cloning\CloneType.cs" />
     <Compile Include="Cloning\ICloneExplicit.cs" />
     <Compile Include="Cloning\ICloneOperation.cs" />
+    <Compile Include="Cloning\ICloneSurrogate.cs" />
     <Compile Include="Cloning\ICloneTargetSetup.cs" />
+    <Compile Include="Cloning\ManuallyClonedAttribute.cs" />
+    <Compile Include="Components\Component.cs" />
     <Compile Include="ContentManager\ContentRef.cs" />
     <Compile Include="Drawing\Enums\AAQuality.cs" />
     <Compile Include="Drawing\Enums\BlendMode.cs" />
@@ -254,6 +259,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\EditorSupport\iconResMaterial.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditorSupport\iconCmpUnknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditorSupport\iconGameObj.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
