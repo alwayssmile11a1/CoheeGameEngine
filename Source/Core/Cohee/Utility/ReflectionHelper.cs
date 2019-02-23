@@ -15,7 +15,7 @@ namespace Cohee
     {
         private static class StaticLookup<T>
         {
-            //public static readonly bool IsDeepCopyByAssignment = typeof(T).GetTypeInfo().IsDeepCopyByAssignment();
+            public static readonly bool IsDeepCopyByAssignment = typeof(T).GetTypeInfo().IsDeepCopyByAssignment();
             public static readonly bool IsReferenceOrContainsReferences = typeof(T).GetTypeInfo().IsReferenceOrContainsReferences();
         }
 
@@ -31,6 +31,7 @@ namespace Cohee
         private static Dictionary<string, MemberInfo> memberResolveCache = new Dictionary<string, MemberInfo>();
         private static Dictionary<string, Type> typeResolveCache = new Dictionary<string, Type>();
         private static Dictionary<TypeInfo, bool> isRefOrHasRefCache = new Dictionary<TypeInfo, bool>();
+        private static Dictionary<TypeInfo, bool> deepCopyByAssignmentCache = new Dictionary<TypeInfo, bool>();
 
         /// <summary>
         /// Fired when automatically resolving a certain Type has failed. Allows any subscriber to provide a suitable match.
@@ -719,6 +720,67 @@ namespace Cohee
                 }
             }
         }
+
+        /// <summary>
+        /// Returns whether the specified type is a primitive, enum, string, decimal, or struct that
+        /// consists only of those types, allowing to do a deep-copy by simply assigning it.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static bool IsDeepCopyByAssignment<T>()
+        {
+            return StaticLookup<T>.IsDeepCopyByAssignment;
+        }
+        /// <summary>
+        /// Returns whether the specified type is a primitive, enum, string, decimal, or struct that
+        /// consists only of those types, allowing to do a deep-copy by simply assigning it.
+        /// </summary>
+        /// <param name="baseObj"></param>
+        /// <returns></returns>
+        public static bool IsDeepCopyByAssignment(this TypeInfo typeInfo)
+        {
+            // Early-out for some obvious cases
+            if (typeInfo.IsArray) return false;
+            if (typeInfo.IsPrimitive) return true;
+            if (typeInfo.IsEnum) return true;
+
+            // Special cases for some well-known classes
+            Type type = typeInfo.AsType();
+            if (type == typeof(string)) return true;
+            if (type == typeof(decimal)) return true;
+
+            // Otherwise, any class is not plain old data
+            if (typeInfo.IsClass) return false;
+            if (typeInfo.IsInterface) return false;
+
+            lock (deepCopyByAssignmentCache)
+            {
+                // If we have no evidence so far, check the cache and iterate fields
+                bool isPlainOldData;
+                if (deepCopyByAssignmentCache.TryGetValue(typeInfo, out isPlainOldData))
+                {
+                    return isPlainOldData;
+                }
+                else
+                {
+                    isPlainOldData = true;
+                    foreach (FieldInfo field in typeInfo.DeclaredFieldsDeep())
+                    {
+                        if (field.IsStatic) continue;
+                        TypeInfo fieldTypeInfo = field.FieldType.GetTypeInfo();
+                        if (!IsDeepCopyByAssignment(fieldTypeInfo))
+                        {
+                            isPlainOldData = false;
+                            break;
+                        }
+                    }
+
+                    deepCopyByAssignmentCache[typeInfo] = isPlainOldData;
+                    return isPlainOldData;
+                }
+            }
+        }
+
     }
 
     public class ResolveMemberEventArgs : EventArgs
