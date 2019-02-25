@@ -181,7 +181,7 @@ namespace Cohee.Cloning
                 if (this.type.GetArrayRank() > 1)
                 {
                     throw new NotSupportedException(
-                        "Cloning multidimensional arrays is not supported in Duality. " +
+                        "Cloning multidimensional arrays is not supported in Cohee. " +
                         "Consider skipping the referring field via [CloneField] or [DontSerialize] " +
                         "attribute, or use a regular array instead.");
                 }
