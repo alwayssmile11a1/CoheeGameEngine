@@ -45,4 +45,54 @@
         /// <param name="target">The struct's equivalent from the target graph to which data will be copied.</param>
         void HandleValue<T>(ref T source, ref T target) where T : struct;
     }
+
+    public static class ExtMethodsICloneOperation
+    {
+        /// <summary>
+        /// Special version of <see cref="ICloneOperation.HandleObject"/> for cases where the target object is stored
+        /// in a data structure that does not allow by-ref access or re-assignment of the target object. When possible,
+        /// prefer the by-ref base version.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="operation"></param>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static void HandleObject<T>(this ICloneOperation operation, T source, T target = null) where T : class
+        {
+            T targetObj = target;
+            operation.HandleObject(source, ref targetObj);
+        }
+        ///// <summary>
+        ///// Special version of <see cref="ICloneOperation.HandleObject"/> for cases where the target object graph alreay
+        ///// exists and it is undesireable for a source value of null to overwrite a non-null target value. 
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="operation"></param>
+        ///// <param name="source"></param>
+        ///// <param name="target"></param>
+        ///// <param name="dontNullifyExternal"></param>
+        ///// <returns></returns>
+        //public static void HandleObject<T>(this ICloneOperation operation, T source, ref T target, bool dontNullifyExternal) where T : class
+        //{
+        //    if (object.ReferenceEquals(source, null) && dontNullifyExternal && !operation.IsTarget(target))
+        //        return;
+
+        //    operation.HandleObject(source, ref target);
+        //}
+        ///// <summary>
+        ///// Retrieves a weak-referenced target object to the specified source. Will return null if the source 
+        ///// wasn't cloned itself, but referenced only.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="operation"></param>
+        ///// <param name="source"></param>
+        ///// <returns></returns>
+        //public static T GetWeakTarget<T>(this ICloneOperation operation, T source) where T : class
+        //{
+        //    T target = operation.GetTarget(source);
+        //    if (object.ReferenceEquals(source, target)) return null;
+        //    return target;
+        //}
+    }
 }
