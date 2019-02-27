@@ -297,8 +297,8 @@ namespace Cohee.Cloning
             List<Expression> mainBlock = this.CreateSetupFuncContent(setupParameter, sourceCastVar, targetCastVar);
             if (mainBlock == null) return;
 
-            mainBlock.Insert(0, Expression.Assign(sourceCastVar, type.IsValueType ? Expression.Convert(sourceParameter, this.type.AsType()) : Expression.TypeAs(sourceParameter, this.type.AsType())));
-            mainBlock.Insert(1, Expression.Assign(targetCastVar, type.IsValueType ? Expression.Convert(targetParameter, this.type.AsType()) : Expression.TypeAs(targetParameter, this.type.AsType())));
+            mainBlock.Insert(0, Expression.Assign(sourceCastVar, this.type.IsValueType ? Expression.Convert(sourceParameter, this.type.AsType()) : Expression.TypeAs(sourceParameter, this.type.AsType())));
+            mainBlock.Insert(1, Expression.Assign(targetCastVar, this.type.IsValueType ? Expression.Convert(targetParameter, this.type.AsType()) : Expression.TypeAs(targetParameter, this.type.AsType())));
             Expression mainBlockExpression = Expression.Block(new[] { sourceCastVar, targetCastVar }, mainBlock);
             this.setupFunc = Expression.Lambda<SetupFunc>(mainBlockExpression, sourceParameter, targetParameter, setupParameter).Compile();
         }
