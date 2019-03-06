@@ -3,11 +3,6 @@ using Cohee.Editor;
 using Cohee.Properties;
 using Cohee.Resources;
 using Cohee.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cohee
 {

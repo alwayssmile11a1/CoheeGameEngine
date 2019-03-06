@@ -67,6 +67,12 @@
     <Compile Include="Cloning\ICloneTargetSetup.cs" />
     <Compile Include="Cloning\ManuallyClonedAttribute.cs" />
     <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\IComponentInterfaces\ICmpInitializable.cs" />
+    <Compile Include="Components\Others\ComponentExecutionOrder.cs" />
+    <Compile Include="Components\Others\ComponentRequirementMap.cs" />
+    <Compile Include="Components\Others\ExecutionOrderAttribute.cs" />
+    <Compile Include="Components\Others\ExecutionRelation.cs" />
+    <Compile Include="Components\Others\RequiredComponentAttribute.cs" />
     <Compile Include="ContentManager\ContentRef.cs" />
     <Compile Include="Drawing\Enums\AAQuality.cs" />
     <Compile Include="Drawing\Enums\BlendMode.cs" />
@@ -115,6 +121,7 @@
     <Compile Include="ResourcesManager\Shaders\Shader.cs" />
     <Compile Include="ResourcesManager\Shaders\ShaderSourceBuilder.cs" />
     <Compile Include="ResourcesManager\Shaders\VertexShader.cs" />
+    <Compile Include="Serialization\UniqueIdentifyableHelper.cs" />
     <Compile Include="Utility\InitState.cs" />
     <Compile Include="ResourcesManager\Material.cs" />
     <Compile Include="ResourcesManager\Pixmap.cs" />

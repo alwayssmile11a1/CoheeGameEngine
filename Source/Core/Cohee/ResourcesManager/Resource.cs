@@ -9,6 +9,7 @@ using Cohee.Editor;
 using Cohee.Editor.AssetManagement;
 using Cohee.IO;
 using Cohee.Properties;
+using Cohee.Resources;
 using Cohee.Serialization;
 
 namespace Cohee
@@ -203,7 +204,7 @@ namespace Cohee
             using (Serializer serializer = Serializer.Create(str, Serializer.DefaultType))
             {
                 serializer.AddFieldBlocker(Resource.DontSerializeResourceBlocker);
-                if (this is Cohee.Resources.Scene) // This is an unfortunate hack. Refactor when necessary.
+                if (this is Scene) // This is an unfortunate hack. Refactor when necessary.
                     serializer.AddFieldBlocker(Resource.PrefabLinkedFieldBlocker);
                 serializer.WriteObject(this);
             }
@@ -588,7 +589,7 @@ namespace Cohee
             Component cmp = obj as Component;
             if (cmp == null || cmp.GameObj == null) return false;
 
-            Resources.PrefabLink link = cmp.GameObj.AffectedByPrefabLink;
+            PrefabLink link = cmp.GameObj.AffectedByPrefabLink;
             if (link == null || !link.AffectsObject(cmp)) return false;
 
             return field.DeclaringType != typeof(Component);
