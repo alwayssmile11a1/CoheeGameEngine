@@ -134,7 +134,7 @@ namespace Cohee
                 TypeInfo reqTypeInfo = reqType.GetTypeInfo();
 
                 // Ignore requirements to non-exported / internal types, as
-                // Duality will ignore them as well.
+                // Cohee will ignore them as well.
                 if (reqTypeInfo.IsNotPublic)
                     return false;
 

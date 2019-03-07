@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Describes an interface for a <see cref="Component"/> that will receive events
-    /// when it enters and active or inactive state.
+    /// when it enters an active or inactive state.
     /// </summary>
     public interface ICmpInitializable
     {

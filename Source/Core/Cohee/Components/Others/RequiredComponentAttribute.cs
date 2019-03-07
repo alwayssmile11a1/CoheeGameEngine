@@ -10,7 +10,7 @@ namespace Cohee
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class RequiredComponentAttribute : Attribute
     {
-        private Type cmpType;
+        private Type requiredType;
         private Type createDefaultType;
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace Cohee
         /// </summary>
         public Type RequiredComponentType
         {
-            get { return this.cmpType; }
+            get { return this.requiredType; }
         }
         /// <summary>
         /// The type that will be instantiated when automatically creating dependency components
@@ -41,7 +41,7 @@ namespace Cohee
             if (!requiredType.GetTypeInfo().IsAssignableFrom(createDefaultType.GetTypeInfo()))
                 createDefaultType = requiredType;
 
-            this.cmpType = requiredType;
+            this.requiredType = requiredType;
             this.createDefaultType = createDefaultType;
         }
     }

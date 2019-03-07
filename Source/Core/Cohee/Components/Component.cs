@@ -22,7 +22,7 @@ namespace Cohee
 
         /// <summary>
         /// [GET / SET] Whether or not the Component is currently active. To return true,
-        /// both the Component itsself and its parent GameObject need to be active.
+        /// both the Component itself and its parent GameObject need to be active.
         /// </summary>
         /// <seealso cref="ActiveSingle"/>
         public bool Active
@@ -33,7 +33,7 @@ namespace Cohee
         /// <summary>
         /// [GET / SET] Whether or not the Component is currently active. Unlike <see cref="Active"/>,
         /// this property ignores parent activation states and depends only on this single Component.
-        /// The scene graph and other Duality instances usually check <see cref="Active"/>, not ActiveSingle.
+        /// The scene graph and other Cohee instances usually check <see cref="Active"/>, not ActiveSingle.
         /// </summary>
         /// <seealso cref="Active"/>
         public bool ActiveSingle
