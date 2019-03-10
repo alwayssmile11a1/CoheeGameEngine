@@ -1,4 +1,5 @@
 ﻿using Cohee.Cloning;
+using Cohee.Components;
 using Cohee.Editor;
 using Cohee.Properties;
 using Cohee.Resources;
@@ -768,7 +769,7 @@ namespace Cohee
             this.compMap.Remove(type);
             this.compList.Remove(cmp);
 
-            if (cmp is Components.Transform) this.compTransform = null;
+            if (cmp is Transform) this.compTransform = null;
 
             cmp.gameobj = null;
         }

@@ -133,9 +133,29 @@ namespace Cohee.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap iconCmpTransform {
+            get {
+                object obj = ResourceManager.GetObject("iconCmpTransform", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iconCmpUnknown {
             get {
                 object obj = ResourceManager.GetObject("iconCmpUnknown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iconCmpVelocityTracker {
+            get {
+                object obj = ResourceManager.GetObject("iconCmpVelocityTracker", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -186,6 +206,16 @@ namespace Cohee.Properties {
         internal static System.Drawing.Bitmap iconResPixmap {
             get {
                 object obj = ResourceManager.GetObject("iconResPixmap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iconResPrefabFull {
+            get {
+                object obj = ResourceManager.GetObject("iconResPrefabFull", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -17,6 +17,9 @@
         public const string ImageVertexShader = ManifestBaseName + "iconResVertexShader.png";
         public const string ImageFragmentShader = ManifestBaseName + "iconResFragmentShader.png";
         public const string ImageMaterial = ManifestBaseName + "iconResMaterial.png";
+        public const string ImagePrefab = ManifestBaseName + "iconResPrefabFull.png";
+        public const string ImageTransform = ManifestBaseName + "iconCmpTransform.png";
+        public const string ImageVelocityTracker = ManifestBaseName + "iconCmpVelocityTracker.png";
 
     }
 }

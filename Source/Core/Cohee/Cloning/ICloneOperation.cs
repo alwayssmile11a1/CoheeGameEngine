@@ -80,19 +80,19 @@
 
         //    operation.HandleObject(source, ref target);
         //}
-        ///// <summary>
-        ///// Retrieves a weak-referenced target object to the specified source. Will return null if the source 
-        ///// wasn't cloned itself, but referenced only.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="operation"></param>
-        ///// <param name="source"></param>
-        ///// <returns></returns>
-        //public static T GetWeakTarget<T>(this ICloneOperation operation, T source) where T : class
-        //{
-        //    T target = operation.GetTarget(source);
-        //    if (object.ReferenceEquals(source, target)) return null;
-        //    return target;
-        //}
+        /// <summary>
+        /// Retrieves a weak-referenced target object to the specified source. Will return null if the source 
+        /// wasn't cloned itself, but referenced only.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="operation"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static T GetWeakTarget<T>(this ICloneOperation operation, T source) where T : class
+        {
+            T target = operation.GetTarget(source);
+            if (object.ReferenceEquals(source, target)) return null;
+            return target;
+        }
     }
 }
